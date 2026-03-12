@@ -1,0 +1,18 @@
+## Codebase Patterns
+- Use `npm install --cache /tmp/npm-cache` to work around root-owned npm cache files in ~/.npm
+- Exclude `scripts` directory in tsconfig.json to avoid type errors from embedded git repos
+- Use `@/*` path alias for imports from `./src/*`
+- Static export via `output: "export"` in next.config.ts
+- Tailwind v4 with `@tailwindcss/postcss` plugin (no tailwind.config.js needed)
+
+---
+
+## 2026-03-12 - US-001
+- What was implemented: Next.js + TypeScript + Tailwind CSS project setup with App Router, Quiz interface, category/subcategory/difficulty constants, dark theme layout with Korean lang attribute
+- Files changed: package.json, tsconfig.json, next.config.ts, postcss.config.mjs, .gitignore, src/app/globals.css, src/app/layout.tsx, src/app/page.tsx, src/types/quiz.ts, src/lib/constants.ts
+- **Learnings for future iterations:**
+  - npm cache has root-owned files - use `--cache /tmp/npm-cache` flag
+  - scripts/ralph is an embedded git repo - must be excluded from tsconfig
+  - Tailwind v4 uses `@import "tailwindcss"` instead of `@tailwind` directives
+  - Next.js static export configured for SSG deployment
+---

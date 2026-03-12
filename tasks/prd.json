@@ -16,7 +16,7 @@
         "Typecheck 통과"
       ],
       "priority": 1,
-      "passes": false,
+      "passes": true,
       "notes": "Tech stack: Next.js App Router, TypeScript, Tailwind CSS, Shiki (code highlighting). SSG 정적 빌드."
     },
     {
