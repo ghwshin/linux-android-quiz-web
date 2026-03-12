@@ -29,3 +29,12 @@
   - JSON files are plain arrays of Quiz objects (no wrapper object)
   - code-fill quizzes use "___" markers in codeTemplate, blankAnswers is array of arrays
 ---
+
+## 2026-03-12 - US-003
+- What was implemented: Linux Kernel quiz data for 3 subcategories - device-driver (25 quizzes), networking (25 quizzes), kernel-module (25 quizzes). Total: 75 quizzes.
+- Files changed: data/linux-kernel/device-driver.json, data/linux-kernel/networking.json, data/linux-kernel/kernel-module.json
+- **Learnings for future iterations:**
+  - Quiz ID prefixes: dd- (device-driver), nw- (networking), km- (kernel-module)
+  - Same distribution pattern confirmed: 8 초급 / 9 중급 / 8 고급, 10 MC / 8 SA / 7 CF
+  - Parallel agent creation of independent quiz files works well for speed
+---

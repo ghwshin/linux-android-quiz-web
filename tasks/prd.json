@@ -50,7 +50,7 @@
         "Typecheck 통과"
       ],
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "notes": "device-driver: char/block device, ioctl, platform driver, device tree 등. networking: socket, netfilter, sk_buff, TCP/IP stack 등. kernel-module: module_init, module_exit, Makefile, insmod/rmmod 등."
     },
     {
