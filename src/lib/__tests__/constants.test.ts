@@ -22,9 +22,9 @@ describe("CATEGORIES", () => {
 });
 
 describe("SUBCATEGORIES", () => {
-  it("has 10 subcategories per category", () => {
-    expect(SUBCATEGORIES["linux-kernel"]).toHaveLength(10);
-    expect(SUBCATEGORIES["android-system"]).toHaveLength(10);
+  it("has 13 subcategories per category", () => {
+    expect(SUBCATEGORIES["linux-kernel"]).toHaveLength(13);
+    expect(SUBCATEGORIES["android-system"]).toHaveLength(13);
   });
 
   it("each subcategory has id and name", () => {

@@ -25,6 +25,9 @@ export const SUBCATEGORIES: Record<Category, { id: string; name: string }[]> = {
     { id: "system-call", name: "시스템 콜" },
     { id: "synchronization-ipc", name: "동기화/IPC" },
     { id: "boot-process", name: "부팅 과정" },
+    { id: "kernel-observability-debugging", name: "커널 관측성/디버깅" },
+    { id: "containers-isolation", name: "컨테이너/격리" },
+    { id: "block-storage-io", name: "블록 스토리지/I/O" },
   ],
   "android-system": [
     { id: "system-architecture", name: "시스템 아키텍처" },
@@ -37,6 +40,9 @@ export const SUBCATEGORIES: Record<Category, { id: string; name: string }[]> = {
     { id: "init-zygote", name: "Init/Zygote" },
     { id: "framework-services", name: "Framework Services" },
     { id: "hidl-aidl", name: "HIDL/AIDL" },
+    { id: "boot-integrity-updates", name: "부트 무결성/업데이트" },
+    { id: "platform-debugging-performance", name: "플랫폼 디버깅/성능" },
+    { id: "platform-modularity-virtualization", name: "플랫폼 모듈화/가상화" },
   ],
 };
 

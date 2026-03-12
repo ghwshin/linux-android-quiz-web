@@ -6,7 +6,7 @@
 
 ```
 data/
-├── linux-kernel/          # 10개 서브카테고리
+├── linux-kernel/          # 13개 서브카테고리
 │   ├── process-management.json
 │   ├── memory-management.json
 │   ├── filesystem.json
@@ -16,8 +16,11 @@ data/
 │   ├── scheduling.json
 │   ├── system-call.json
 │   ├── synchronization-ipc.json
-│   └── boot-process.json
-└── android-system/        # 10개 서브카테고리
+│   ├── boot-process.json
+│   ├── kernel-observability-debugging.json
+│   ├── containers-isolation.json
+│   └── block-storage-io.json
+└── android-system/        # 13개 서브카테고리
     ├── system-architecture.json
     ├── activity-service.json
     ├── binder-ipc.json
@@ -27,7 +30,10 @@ data/
     ├── selinux-security.json
     ├── init-zygote.json
     ├── framework-services.json
-    └── hidl-aidl.json
+    ├── hidl-aidl.json
+    ├── boot-integrity-updates.json
+    ├── platform-debugging-performance.json
+    └── platform-modularity-virtualization.json
 ```
 
 각 JSON 파일은 퀴즈 객체의 배열(`Quiz[]`)입니다.
@@ -161,6 +167,12 @@ data/
 | android-system | init-zygote | `iz-` |
 | android-system | framework-services | `fw-` |
 | android-system | hidl-aidl | `ha-` |
+| linux-kernel | kernel-observability-debugging | `kd-` |
+| linux-kernel | containers-isolation | `ci-` |
+| linux-kernel | block-storage-io | `io-` |
+| android-system | boot-integrity-updates | `bu-` |
+| android-system | platform-debugging-performance | `dp-` |
+| android-system | platform-modularity-virtualization | `mv-` |
 
 번호는 3자리 zero-padded (예: `mm-001`, `mm-025`). 파일 내에서 순번이 연속적이어야 합니다.
 

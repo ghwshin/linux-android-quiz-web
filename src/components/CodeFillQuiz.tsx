@@ -32,7 +32,7 @@ export function CodeFillQuiz({
     Array(blankCount).fill("")
   );
   const [submitted, setSubmitted] = useState(false);
-  const { saveResult, getResult } = useQuizProgress();
+  const { saveResult, getResult, clearResult } = useQuizProgress();
 
   const previousResult = getResult(quiz.id);
   const isAnswered = submitted || previousResult !== undefined;
@@ -197,12 +197,26 @@ export function CodeFillQuiz({
             </p>
           </div>
 
-          <button
-            onClick={onNext}
-            className="px-6 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-500 transition-colors"
-          >
-            다음 문제
-          </button>
+          <div className="flex items-center gap-3">
+            {!isCorrect && (
+              <button
+                onClick={() => {
+                  clearResult(quiz.id);
+                  setSubmitted(false);
+                  setAnswers(Array(blankCount).fill(""));
+                }}
+                className="px-6 py-2 rounded-lg border border-yellow-600 text-yellow-400 font-medium hover:bg-yellow-600/10 transition-colors"
+              >
+                다시 풀기
+              </button>
+            )}
+            <button
+              onClick={onNext}
+              className="px-6 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-500 transition-colors"
+            >
+              다음 문제
+            </button>
+          </div>
         </div>
       )}
     </div>

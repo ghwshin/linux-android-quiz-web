@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import type { Quiz, Category } from "@/types/quiz";
 import { shuffle } from "@/lib/quiz-loader";
+import { useQuizProgress } from "@/hooks/useQuizProgress";
 import { MultipleChoiceQuiz } from "@/components/MultipleChoiceQuiz";
 import { ShortAnswerQuiz } from "@/components/ShortAnswerQuiz";
 import { CodeFillQuiz } from "@/components/CodeFillQuiz";
@@ -21,15 +22,19 @@ export function QuizSession({
   difficulty: string;
   categoryName: string;
 }) {
-  const shuffledQuizzes = useMemo(
-    () => (difficulty === "random" ? shuffle(quizzes) : quizzes),
+  const { allProgress } = useQuizProgress();
+
+  const filteredQuizzes = useMemo(() => {
+    const unsolved = quizzes.filter((q) => !allProgress[q.id]?.correct);
+    // If all solved, show all quizzes
+    const base = unsolved.length > 0 ? unsolved : quizzes;
+    return difficulty === "random" ? shuffle(base) : base;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
+  }, []);
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const total = shuffledQuizzes.length;
-  const quiz = shuffledQuizzes[currentIndex];
+  const total = filteredQuizzes.length;
+  const quiz = filteredQuizzes[currentIndex];
 
   if (!quiz || total === 0) {
     return (

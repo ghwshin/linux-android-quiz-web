@@ -111,8 +111,18 @@ export function useQuizProgress() {
     [progress]
   );
 
+  /** Clear result for a specific quiz (for retry) */
+  const clearResult = useCallback(
+    (quizId: string) => {
+      const next = { ...progress };
+      delete next[quizId];
+      setProgress(next);
+    },
+    [progress]
+  );
+
   /** All progress data */
   const allProgress = useMemo(() => progress, [progress]);
 
-  return { saveResult, getResult, getProgress, reset, allProgress };
+  return { saveResult, getResult, getProgress, reset, clearResult, allProgress };
 }

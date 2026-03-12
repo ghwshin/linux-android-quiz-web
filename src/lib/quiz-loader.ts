@@ -12,6 +12,9 @@ import scheduling from "../../data/linux-kernel/scheduling.json";
 import systemCall from "../../data/linux-kernel/system-call.json";
 import synchronizationIpc from "../../data/linux-kernel/synchronization-ipc.json";
 import bootProcess from "../../data/linux-kernel/boot-process.json";
+import kernelObservabilityDebugging from "../../data/linux-kernel/kernel-observability-debugging.json";
+import containersIsolation from "../../data/linux-kernel/containers-isolation.json";
+import blockStorageIo from "../../data/linux-kernel/block-storage-io.json";
 
 // Android System quiz data
 import systemArchitecture from "../../data/android-system/system-architecture.json";
@@ -24,6 +27,9 @@ import selinuxSecurity from "../../data/android-system/selinux-security.json";
 import initZygote from "../../data/android-system/init-zygote.json";
 import frameworkServices from "../../data/android-system/framework-services.json";
 import hidlAidl from "../../data/android-system/hidl-aidl.json";
+import bootIntegrityUpdates from "../../data/android-system/boot-integrity-updates.json";
+import platformDebuggingPerformance from "../../data/android-system/platform-debugging-performance.json";
+import platformModularityVirtualization from "../../data/android-system/platform-modularity-virtualization.json";
 
 const quizDataMap: Record<Category, Record<string, Quiz[]>> = {
   "linux-kernel": {
@@ -37,6 +43,9 @@ const quizDataMap: Record<Category, Record<string, Quiz[]>> = {
     "system-call": systemCall as Quiz[],
     "synchronization-ipc": synchronizationIpc as Quiz[],
     "boot-process": bootProcess as Quiz[],
+    "kernel-observability-debugging": kernelObservabilityDebugging as Quiz[],
+    "containers-isolation": containersIsolation as Quiz[],
+    "block-storage-io": blockStorageIo as Quiz[],
   },
   "android-system": {
     "system-architecture": systemArchitecture as Quiz[],
@@ -49,6 +58,9 @@ const quizDataMap: Record<Category, Record<string, Quiz[]>> = {
     "init-zygote": initZygote as Quiz[],
     "framework-services": frameworkServices as Quiz[],
     "hidl-aidl": hidlAidl as Quiz[],
+    "boot-integrity-updates": bootIntegrityUpdates as Quiz[],
+    "platform-debugging-performance": platformDebuggingPerformance as Quiz[],
+    "platform-modularity-virtualization": platformModularityVirtualization as Quiz[],
   },
 };
 

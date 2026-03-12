@@ -1,0 +1,385 @@
+[
+  {
+    "id": "bu-001",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "초급",
+    "type": "multiple-choice",
+    "question": "Android Verified Boot (AVB)에서 신뢰 체인(Chain of Trust)의 올바른 순서는?",
+    "options": [
+      "Boot ROM → Bootloader → vbmeta → Kernel/Ramdisk (각 단계에서 다음 단계의 서명을 검증)",
+      "Kernel → Bootloader → Boot ROM → vbmeta (역방향으로 검증 수행)",
+      "vbmeta → Boot ROM → Bootloader → Kernel (vbmeta가 최초 시작점)",
+      "Bootloader → Boot ROM → Kernel → vbmeta (Bootloader가 Root of Trust)"
+    ],
+    "answer": 0,
+    "explanation": "AVB의 신뢰 체인은 하드웨어 Root of Trust인 Boot ROM에서 시작하여 Bootloader를 검증하고, Bootloader가 vbmeta 파티션의 서명을 확인한 후, vbmeta에 포함된 해시/해시트리 디스크립터로 boot, system 등의 파티션을 검증합니다. 롤백 인덱스(rollback index)를 통해 이전 버전의 취약한 이미지로 다운그레이드되는 것도 방지합니다."
+  },
+  {
+    "id": "bu-002",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "초급",
+    "type": "multiple-choice",
+    "question": "dm-verity의 주요 목적으로 올바른 것은?",
+    "options": [
+      "파티션 데이터를 암호화하여 기밀성을 보장한다",
+      "블록 디바이스의 무결성을 해시 트리로 검증하여 변조를 탐지한다",
+      "파일 시스템의 저널링을 통해 데이터 복구를 지원한다",
+      "디스크 I/O 성능을 향상시키기 위한 캐싱 레이어를 제공한다"
+    ],
+    "answer": 1,
+    "explanation": "dm-verity는 device-mapper 기반의 블록 레벨 무결성 검증 메커니즘입니다. 각 블록의 해시를 머클 트리(Merkle tree) 형태로 구성하여 읽기 시점에 블록이 변조되었는지 검증합니다. 암호화는 dm-crypt나 FBE(File-Based Encryption)의 역할이며, dm-verity는 오직 무결성(integrity)만 담당합니다."
+  },
+  {
+    "id": "bu-003",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "초급",
+    "type": "multiple-choice",
+    "question": "Android Dynamic Partitions에서 super 파티션의 역할은?",
+    "options": [
+      "부트로더와 커널 이미지를 저장하는 전용 파티션이다",
+      "system, vendor, product 등 논리 파티션을 포함하는 물리 컨테이너 파티션이다",
+      "OTA 업데이트 패키지를 임시로 저장하는 캐시 파티션이다",
+      "사용자 데이터를 암호화하여 저장하는 보안 파티션이다"
+    ],
+    "answer": 1,
+    "explanation": "super 파티션은 Android 10부터 도입된 Dynamic Partitions의 물리적 컨테이너입니다. 내부에 LP(Linear) 메타데이터를 통해 system, vendor, product, system_ext, odm 등의 논리 파티션을 관리하며, 각 논리 파티션의 크기를 OTA 업데이트 시 유연하게 조절할 수 있습니다."
+  },
+  {
+    "id": "bu-004",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "초급",
+    "type": "multiple-choice",
+    "question": "A/B OTA(Seamless Update)에서 업데이트가 진행되는 방식으로 올바른 것은?",
+    "options": [
+      "현재 사용 중인 슬롯의 파티션을 직접 덮어쓴 후 재부팅한다",
+      "비활성 슬롯에 새 이미지를 기록하고, 검증 후 슬롯을 전환하여 재부팅한다",
+      "recovery 모드로 진입한 후 전체 파티션을 포맷하고 새로 설치한다",
+      "업데이트 파일을 userdata 파티션에 저장한 후 부팅 시 적용한다"
+    ],
+    "answer": 1,
+    "explanation": "A/B OTA는 두 개의 슬롯(slot_a, slot_b)을 유지하여 현재 활성 슬롯으로 부팅하면서 비활성 슬롯에 업데이트를 기록합니다. 기록이 완료되면 부트로더의 슬롯 메타데이터를 변경하여 다음 부팅 시 새 슬롯에서 시작하므로, 업데이트 실패 시 이전 슬롯으로 자동 롤백이 가능합니다."
+  },
+  {
+    "id": "bu-005",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "초급",
+    "type": "multiple-choice",
+    "question": "Virtual A/B에서 스냅샷(snapshot)과 머지(merge)가 필요한 이유는?",
+    "options": [
+      "두 슬롯의 파티션을 완전히 복제하여 저장 공간을 두 배로 확보하기 위해",
+      "물리적으로 하나의 파티션만 유지하면서 COW(Copy-on-Write) 스냅샷으로 A/B 업데이트를 구현하여 저장 공간을 절약하기 위해",
+      "업데이트 속도를 높이기 위해 병렬로 두 파티션에 동시에 기록하기 위해",
+      "사용자 데이터를 백업하고 복원하기 위한 메커니즘이다"
+    ],
+    "answer": 1,
+    "explanation": "Virtual A/B는 전통적인 A/B처럼 모든 파티션을 두 벌 유지하지 않고, super 파티션 내에서 COW(Copy-on-Write) 스냅샷 기술을 사용합니다. 업데이트 시 변경된 블록만 스냅샷으로 기록하고, 부팅 성공 후 머지(merge)를 통해 스냅샷 데이터를 기존 파티션에 반영하여 저장 공간을 크게 절약합니다."
+  },
+  {
+    "id": "bu-006",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "중급",
+    "type": "multiple-choice",
+    "question": "fstab에서 dm-verity를 적용하여 파티션을 마운트할 때 사용하는 fs_mgr 플래그로 올바른 것은?",
+    "options": [
+      "verify — fs_mgr이 dm-verity 해시 트리를 검증한 후 마운트한다",
+      "encrypt — 파티션을 암호화 모드로 마운트한다",
+      "nosuid — setuid 비트를 무시하고 마운트한다",
+      "journal — 저널링 모드를 활성화하여 마운트한다"
+    ],
+    "answer": 0,
+    "explanation": "fstab의 fs_mgr_flags 필드에 verify 또는 avb 플래그를 지정하면 init 프로세스의 fs_mgr이 해당 파티션을 마운트하기 전에 dm-verity 검증을 수행합니다. AVB 2.0에서는 avb 플래그가 사용되며, vbmeta에서 해시트리 디스크립터를 읽어 dm-verity 테이블을 구성합니다."
+  },
+  {
+    "id": "bu-007",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "중급",
+    "type": "multiple-choice",
+    "question": "fs-verity와 dm-verity의 차이점으로 올바른 것은?",
+    "options": [
+      "fs-verity는 블록 디바이스 전체를, dm-verity는 개별 파일을 검증한다",
+      "fs-verity는 개별 파일 단위로 머클 트리를 구성하여 무결성을 검증하고, dm-verity는 블록 디바이스 전체를 해시 트리로 검증한다",
+      "fs-verity와 dm-verity는 동일한 메커니즘으로 이름만 다르다",
+      "fs-verity는 쓰기 가능한 파티션에만, dm-verity는 읽기 전용 파티션에만 적용된다"
+    ],
+    "answer": 1,
+    "explanation": "dm-verity는 device-mapper 레이어에서 블록 디바이스 전체의 무결성을 검증하는 반면, fs-verity는 파일 시스템 레이어에서 개별 파일 단위로 머클 트리를 생성하여 무결성을 보장합니다. Android에서는 APK 설치 시 fs-verity를 적용하여 앱 파일의 변조를 실시간으로 탐지할 수 있습니다."
+  },
+  {
+    "id": "bu-008",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "중급",
+    "type": "multiple-choice",
+    "question": "Android 업데이트 흐름에서 recovery 모드와 fastbootd의 역할 차이로 올바른 것은?",
+    "options": [
+      "recovery는 non-A/B 디바이스에서 OTA 패키지를 적용하는 데 사용되고, fastbootd는 userspace fastboot로 dynamic partition의 플래싱을 지원한다",
+      "recovery는 A/B 업데이트 전용이고, fastbootd는 non-A/B 업데이트 전용이다",
+      "recovery와 fastbootd는 동일한 기능을 하며 서로 호환 가능하다",
+      "recovery는 부트로더 단계에서 실행되고, fastbootd는 커널 단계에서만 실행된다"
+    ],
+    "answer": 0,
+    "explanation": "recovery 모드는 전통적으로 non-A/B 디바이스에서 OTA 패키지 적용과 초기화(factory reset)에 사용됩니다. fastbootd는 Android 10부터 도입된 userspace fastboot로, recovery 파티션 내에서 실행되며 dynamic partition(super 파티션 내 논리 파티션)의 생성, 삭제, 플래싱을 지원합니다."
+  },
+  {
+    "id": "bu-009",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "고급",
+    "type": "multiple-choice",
+    "question": "AVB 롤백 보호(rollback protection)가 실패하는 시나리오와 그 원인으로 올바른 것은?",
+    "options": [
+      "롤백 인덱스가 RPMB에 저장되므로 eMMC 교체 시에도 항상 보호된다",
+      "RPMB(Replay Protected Memory Block)에 저장된 롤백 인덱스가 vbmeta의 롤백 인덱스보다 큰 경우, 이전 버전 이미지의 부팅이 거부된다",
+      "롤백 인덱스는 소프트웨어적으로만 관리되어 플래시 초기화로 우회 가능하다",
+      "롤백 보호는 bootloader가 언락된 상태에서도 동일하게 동작한다"
+    ],
+    "answer": 1,
+    "explanation": "AVB 롤백 보호는 RPMB(또는 유사 보안 저장소)에 저장된 롤백 인덱스와 vbmeta 이미지에 포함된 롤백 인덱스를 비교합니다. 저장된 인덱스보다 낮은 값을 가진 이미지는 부팅이 거부됩니다. 단, bootloader가 언락된 상태에서는 롤백 보호가 비활성화될 수 있으며, 일부 구현에서는 RPMB 키가 초기화되면 보호가 무력화될 수 있습니다."
+  },
+  {
+    "id": "bu-010",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "고급",
+    "type": "multiple-choice",
+    "question": "A/B OTA에서 슬롯 전환 후 부팅 실패가 반복될 때 시스템의 동작으로 올바른 것은?",
+    "options": [
+      "부팅이 실패하면 즉시 recovery 모드로 진입하여 사용자에게 공장 초기화를 요청한다",
+      "부트로더가 슬롯 메타데이터의 retry count를 감소시키며, 0이 되면 해당 슬롯을 unbootable로 표시하고 이전 슬롯으로 자동 폴백한다",
+      "부팅 실패와 관계없이 항상 새 슬롯에서 재시도한다",
+      "update_engine이 자동으로 새 OTA 패키지를 다운로드하여 재설치한다"
+    ],
+    "answer": 1,
+    "explanation": "A/B 부트로더는 각 슬롯에 대해 tries_remaining 카운터를 관리합니다. 부팅 시도마다 카운터가 감소하고, boot_successful이 설정되기 전에 카운터가 0이 되면 해당 슬롯은 unbootable로 마킹되어 이전 정상 슬롯로 폴백합니다. Android 프레임워크는 boot_completed 후 bootctl로 markBootSuccessful()을 호출하여 슬롯을 확정합니다."
+  },
+  {
+    "id": "bu-011",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "초급",
+    "type": "short-answer",
+    "question": "AVB의 vbmeta 이미지는 세 가지 핵심 구성 요소를 포함한다: 파티션 해시를 기술하는 ___, 이미지 전체의 무결성을 보장하는 디지털 ___, 그리고 서명 검증에 사용되는 ___이다.",
+    "blankAnswers": [
+      ["디스크립터", "descriptor", "descriptors", "해시 디스크립터", "hash descriptor"],
+      ["서명", "signature", "signatures"],
+      ["공개 키", "공개키", "public key", "public-key"]
+    ],
+    "explanation": "vbmeta 이미지는 각 보호 대상 파티션의 해시(또는 해시트리) 정보를 담은 디스크립터, 전체 vbmeta 데이터에 대한 RSA/ECDSA 디지털 서명, 그리고 서명 검증을 위한 공개 키를 포함합니다. 부트로더는 하드웨어에 퓨징된 루트 공개 키로 vbmeta의 서명을 검증하여 신뢰 체인을 시작합니다."
+  },
+  {
+    "id": "bu-012",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "초급",
+    "type": "short-answer",
+    "question": "A/B 슬롯 메타데이터에서 부트로더가 관리하는 세 가지 핵심 속성은 현재 활성 슬롯을 나타내는 ___, 부팅 성공 여부를 나타내는 ___, 그리고 남은 부팅 재시도 횟수를 나타내는 ___이다.",
+    "blankAnswers": [
+      ["active slot", "active_slot", "current-slot", "활성 슬롯"],
+      ["boot_successful", "successful_boot", "boot successful"],
+      ["tries_remaining", "retry count", "tries remaining", "retry_count"]
+    ],
+    "explanation": "부트로더는 각 슬롯의 메타데이터를 관리합니다. active slot은 다음 부팅에 사용할 슬롯을 지정하고, boot_successful은 Android가 정상 부팅된 후 설정되며, tries_remaining은 부팅 실패 시 감소하여 0이 되면 슬롯이 unbootable로 표시됩니다."
+  },
+  {
+    "id": "bu-013",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "중급",
+    "type": "short-answer",
+    "question": "Android OTA 페이로드 구조에서 실제 파티션 데이터를 담고 있는 파일은 ___이며, 업데이트 적용 후 실행되는 스크립트 단계를 ___라 하고, dm-verity 해시트리 검증에 필요한 블록 범위 정보를 담은 파일은 ___이다.",
+    "blankAnswers": [
+      ["payload.bin"],
+      ["postinstall", "post-install"],
+      ["care_map.txt", "care_map"]
+    ],
+    "explanation": "payload.bin은 OTA의 핵심 데이터로 파티션 이미지의 전체(full) 또는 차분(delta) 데이터를 포함합니다. postinstall 단계에서는 dex2oat 등의 최적화 작업이 수행되며, care_map.txt는 dm-verity 검증이 필요한 블록 범위를 명시하여 불필요한 블록 검증을 건너뛸 수 있게 합니다."
+  },
+  {
+    "id": "bu-014",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "중급",
+    "type": "short-answer",
+    "question": "Dynamic Partitions의 super 파티션 내부에 포함되는 주요 논리 파티션 다섯 가지는 ___, ___, ___, ___, ___이다.",
+    "blankAnswers": [
+      ["system"],
+      ["vendor"],
+      ["product"],
+      ["system_ext"],
+      ["odm"]
+    ],
+    "explanation": "super 파티션은 LP 메타데이터를 통해 system(AOSP 프레임워크), vendor(SoC HAL), product(OEM 커스터마이징), system_ext(system 확장), odm(디바이스별 오버레이) 등의 논리 파티션을 관리합니다. 이를 통해 각 파티션의 크기를 OTA 시 동적으로 조절할 수 있어 고정 파티션 레이아웃의 공간 낭비 문제를 해결합니다."
+  },
+  {
+    "id": "bu-015",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "중급",
+    "type": "short-answer",
+    "question": "Virtual A/B에서 OTA 적용 후 스냅샷의 상태는 세 단계로 전이된다: 스냅샷이 생성된 ___ 상태, 재부팅 후 스냅샷을 기존 파티션에 반영하는 ___ 상태, 그리고 반영이 완료되어 스냅샷이 삭제된 ___ 상태이다.",
+    "blankAnswers": [
+      ["created", "Created", "생성"],
+      ["merging", "Merging", "머징", "병합 중"],
+      ["none", "None", "완료", "idle"]
+    ],
+    "explanation": "Virtual A/B의 스냅샷 생명주기는 created(OTA 기록 완료) → merging(재부팅 후 COW 데이터를 원본 파티션에 반영 중) → none(머지 완료, 스냅샷 정리)으로 전이됩니다. 머지 중 재부팅이 발생해도 스냅샷 메타데이터가 보존되어 머지를 이어서 진행할 수 있으므로 데이터 손실이 발생하지 않습니다."
+  },
+  {
+    "id": "bu-016",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "고급",
+    "type": "short-answer",
+    "question": "Android Verified Boot의 부트 상태(boot state)는 세 가지 색상으로 구분된다: 부트로더가 잠기고 OEM 키로 검증된 ___색 상태, 부트로더가 잠기고 사용자 지정 키로 검증된 ___색 상태, 부트로더가 언락되어 검증이 수행되지 않는 ___색 상태이다.",
+    "blankAnswers": [
+      ["녹색", "green", "Green", "초록색", "초록"],
+      ["노란색", "yellow", "Yellow", "노랑", "노란"],
+      ["주황색", "orange", "Orange", "오렌지", "주황"]
+    ],
+    "explanation": "Green 상태는 OEM이 퓨징한 루트 키로 모든 검증이 통과한 정상 상태입니다. Yellow 상태는 사용자가 직접 설정한 키(custom root of trust)로 검증된 상태로 경고가 표시됩니다. Orange 상태는 부트로더가 언락되어 검증이 수행되지 않는 상태이며, 이 경우 디바이스 시작 시 경고 화면이 표시됩니다."
+  },
+  {
+    "id": "bu-017",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "고급",
+    "type": "short-answer",
+    "question": "AVB에서 체인된 vbmeta(chained vbmeta)를 사용하면 특정 파티션의 검증을 별도의 vbmeta 이미지에 위임할 수 있다. 이때 메인 vbmeta에는 위임 대상 파티션의 ___ 디스크립터가 포함되고, 위임된 vbmeta 이미지는 자체 ___으로 서명되어 독립적으로 업데이트할 수 있다.",
+    "blankAnswers": [
+      ["chain", "chain partition", "체인 파티션", "chained partition"],
+      ["키", "key", "서명 키", "signing key", "개인 키", "private key"]
+    ],
+    "explanation": "체인된 vbmeta는 vendor나 odm 같은 파티션을 별도 키로 관리할 수 있게 합니다. 메인 vbmeta에 chain partition descriptor를 추가하면 해당 파티션의 vbmeta 이미지를 참조하며, 각 위임된 vbmeta는 독립된 서명 키로 서명됩니다. 이를 통해 SoC 벤더와 OEM이 각자의 파티션을 독립적으로 서명하고 업데이트할 수 있습니다."
+  },
+  {
+    "id": "bu-018",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "고급",
+    "type": "short-answer",
+    "question": "Android 보안에서 Verified Boot(dm-verity)는 데이터의 ___을 보장하고, FBE(File-Based Encryption)는 데이터의 ___을 보장하며, 이 두 메커니즘은 서로 ___적인 보안 계층이다.",
+    "blankAnswers": [
+      ["무결성", "integrity"],
+      ["기밀성", "confidentiality", "비밀성"],
+      ["보완", "상호보완", "독립", "complementary"]
+    ],
+    "explanation": "dm-verity 기반의 Verified Boot는 파티션의 무결성(integrity)을 검증하여 변조를 탐지하지만 데이터를 암호화하지는 않습니다. FBE(File-Based Encryption)는 사용자 데이터의 기밀성(confidentiality)을 보장하여 물리적 접근으로부터 데이터를 보호합니다. 이 둘은 서로 다른 보안 속성을 담당하는 보완적 계층입니다."
+  },
+  {
+    "id": "bu-019",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "초급",
+    "type": "code-fill",
+    "question": "다음은 Android 디바이스의 Verified Boot 상태를 확인하는 셸 명령어입니다. 빈칸을 채우시오.",
+    "codeTemplate": "# Verified Boot 상태 확인\nadb shell ___ ro.boot.verifiedbootstate\n\n# 결과 예시: green, yellow, orange",
+    "codeLanguage": "shell",
+    "blankAnswers": [
+      ["getprop"]
+    ],
+    "explanation": "getprop 명령어는 Android 시스템 속성(property)을 읽어옵니다. ro.boot.verifiedbootstate 속성은 커널 커맨드라인에서 전달된 Verified Boot 상태를 나타내며, green(OEM 키 검증 성공), yellow(사용자 키 검증), orange(부트로더 언락) 중 하나의 값을 가집니다."
+  },
+  {
+    "id": "bu-020",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "초급",
+    "type": "code-fill",
+    "question": "다음은 fastboot를 사용하여 현재 활성 슬롯을 확인하고 변경하는 명령어입니다. 빈칸을 채우시오.",
+    "codeTemplate": "# 현재 활성 슬롯 확인\nfastboot ___ current-slot\n\n# 활성 슬롯을 b로 변경\nfastboot ___ b",
+    "codeLanguage": "shell",
+    "blankAnswers": [
+      ["getvar"],
+      ["set_active", "--set-active="]
+    ],
+    "explanation": "fastboot getvar current-slot 명령은 현재 활성 부팅 슬롯(a 또는 b)을 조회합니다. fastboot set_active b 명령은 다음 부팅 시 사용할 슬롯을 b로 변경하며, 이때 해당 슬롯의 tries_remaining이 초기화되고 active 플래그가 설정됩니다."
+  },
+  {
+    "id": "bu-021",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "중급",
+    "type": "code-fill",
+    "question": "다음은 Android 디바이스에서 dynamic partition의 논리 파티션 블록 디바이스를 확인하는 명령어입니다. 빈칸을 채우시오.",
+    "codeTemplate": "# 논리 파티션의 블록 디바이스 심볼릭 링크 확인\nadb shell ls -la /dev/block/___/___\n\n# super 파티션의 LP 메타데이터 덤프\nadb shell ___ /dev/block/by-name/super",
+    "codeLanguage": "shell",
+    "blankAnswers": [
+      ["by-name", "mapper"],
+      ["system_a", "system", "vendor_a"],
+      ["lpdump"]
+    ],
+    "explanation": "Dynamic Partition의 논리 파티션은 /dev/block/by-name/ 또는 /dev/block/mapper/ 경로에서 심볼릭 링크로 확인할 수 있습니다. lpdump 명령은 super 파티션의 LP 메타데이터를 파싱하여 논리 파티션의 이름, 크기, 그룹 정보 등을 출력합니다."
+  },
+  {
+    "id": "bu-022",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "중급",
+    "type": "code-fill",
+    "question": "다음은 update_engine_client를 사용하여 OTA 업데이트 상태를 확인하고 적용하는 명령어입니다. 빈칸을 채우시오.",
+    "codeTemplate": "# OTA 업데이트 진행 상태 추적 (follow 모드)\nadb shell update_engine_client ___\n\n# OTA 페이로드 URL을 지정하여 업데이트 시작\nadb shell update_engine_client --payload=___ --update\n\n# 업데이트 완료 후 슬롯 전환 확인\nadb shell getprop ro.boot.___",
+    "codeLanguage": "shell",
+    "blankAnswers": [
+      ["--follow", "-f"],
+      ["http://path/to/payload.bin", "file:///data/ota/payload.bin", "URL"],
+      ["slot_suffix"]
+    ],
+    "explanation": "update_engine_client는 Android의 A/B OTA 엔진과 상호작용하는 CLI 도구입니다. --follow 옵션으로 실시간 진행 상태를 추적할 수 있고, --payload 옵션으로 OTA 페이로드의 위치를 지정하여 업데이트를 시작합니다. ro.boot.slot_suffix 속성으로 현재 부팅된 슬롯(_a 또는 _b)을 확인할 수 있습니다."
+  },
+  {
+    "id": "bu-023",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "중급",
+    "type": "code-fill",
+    "question": "다음은 avbctl을 사용하여 dm-verity 상태를 확인하고 제어하는 명령어입니다. 빈칸을 채우시오.",
+    "codeTemplate": "# dm-verity 활성화 상태 확인\nadb shell avbctl ___\n\n# dm-verity 비활성화 (개발 목적, root 필요)\nadb shell avbctl ___\n\n# 변경 적용을 위해 재부팅\nadb ___",
+    "codeLanguage": "shell",
+    "blankAnswers": [
+      ["get-verity"],
+      ["disable-verity"],
+      ["reboot"]
+    ],
+    "explanation": "avbctl은 AVB(Android Verified Boot) 상태를 제어하는 도구입니다. get-verity로 현재 dm-verity 활성화 상태를 확인하고, disable-verity로 개발 중 시스템 파티션 수정을 위해 dm-verity를 비활성화할 수 있습니다. 변경 사항은 재부팅 후 적용되며, 프로덕션 디바이스에서는 부트로더 언락 상태에서만 동작합니다."
+  },
+  {
+    "id": "bu-024",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "고급",
+    "type": "code-fill",
+    "question": "다음은 lpdump과 lpmake를 사용하여 dynamic partition 메타데이터를 검사하고 논리 파티션을 추가하는 명령어입니다. 빈칸을 채우시오.",
+    "codeTemplate": "# super 파티션의 슬롯 0 메타데이터 덤프\nlpdump --slot=___ /dev/block/by-name/super\n\n# 새 논리 파티션 추가 (lpadd 사용)\nadb shell lpadd /dev/block/by-name/super ___ ___",
+    "codeLanguage": "shell",
+    "blankAnswers": [
+      ["0"],
+      ["my_partition", "partition_name", "new_partition"],
+      ["group_name", "default", "main"]
+    ],
+    "explanation": "lpdump --slot=0은 super 파티션의 첫 번째 슬롯에 저장된 LP 메타데이터를 읽어 논리 파티션 목록, 크기, 그룹 할당 정보를 출력합니다. lpadd는 런타임에 새 논리 파티션을 super 파티션에 추가하는 명령으로, 파티션 이름과 소속 그룹을 지정해야 합니다. 이러한 도구들은 dynamic partition 디버깅에 필수적입니다."
+  },
+  {
+    "id": "bu-025",
+    "category": "android-system",
+    "subcategory": "boot-integrity-updates",
+    "difficulty": "고급",
+    "type": "code-fill",
+    "question": "다음은 부팅 실패를 진단하기 위해 Verified Boot 상태, 커널 로그, 슬롯 정보를 종합적으로 수집하는 스크립트입니다. 빈칸을 채우시오.",
+    "codeTemplate": "#!/bin/bash\n# Boot failure triage script\n\n# 1. Verified Boot 상태 확인\nBOOT_STATE=$(adb shell getprop ___)\necho \"Boot state: $BOOT_STATE\"\n\n# 2. 현재 슬롯 확인\nSLOT=$(adb shell getprop ___)\necho \"Current slot: $SLOT\"\n\n# 3. 커널 dm-verity 관련 로그 필터링\nadb shell ___ | grep -i \"verity\\|dm-\"\n\n# 4. 부팅 성공 여부 확인\nSUCCESS=$(adb shell getprop ___)\necho \"Boot successful: $SUCCESS\"",
+    "codeLanguage": "shell",
+    "blankAnswers": [
+      ["ro.boot.verifiedbootstate"],
+      ["ro.boot.slot_suffix"],
+      ["dmesg"],
+      ["ro.boot.veritymode", "sys.boot_completed"]
+    ],
+    "explanation": "부팅 실패 진단 시 ro.boot.verifiedbootstate로 AVB 검증 상태를, ro.boot.slot_suffix로 현재 활성 슬롯을 확인합니다. dmesg로 커널 로그에서 dm-verity 오류를 필터링하고, ro.boot.veritymode나 sys.boot_completed로 verity 모드와 부팅 완료 상태를 종합적으로 판단하여 실패 원인을 좁혀나갈 수 있습니다."
+  }
+]
