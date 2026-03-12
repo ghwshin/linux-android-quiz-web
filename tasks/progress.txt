@@ -111,3 +111,16 @@
   - LocalStorage key is "quiz-progress", stores { [quizId]: { correct: boolean, answeredAt: string } }
   - Hook uses external store pattern with subscribe/emitChange for cross-component sync
 ---
+
+## 2026-03-12 - US-010
+- What was implemented: Main page with category selection UI (Linux Kernel / Android System cards)
+  - Two category cards with name, description, and total quiz count
+  - Cards link to /quiz/[category] routes
+  - Dark theme, responsive design (1 column mobile, 2 columns desktop via md:grid-cols-2)
+  - Page title: 'Linux & Android 퀴즈'
+- Files changed: src/app/page.tsx (modified)
+- **Learnings for future iterations:**
+  - getCategoryQuizCount() from quiz-loader.ts works at build time for SSG pages
+  - Next.js Link component used for client-side navigation to /quiz/[category]
+  - CATEGORIES from constants.ts provides id, name, description for each category
+---
