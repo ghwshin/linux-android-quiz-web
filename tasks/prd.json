@@ -85,7 +85,7 @@
         "Typecheck 통과"
       ],
       "priority": 5,
-      "passes": false,
+      "passes": true,
       "notes": "system-architecture: Linux Kernel layer, HAL, ART, Framework, Apps 등. activity-service: lifecycle, intent, broadcast receiver, content provider 등. binder-ipc: AIDL, Parcel, ServiceManager, transact 등. 코드는 Java/Kotlin/C++ 중심."
     },
     {

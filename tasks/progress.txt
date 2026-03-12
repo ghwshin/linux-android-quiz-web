@@ -47,3 +47,13 @@
   - All 10 Linux Kernel subcategories now complete with 25 quizzes each = 250 total
   - Parallel agent creation continues to work well for independent quiz files
 ---
+
+## 2026-03-12 - US-005
+- What was implemented: Android System quiz data for 3 subcategories - system-architecture (25 quizzes), activity-service (25 quizzes), binder-ipc (25 quizzes). Total: 75 quizzes.
+- Files changed: data/android-system/system-architecture.json, data/android-system/activity-service.json, data/android-system/binder-ipc.json
+- **Learnings for future iterations:**
+  - Quiz ID prefixes: sa- (system-architecture), as- (activity-service), bi- (binder-ipc)
+  - Android System quizzes follow same distribution: 8 초급 / 9 중급 / 8 고급, 10 MC / 8 SA / 7 CF
+  - Android quiz code examples use Java/Kotlin/C++ and XML (AndroidManifest) as appropriate
+  - Parallel agent creation continues to work well for independent quiz files
+---
