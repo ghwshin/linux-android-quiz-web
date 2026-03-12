@@ -1,0 +1,360 @@
+[
+  {
+    "id": "bi-001",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "초급",
+    "type": "multiple-choice",
+    "question": "Android에서 Binder IPC의 커널 드라이버에 접근하기 위한 디바이스 노드 경로는 무엇인가?",
+    "options": [
+      "/dev/binder",
+      "/dev/ipc",
+      "/dev/android/binder",
+      "/sys/binder"
+    ],
+    "answer": 0,
+    "explanation": "Binder 드라이버는 /dev/binder 디바이스 노드를 통해 사용자 공간에서 접근합니다. 프로세스는 이 디바이스를 open()하고 mmap()으로 메모리를 매핑한 후 ioctl()을 통해 Binder 트랜잭션을 수행합니다."
+  },
+  {
+    "id": "bi-002",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "초급",
+    "type": "multiple-choice",
+    "question": "AIDL(Android Interface Definition Language)의 주요 목적은 무엇인가?",
+    "options": [
+      "프로세스 간 통신을 위한 인터페이스를 정의하고 Proxy/Stub 코드를 자동 생성한다",
+      "Android 앱의 UI 레이아웃을 정의한다",
+      "데이터베이스 스키마를 선언한다",
+      "네트워크 프로토콜을 정의한다"
+    ],
+    "answer": 0,
+    "explanation": "AIDL은 프로세스 간 통신(IPC)을 위한 인터페이스 정의 언어입니다. .aidl 파일에 인터페이스를 정의하면 빌드 시스템이 자동으로 Proxy(클라이언트 측)와 Stub(서버 측) 코드를 생성하여 Binder 기반 IPC를 쉽게 구현할 수 있게 합니다."
+  },
+  {
+    "id": "bi-003",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "초급",
+    "type": "multiple-choice",
+    "question": "Android에서 ServiceManager의 역할로 올바른 것은?",
+    "options": [
+      "모든 시스템 서비스를 직접 실행하고 관리한다",
+      "Binder 서비스를 이름으로 등록하고 검색할 수 있는 중앙 디렉토리 역할을 한다",
+      "앱의 생명주기를 관리한다",
+      "네트워크 연결을 관리한다"
+    ],
+    "answer": 1,
+    "explanation": "ServiceManager는 Binder의 context manager(핸들 0번)로서 동작하며, 시스템 서비스들이 이름을 등록(addService)하고 클라이언트가 이름으로 서비스를 조회(getService)할 수 있는 중앙 네이밍 서비스 역할을 합니다."
+  },
+  {
+    "id": "bi-004",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "초급",
+    "type": "short-answer",
+    "question": "Binder IPC에서 Parcel 객체의 역할과 Parcelable 인터페이스의 관계를 설명하시오.",
+    "keywords": ["Parcel", "직렬화", "Parcelable", "데이터 전달", "IPC"],
+    "sampleAnswer": "Parcel은 Binder IPC를 통해 프로세스 간에 전달되는 데이터를 직렬화/역직렬화하기 위한 컨테이너입니다. 기본 타입(int, String 등)뿐 아니라 객체도 담을 수 있습니다. Parcelable 인터페이스는 사용자 정의 객체를 Parcel에 쓰고 읽을 수 있도록 writeToParcel()과 createFromParcel() 메서드를 구현하게 하는 인터페이스입니다.",
+    "explanation": "Parcel은 Binder 트랜잭션의 데이터 단위이며, 커널의 Binder 드라이버가 이 데이터를 대상 프로세스의 주소 공간에 복사합니다. Serializable보다 Parcelable이 Android에서 성능이 우수한데, 이는 리플렉션을 사용하지 않고 직접 바이트 스트림으로 변환하기 때문입니다."
+  },
+  {
+    "id": "bi-005",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "초급",
+    "type": "short-answer",
+    "question": "IBinder 인터페이스의 역할과 Binder 객체와의 관계를 설명하시오.",
+    "keywords": ["IBinder", "Binder", "인터페이스", "원격 객체", "transact"],
+    "sampleAnswer": "IBinder는 Binder 원격 객체에 대한 추상 인터페이스로, 프로세스 간 통신의 핵심 계약을 정의합니다. transact() 메서드를 통해 원격 호출을 수행합니다. Binder 클래스는 IBinder를 구현한 기본 클래스이며, 같은 프로세스에서는 직접 참조되고 다른 프로세스에서는 BinderProxy 객체로 대체됩니다.",
+    "explanation": "IBinder는 Android IPC의 핵심 인터페이스입니다. 로컬 프로세스에서는 Binder 객체가 직접 반환되지만, 원격 프로세스에서는 Binder 드라이버가 자동으로 BinderProxy 객체를 생성하여 투명한 원격 호출을 가능하게 합니다."
+  },
+  {
+    "id": "bi-006",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "초급",
+    "type": "code-fill",
+    "question": "다음은 Android에서 Parcelable 인터페이스를 구현하는 코드입니다. 빈칸을 채우시오.",
+    "codeTemplate": "public class User implements ___ {\n    private String name;\n    private int age;\n\n    protected User(Parcel in) {\n        name = in.___();\n        age = in.___();\n    }\n\n    @Override\n    public void writeToParcel(Parcel dest, int flags) {\n        dest.writeString(name);\n        dest.writeInt(age);\n    }\n\n    @Override\n    public int describeContents() {\n        return 0;\n    }\n}",
+    "codeLanguage": "java",
+    "blankAnswers": [
+      ["Parcelable"],
+      ["readString"],
+      ["readInt"]
+    ],
+    "explanation": "Parcelable 인터페이스를 구현하려면 writeToParcel()에서 필드를 순서대로 쓰고, 생성자에서 같은 순서로 readString(), readInt() 등을 호출하여 읽어야 합니다. 읽기와 쓰기의 순서가 반드시 일치해야 합니다."
+  },
+  {
+    "id": "bi-007",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "초급",
+    "type": "code-fill",
+    "question": "다음은 AIDL 인터페이스를 정의하는 코드입니다. 빈칸을 채우시오.",
+    "codeTemplate": "// ICalculator.aidl\npackage com.example;\n\n___ ICalculator {\n    int add(int a, int b);\n    int subtract(int a, int b);\n}",
+    "codeLanguage": "java",
+    "blankAnswers": [
+      ["interface"]
+    ],
+    "explanation": "AIDL 파일에서는 interface 키워드를 사용하여 IPC 인터페이스를 정의합니다. 빌드 시스템은 이 정의를 기반으로 ICalculator.Stub(서버 측)과 ICalculator.Stub.Proxy(클라이언트 측) 클래스를 자동 생성합니다."
+  },
+  {
+    "id": "bi-008",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "초급",
+    "type": "code-fill",
+    "question": "다음은 클라이언트가 바인딩된 서비스에 연결하는 ServiceConnection 코드입니다. 빈칸을 채우시오.",
+    "codeTemplate": "private ServiceConnection connection = new ServiceConnection() {\n    @Override\n    public void onServiceConnected(ComponentName name, ___ service) {\n        ICalculator calculator = ICalculator.Stub.___(___);\n    }\n\n    @Override\n    public void onServiceDisconnected(ComponentName name) {\n        // 연결 해제 처리\n    }\n};",
+    "codeLanguage": "java",
+    "blankAnswers": [
+      ["IBinder"],
+      ["asInterface"],
+      ["service"]
+    ],
+    "explanation": "ServiceConnection의 onServiceConnected 콜백은 IBinder 객체를 전달받습니다. ICalculator.Stub.asInterface(service)를 호출하면, 같은 프로세스이면 Stub 객체를 직접 반환하고 다른 프로세스이면 Proxy 객체를 반환하여 투명하게 IPC를 처리합니다."
+  },
+  {
+    "id": "bi-009",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "중급",
+    "type": "multiple-choice",
+    "question": "Binder 트랜잭션에서 transact()와 onTransact()의 관계로 올바른 것은?",
+    "options": [
+      "transact()는 서버 측에서 호출하고, onTransact()는 클라이언트 측에서 호출한다",
+      "transact()는 클라이언트 Proxy에서 호출하고, onTransact()는 서버 Stub에서 호출된다",
+      "둘 다 같은 프로세스에서 순차적으로 호출된다",
+      "transact()는 비동기, onTransact()는 동기로만 동작한다"
+    ],
+    "answer": 1,
+    "explanation": "Binder IPC에서 클라이언트의 Proxy는 transact()를 호출하여 데이터(Parcel)를 Binder 드라이버에 전달합니다. 드라이버는 이를 서버 프로세스의 Binder 스레드에 전달하고, 서버의 Stub에서 onTransact()가 호출되어 요청을 처리합니다. 트랜잭션 코드(int code)를 통해 어떤 메서드가 호출되었는지 식별합니다."
+  },
+  {
+    "id": "bi-010",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "중급",
+    "type": "multiple-choice",
+    "question": "Binder에서 one-way 호출(FLAG_ONEWAY)의 특성으로 올바른 것은?",
+    "options": [
+      "클라이언트가 서버의 응답을 기다리지 않고 즉시 반환된다",
+      "서버에서 클라이언트로만 호출할 수 있다",
+      "양방향 통신을 동시에 수행한다",
+      "반환 값을 Parcel로 받을 수 있다"
+    ],
+    "answer": 0,
+    "explanation": "FLAG_ONEWAY가 설정된 Binder 트랜잭션은 비동기(asynchronous) 호출입니다. 클라이언트는 데이터를 Binder 드라이버에 전달한 후 서버의 처리 완료를 기다리지 않고 즉시 반환됩니다. 따라서 반환 값을 받을 수 없고, AIDL에서는 oneway 키워드로 선언합니다."
+  },
+  {
+    "id": "bi-011",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "중급",
+    "type": "multiple-choice",
+    "question": "Binder 드라이버의 메모리 매핑(mmap) 메커니즘에 대한 설명으로 올바른 것은?",
+    "options": [
+      "송신자와 수신자 모두 mmap을 수행하여 공유 메모리를 사용한다",
+      "수신자 프로세스의 주소 공간에 커널 버퍼를 매핑하여 데이터 복사를 1회로 줄인다",
+      "mmap 없이 커널 공간에서 사용자 공간으로 2회 복사한다",
+      "송신자의 메모리를 직접 수신자에게 공유한다"
+    ],
+    "answer": 1,
+    "explanation": "Binder는 수신 프로세스가 /dev/binder를 mmap()하여 커널 버퍼를 자신의 주소 공간에 매핑합니다. 송신자의 데이터는 커널 버퍼에 한 번만 복사(copy_from_user)되며, 수신자는 매핑된 메모리를 통해 직접 접근합니다. 이로 인해 전통적인 IPC의 2회 복사(송신→커널→수신)가 1회로 줄어듭니다."
+  },
+  {
+    "id": "bi-012",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "중급",
+    "type": "multiple-choice",
+    "question": "Binder 스레드 풀(thread pool)에 대한 설명으로 올바르지 않은 것은?",
+    "options": [
+      "각 프로세스는 Binder 트랜잭션을 처리하기 위한 스레드 풀을 가진다",
+      "기본 최대 스레드 수는 15개(+ 메인 Binder 스레드 1개)이다",
+      "모든 Binder 스레드가 사용 중이면 새로운 트랜잭션은 스레드가 가용해질 때까지 대기한다",
+      "Binder 스레드 풀의 크기는 변경할 수 없으며 항상 고정이다"
+    ],
+    "answer": 3,
+    "explanation": "Binder 스레드 풀의 최대 크기는 ProcessState::setThreadPoolMaxThreadCount()를 통해 변경할 수 있습니다. 기본값은 15이며, Binder 드라이버가 필요에 따라 스레드를 생성합니다. 모든 스레드가 사용 중이면 트랜잭션은 큐에 대기합니다."
+  },
+  {
+    "id": "bi-013",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "중급",
+    "type": "short-answer",
+    "question": "Binder의 Proxy와 Stub 패턴에서 각각의 역할과 동작 방식을 설명하시오.",
+    "keywords": ["Proxy", "Stub", "클라이언트", "서버", "직렬화", "역직렬화", "transact", "onTransact"],
+    "sampleAnswer": "Proxy는 클라이언트 측에서 동작하며, 메서드 호출을 Parcel로 직렬화한 후 transact()를 통해 Binder 드라이버에 전달합니다. Stub은 서버 측에서 동작하며, onTransact()에서 Parcel을 역직렬화하여 실제 구현 메서드를 호출하고 결과를 Parcel로 다시 직렬화하여 반환합니다. AIDL이 이 Proxy/Stub 코드를 자동 생성합니다.",
+    "explanation": "Proxy-Stub 패턴은 원격 프로시저 호출(RPC)을 로컬 메서드 호출처럼 보이게 하는 투명성을 제공합니다. 클라이언트는 Proxy의 메서드를 호출하면 내부적으로 Binder 트랜잭션이 수행되어 서버의 Stub에서 실제 로직이 실행됩니다."
+  },
+  {
+    "id": "bi-014",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "중급",
+    "type": "short-answer",
+    "question": "Binder의 death notification(linkToDeath) 메커니즘의 필요성과 동작 원리를 설명하시오.",
+    "keywords": ["linkToDeath", "DeathRecipient", "binderDied", "프로세스 종료", "정리"],
+    "sampleAnswer": "linkToDeath()는 원격 Binder 서비스가 종료되었을 때 알림을 받기 위한 메커니즘입니다. 클라이언트는 IBinder.linkToDeath()에 DeathRecipient 콜백을 등록하고, 서버 프로세스가 비정상적으로 종료되면 Binder 드라이버가 이를 감지하여 클라이언트의 binderDied() 콜백을 호출합니다. 이를 통해 클라이언트는 리소스 정리나 재연결 로직을 수행할 수 있습니다.",
+    "explanation": "death notification은 Binder 기반 서비스의 안정성을 위해 중요합니다. Binder 드라이버는 프로세스 종료 시 해당 프로세스가 소유한 모든 Binder 노드를 정리하고, 등록된 death recipient에게 알림을 보냅니다. unlinkToDeath()로 등록을 해제할 수 있습니다."
+  },
+  {
+    "id": "bi-015",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "중급",
+    "type": "short-answer",
+    "question": "Android Messenger를 이용한 IPC와 AIDL을 이용한 IPC의 차이점을 설명하시오.",
+    "keywords": ["Messenger", "AIDL", "Handler", "Message", "단방향", "멀티스레드", "직렬화"],
+    "sampleAnswer": "Messenger는 Handler와 Message 기반의 간단한 IPC 방식으로, 내부적으로 AIDL(IMessenger)을 사용하지만 모든 요청이 단일 스레드(Handler의 Looper)에서 순차 처리됩니다. AIDL은 커스텀 인터페이스를 정의하여 멀티스레드로 동시 처리가 가능하며, 복잡한 데이터 타입과 동기/비동기 호출을 지원합니다. Messenger는 간단한 메시지 전달에, AIDL은 복잡한 인터페이스와 동시성이 필요할 때 적합합니다.",
+    "explanation": "Messenger는 단일 스레드 큐로 동작하므로 스레드 안전성 문제가 없지만, 동시 처리가 불가능합니다. AIDL은 Binder 스레드 풀에서 여러 요청을 동시에 처리할 수 있지만, 서버 측에서 스레드 안전성을 직접 보장해야 합니다."
+  },
+  {
+    "id": "bi-016",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "중급",
+    "type": "code-fill",
+    "question": "다음은 AIDL Stub을 구현하여 Binder 서비스를 제공하는 코드입니다. 빈칸을 채우시오.",
+    "codeTemplate": "public class CalculatorService extends Service {\n    private final ICalculator.___  mBinder = new ICalculator.___() {\n        @Override\n        public int add(int a, int b) throws RemoteException {\n            return a + b;\n        }\n\n        @Override\n        public int subtract(int a, int b) throws RemoteException {\n            return a - b;\n        }\n    };\n\n    @Override\n    public IBinder ___( Intent intent) {\n        return mBinder;\n    }\n}",
+    "codeLanguage": "java",
+    "blankAnswers": [
+      ["Stub"],
+      ["Stub"],
+      ["onBind"]
+    ],
+    "explanation": "AIDL 서비스를 구현하려면 ICalculator.Stub을 상속(익명 클래스)하여 인터페이스 메서드를 구현합니다. Service의 onBind()에서 이 Stub 객체를 IBinder로 반환하면, 바인딩하는 클라이언트에게 Binder 참조가 전달됩니다."
+  },
+  {
+    "id": "bi-017",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "중급",
+    "type": "code-fill",
+    "question": "다음은 Binder의 death notification을 등록하는 Kotlin 코드입니다. 빈칸을 채우시오.",
+    "codeTemplate": "private val deathRecipient = IBinder.___ {\n    override fun binderDied() {\n        // 서비스 프로세스가 종료됨\n        serviceBinder = null\n        reconnectService()\n    }\n}\n\nfun onServiceConnected(binder: IBinder) {\n    binder.___(deathRecipient, 0)\n    serviceBinder = IMyService.Stub.asInterface(binder)\n}",
+    "codeLanguage": "kotlin",
+    "blankAnswers": [
+      ["DeathRecipient"],
+      ["linkToDeath"]
+    ],
+    "explanation": "IBinder.DeathRecipient 인터페이스를 구현하고 linkToDeath()로 등록하면, 원격 서비스 프로세스가 종료될 때 binderDied() 콜백이 호출됩니다. 두 번째 인자 flags는 현재 항상 0입니다."
+  },
+  {
+    "id": "bi-018",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "고급",
+    "type": "multiple-choice",
+    "question": "Binder 드라이버에서 BC_TRANSACTION과 BR_TRANSACTION의 차이점으로 올바른 것은?",
+    "options": [
+      "BC_TRANSACTION은 커널에서 사용자로, BR_TRANSACTION은 사용자에서 커널로 전송된다",
+      "BC_TRANSACTION은 사용자 프로세스가 커널에 보내는 명령이고, BR_TRANSACTION은 커널이 사용자 프로세스에 전달하는 응답이다",
+      "둘 다 같은 방향으로 동작하며 동기/비동기의 차이만 있다",
+      "BC_TRANSACTION은 바인딩 요청이고, BR_TRANSACTION은 언바인딩 요청이다"
+    ],
+    "answer": 1,
+    "explanation": "Binder 프로토콜에서 BC_(Binder Command) 접두사는 사용자 공간에서 커널(드라이버)로 보내는 명령을 의미하고, BR_(Binder Return) 접두사는 커널에서 사용자 공간으로 반환되는 메시지를 의미합니다. BC_TRANSACTION으로 트랜잭션을 요청하면, 대상 프로세스는 BR_TRANSACTION으로 해당 요청을 수신합니다."
+  },
+  {
+    "id": "bi-019",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "고급",
+    "type": "multiple-choice",
+    "question": "Binder의 context manager에 대한 설명으로 올바른 것은?",
+    "options": [
+      "모든 프로세스가 context manager가 될 수 있으며, 동시에 여러 개가 존재할 수 있다",
+      "핸들 0번으로 고정되며, 시스템에서 유일하게 ServiceManager가 이 역할을 수행한다",
+      "context manager는 Binder 트랜잭션을 암호화하는 보안 모듈이다",
+      "앱 프로세스마다 하나의 context manager가 할당된다"
+    ],
+    "answer": 1,
+    "explanation": "Binder context manager는 핸들 0번으로 고정된 특수한 Binder 노드입니다. Android에서는 ServiceManager가 BINDER_SET_CONTEXT_MGR ioctl을 통해 이 역할을 등록합니다. 시스템에 단 하나만 존재하며, 모든 서비스의 이름 등록과 조회를 중앙에서 관리합니다."
+  },
+  {
+    "id": "bi-020",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "고급",
+    "type": "multiple-choice",
+    "question": "Binder 트랜잭션의 데이터 크기 제한과 관련하여 올바른 것은?",
+    "options": [
+      "단일 트랜잭션의 최대 크기는 제한이 없다",
+      "프로세스당 Binder mmap 버퍼 크기는 기본 1MB(1024KB - 8KB)이며, 이를 초과하면 TransactionTooLargeException이 발생한다",
+      "트랜잭션 크기는 최대 64KB로 제한된다",
+      "크기 제한은 커널 버전에 따라 다르며 표준 값이 없다"
+    ],
+    "answer": 1,
+    "explanation": "Android Binder의 mmap 버퍼 크기는 프로세스당 기본 1MB - 8KB(1,048,576 - 8,192 = 1,040,384 바이트)입니다. 이 버퍼는 진행 중인 모든 트랜잭션이 공유하므로, 대용량 데이터 전달 시 TransactionTooLargeException이 발생할 수 있습니다. 대용량 데이터는 ashmem이나 파일 디스크립터를 통해 전달해야 합니다."
+  },
+  {
+    "id": "bi-021",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "고급",
+    "type": "short-answer",
+    "question": "Binder 드라이버의 내부 구조에서 binder_proc, binder_thread, binder_node, binder_ref의 관계를 설명하시오.",
+    "keywords": ["binder_proc", "binder_thread", "binder_node", "binder_ref", "프로세스", "스레드", "서비스 노드", "참조"],
+    "sampleAnswer": "binder_proc는 /dev/binder를 open한 프로세스를 나타내는 구조체로, 해당 프로세스의 모든 Binder 관련 상태를 관리합니다. binder_thread는 binder_proc 내에서 Binder 트랜잭션을 처리하는 스레드를 나타냅니다. binder_node는 서비스(서버)가 제공하는 Binder 객체를 커널에서 표현한 것이며, binder_ref는 클라이언트 프로세스가 binder_node를 참조하는 핸들입니다. 하나의 binder_node에 여러 binder_ref가 존재할 수 있습니다.",
+    "explanation": "이 네 구조체는 Binder 드라이버의 핵심입니다. binder_proc는 red-black 트리로 노드와 참조를 관리하고, binder_thread는 트랜잭션 스택을 유지합니다. 트랜잭션 시 송신자의 binder_ref가 수신자의 binder_node로 변환되어 올바른 서비스 객체에 전달됩니다."
+  },
+  {
+    "id": "bi-022",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "고급",
+    "type": "short-answer",
+    "question": "AIDL 콜백 인터페이스를 사용하여 서버에서 클라이언트로 비동기 알림을 보내는 패턴과 RemoteCallbackList의 역할을 설명하시오.",
+    "keywords": ["AIDL", "callback", "RemoteCallbackList", "register", "unregister", "비동기", "양방향"],
+    "sampleAnswer": "AIDL 콜백 패턴에서는 콜백용 AIDL 인터페이스를 별도로 정의하고, 서비스 AIDL에 registerCallback/unregisterCallback 메서드를 추가합니다. 클라이언트가 콜백 인터페이스 구현체를 서비스에 등록하면, 서버가 이를 통해 클라이언트에게 역방향 Binder 호출을 수행합니다. RemoteCallbackList는 등록된 콜백들을 안전하게 관리하며, 클라이언트 프로세스 종료 시 자동으로 콜백을 제거하고 death notification을 처리합니다.",
+    "explanation": "RemoteCallbackList는 IBinder를 키로 사용하여 콜백의 중복 등록을 방지하고, beginBroadcast()/finishBroadcast() 패턴으로 스레드 안전한 콜백 순회를 제공합니다. 콜백 호출 중 발생하는 DeadObjectException도 내부적으로 처리합니다."
+  },
+  {
+    "id": "bi-023",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "고급",
+    "type": "short-answer",
+    "question": "Android의 다중 Binder 도메인(/dev/binder, /dev/hwbinder, /dev/vndbinder)의 도입 배경과 각각의 용도를 설명하시오.",
+    "keywords": ["binder", "hwbinder", "vndbinder", "HIDL", "Treble", "vendor", "framework"],
+    "sampleAnswer": "Android 8.0(Treble)에서 프레임워크와 벤더 코드의 분리를 위해 다중 Binder 도메인이 도입되었습니다. /dev/binder는 프레임워크 프로세스 간 통신(AIDL)에 사용됩니다. /dev/hwbinder는 프레임워크와 HAL(Hardware Abstraction Layer) 간 통신에 사용되며 HIDL/AIDL HAL 인터페이스를 처리합니다. /dev/vndbinder는 벤더 프로세스 간 통신에 사용됩니다. 각 도메인은 별도의 context manager(ServiceManager, HwServiceManager, VndServiceManager)를 가집니다.",
+    "explanation": "Treble 아키텍처는 프레임워크 업데이트와 벤더 구현을 독립적으로 할 수 있게 분리했습니다. SELinux 정책으로 각 도메인 간 접근이 제한되며, 프레임워크 프로세스는 /dev/hwbinder를 통해서만 HAL에 접근할 수 있습니다."
+  },
+  {
+    "id": "bi-024",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "고급",
+    "type": "code-fill",
+    "question": "다음은 Native C++ 레이어에서 Binder 서비스를 등록하는 코드입니다. 빈칸을 채우시오.",
+    "codeTemplate": "#include <binder/IServiceManager.h>\n#include <binder/ProcessState.h>\n#include <binder/IPCThreadState.h>\n\nint main() {\n    sp<ProcessState> proc(ProcessState::___());\n\n    sp<IServiceManager> sm = ___();\n    sm->___( String16(\"my.service\"), new MyService());\n\n    ProcessState::self()->startThreadPool();\n    IPCThreadState::self()->joinThreadPool();\n\n    return 0;\n}",
+    "codeLanguage": "cpp",
+    "blankAnswers": [
+      ["self"],
+      ["defaultServiceManager"],
+      ["addService"]
+    ],
+    "explanation": "Native Binder 서비스 등록 과정: ProcessState::self()로 프로세스의 Binder 상태를 초기화하고 /dev/binder를 열고 mmap합니다. defaultServiceManager()로 ServiceManager의 프록시를 얻고, addService()로 서비스를 이름과 함께 등록합니다. startThreadPool()과 joinThreadPool()로 Binder 스레드를 시작하여 트랜잭션을 수신합니다."
+  },
+  {
+    "id": "bi-025",
+    "category": "android-system",
+    "subcategory": "binder-ipc",
+    "difficulty": "고급",
+    "type": "code-fill",
+    "question": "다음은 AIDL 콜백을 관리하는 서비스 구현 코드입니다. 빈칸을 채우시오.",
+    "codeTemplate": "public class MyService extends IMyService.Stub {\n    private final ___<IMyCallback> mCallbacks = new ___<>();\n\n    @Override\n    public void registerCallback(IMyCallback callback) {\n        mCallbacks.___(callback);\n    }\n\n    @Override\n    public void unregisterCallback(IMyCallback callback) {\n        mCallbacks.___(callback);\n    }\n\n    private void notifyClients(String data) {\n        int count = mCallbacks.beginBroadcast();\n        for (int i = 0; i < count; i++) {\n            try {\n                mCallbacks.getBroadcastItem(i).onDataChanged(data);\n            } catch (RemoteException e) {\n                // 클라이언트 프로세스 종료됨\n            }\n        }\n        mCallbacks.finishBroadcast();\n    }\n}",
+    "codeLanguage": "java",
+    "blankAnswers": [
+      ["RemoteCallbackList"],
+      ["RemoteCallbackList"],
+      ["register"],
+      ["unregister"]
+    ],
+    "explanation": "RemoteCallbackList는 AIDL 콜백 관리를 위한 Android 유틸리티 클래스입니다. register()/unregister()로 콜백을 관리하고, beginBroadcast()/getBroadcastItem()/finishBroadcast() 패턴으로 등록된 모든 콜백에 안전하게 알림을 보냅니다. 클라이언트 프로세스가 종료되면 자동으로 콜백이 제거됩니다."
+  }
+]
