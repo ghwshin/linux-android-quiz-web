@@ -194,3 +194,21 @@
   - ShortAnswerQuiz follows same prop pattern as MultipleChoiceQuiz: { quiz, questionNumber, onNext }
   - Previously answered state handled identically to MultipleChoiceQuiz via getResult()
 ---
+
+## 2026-03-12 - US-015
+- What was implemented: Code fill-in-the-blank quiz component at src/components/CodeFillQuiz.tsx
+  - Splits codeTemplate on "___" markers to render inline input fields
+  - Monospace code block with syntax-appropriate display (language label from codeLanguage)
+  - Each blank graded independently via case-insensitive exact match against blankAnswers
+  - Green/red visual feedback per blank after submission
+  - Shows correct answers list and explanation after answering
+  - "다음 문제" (next) button after answering
+  - Auto-saves result to LocalStorage via useQuizProgress hook
+  - Supports previously answered questions (shows correct answers without re-answering)
+- Files changed: src/components/CodeFillQuiz.tsx (new)
+- **Learnings for future iterations:**
+  - codeTemplate uses "___" as blank markers; split on this string to get parts
+  - blankAnswers is string[][] - each blank has an array of acceptable answers (exact match, case-insensitive)
+  - CodeFillQuiz follows same prop pattern: { quiz, questionNumber, onNext }
+  - For previously answered code-fill quizzes, show the first acceptable answer for each blank
+---
