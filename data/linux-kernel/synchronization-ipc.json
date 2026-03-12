@@ -1,0 +1,358 @@
+[
+  {
+    "id": "si-001",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "초급",
+    "type": "multiple-choice",
+    "question": "Linux 커널에서 mutex의 주요 특성으로 올바른 것은?",
+    "options": [
+      "여러 스레드가 동시에 잠금을 획득할 수 있다",
+      "잠금을 획득한 스레드만이 잠금을 해제할 수 있으며, 한 번에 하나의 스레드만 임계 영역에 진입할 수 있다",
+      "인터럽트 컨텍스트에서 사용하도록 설계되었다",
+      "spinlock과 동일하게 바쁜 대기(busy waiting)를 수행한다"
+    ],
+    "answer": 1,
+    "explanation": "mutex(mutual exclusion)는 한 번에 하나의 스레드만 임계 영역에 진입할 수 있도록 보장하는 잠금 메커니즘입니다. 잠금을 획득한 소유자(owner)만이 해제할 수 있으며, 잠금을 획득하지 못한 스레드는 sleep 상태로 전환됩니다. 인터럽트 컨텍스트에서는 sleep이 불가능하므로 mutex를 사용할 수 없습니다."
+  },
+  {
+    "id": "si-002",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "초급",
+    "type": "multiple-choice",
+    "question": "spinlock과 mutex의 가장 큰 차이점은 무엇인가?",
+    "options": [
+      "spinlock은 커널에서만, mutex는 사용자 공간에서만 사용 가능하다",
+      "spinlock은 잠금을 획득할 때까지 CPU를 점유하며 바쁜 대기(busy waiting)를 하고, mutex는 잠금 획득 실패 시 스레드를 sleep 상태로 전환한다",
+      "spinlock은 재귀적으로 잠금을 획득할 수 있지만 mutex는 불가능하다",
+      "spinlock은 다중 코어에서만, mutex는 단일 코어에서만 동작한다"
+    ],
+    "answer": 1,
+    "explanation": "spinlock은 잠금을 획득할 때까지 루프를 돌며 바쁜 대기(busy waiting)를 수행합니다. 이는 짧은 시간 동안 잠금을 유지하는 경우에 효율적입니다. 반면 mutex는 잠금 획득에 실패하면 스레드를 sleep 상태로 전환하여 CPU를 양보하므로, 잠금 유지 시간이 긴 경우에 적합합니다."
+  },
+  {
+    "id": "si-003",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "초급",
+    "type": "multiple-choice",
+    "question": "Linux에서 pipe를 통한 프로세스 간 통신에 대한 설명으로 올바른 것은?",
+    "options": [
+      "pipe는 양방향(bidirectional) 통신을 지원한다",
+      "pipe는 단방향(unidirectional) 통신 채널이며, 관련 프로세스 간에 데이터를 전달하는 데 사용된다",
+      "pipe는 네트워크를 통해 원격 프로세스와 통신할 수 있다",
+      "pipe는 커널 공간에서만 사용 가능하다"
+    ],
+    "answer": 1,
+    "explanation": "pipe는 단방향 통신 채널로, pipe() 시스템 콜을 통해 두 개의 파일 디스크립터(읽기용, 쓰기용)를 생성합니다. 주로 fork()로 생성된 부모-자식 프로세스 간 통신에 사용됩니다. 양방향 통신이 필요하면 두 개의 pipe를 생성하거나 socketpair()를 사용해야 합니다."
+  },
+  {
+    "id": "si-004",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "초급",
+    "type": "short-answer",
+    "question": "semaphore와 mutex의 차이점을 설명하고, counting semaphore의 용도를 서술하시오.",
+    "keywords": ["semaphore", "mutex", "counting", "카운터"],
+    "sampleAnswer": "mutex는 한 번에 하나의 스레드만 임계 영역에 접근할 수 있는 이진 잠금(binary lock)이며, 소유권 개념이 있어 잠금을 획득한 스레드만 해제할 수 있습니다. semaphore는 카운터 기반으로, counting semaphore는 동시에 N개의 스레드가 자원에 접근할 수 있도록 허용합니다. 예를 들어, 제한된 수의 연결 풀이나 버퍼 슬롯을 관리하는 데 사용됩니다.",
+    "explanation": "semaphore는 down()(P 연산)으로 카운터를 감소시키고, up()(V 연산)으로 카운터를 증가시킵니다. 카운터가 0이면 down()을 호출한 스레드는 sleep합니다. mutex는 semaphore의 특수한 경우(카운터가 1인 경우)로 볼 수 있지만, Linux 커널에서 mutex는 소유권, 우선순위 역전 방지 등 추가 기능을 제공합니다."
+  },
+  {
+    "id": "si-005",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "초급",
+    "type": "short-answer",
+    "question": "Linux의 signal(시그널) 메커니즘이란 무엇이며, SIGKILL과 SIGTERM의 차이를 설명하시오.",
+    "keywords": ["signal", "SIGKILL", "SIGTERM", "비동기"],
+    "sampleAnswer": "시그널은 프로세스에게 비동기적으로 이벤트를 알리는 소프트웨어 인터럽트입니다. SIGTERM(15번)은 프로세스에게 정상 종료를 요청하는 시그널로, 프로세스가 핸들러를 등록하여 정리 작업 후 종료할 수 있습니다. SIGKILL(9번)은 프로세스를 강제로 즉시 종료시키며, 핸들러를 등록하거나 무시할 수 없습니다.",
+    "explanation": "시그널은 Unix/Linux의 기본적인 IPC 메커니즘 중 하나입니다. kill() 시스템 콜이나 키보드 입력(Ctrl+C는 SIGINT) 등으로 전송됩니다. SIGKILL과 SIGSTOP은 핸들러를 등록하거나 블로킹할 수 없는 특수한 시그널입니다."
+  },
+  {
+    "id": "si-006",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "초급",
+    "type": "short-answer",
+    "question": "Linux의 shared memory(공유 메모리) IPC 메커니즘의 개념과 장점을 설명하시오.",
+    "keywords": ["shared memory", "공유 메모리", "mmap", "shmget"],
+    "sampleAnswer": "공유 메모리는 두 개 이상의 프로세스가 동일한 물리 메모리 영역을 자신의 가상 주소 공간에 매핑하여 데이터를 공유하는 IPC 메커니즘입니다. System V의 shmget()/shmat() 또는 POSIX의 shm_open()/mmap()으로 구현할 수 있습니다. 데이터 복사 없이 직접 메모리에 접근하므로 가장 빠른 IPC 방식이지만, 동기화를 위해 별도의 semaphore나 mutex가 필요합니다.",
+    "explanation": "공유 메모리는 커널을 거치지 않고 프로세스들이 직접 메모리를 읽고 쓸 수 있으므로, pipe나 message queue보다 대용량 데이터 전달에 효율적입니다. 다만, 동시 접근에 대한 동기화는 프로그래머가 직접 관리해야 합니다."
+  },
+  {
+    "id": "si-007",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "초급",
+    "type": "code-fill",
+    "question": "Linux 커널에서 mutex를 초기화하고 사용하는 기본 코드를 완성하시오.",
+    "codeTemplate": "#include <linux/mutex.h>\n\nstatic DEFINE_MUTEX(my_mutex);\n\nvoid critical_section(void)\n{\n    ___(&my_mutex);\n\n    /* 임계 영역: 공유 자원 접근 */\n    pr_info(\"임계 영역 진입\\n\");\n\n    ___(&my_mutex);\n}",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["mutex_lock"],
+      ["mutex_unlock"]
+    ],
+    "explanation": "DEFINE_MUTEX()는 정적으로 mutex를 선언하고 초기화합니다. mutex_lock()은 잠금을 획득하며, 이미 다른 스레드가 보유 중이면 현재 스레드를 sleep 상태로 전환합니다. mutex_unlock()은 잠금을 해제하고 대기 중인 스레드를 깨웁니다."
+  },
+  {
+    "id": "si-008",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "초급",
+    "type": "code-fill",
+    "question": "pipe()를 사용하여 부모 프로세스에서 자식 프로세스로 메시지를 전달하는 코드를 완성하시오.",
+    "codeTemplate": "#include <stdio.h>\n#include <unistd.h>\n#include <string.h>\n#include <sys/wait.h>\n\nint main() {\n    int fd[2];\n    char buf[128];\n    const char *msg = \"Hello from parent\";\n\n    ___;\n\n    pid_t pid = fork();\n    if (pid == 0) {\n        close(fd[___]);\n        read(fd[0], buf, sizeof(buf));\n        printf(\"자식이 받은 메시지: %s\\n\", buf);\n        close(fd[0]);\n    } else {\n        close(fd[0]);\n        write(fd[___], msg, strlen(msg) + 1);\n        close(fd[1]);\n        wait(NULL);\n    }\n    return 0;\n}",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["pipe(fd)"],
+      ["1"],
+      ["1"]
+    ],
+    "explanation": "pipe(fd)는 두 개의 파일 디스크립터를 생성합니다. fd[0]은 읽기용, fd[1]은 쓰기용입니다. 부모가 자식에게 데이터를 보내려면 부모는 fd[1]에 write하고 자식은 fd[0]에서 read합니다. 사용하지 않는 쪽의 파일 디스크립터는 close()로 닫아야 합니다."
+  },
+  {
+    "id": "si-009",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "중급",
+    "type": "multiple-choice",
+    "question": "Linux 커널에서 read-write lock(rwlock)의 동작 방식으로 올바른 것은?",
+    "options": [
+      "읽기 잠금과 쓰기 잠금 모두 한 번에 하나의 스레드만 획득할 수 있다",
+      "여러 스레드가 동시에 읽기 잠금을 획득할 수 있지만, 쓰기 잠금은 배타적이어서 다른 어떤 잠금도 허용하지 않는다",
+      "읽기 잠금과 쓰기 잠금을 동시에 획득할 수 있다",
+      "쓰기 잠금이 항상 읽기 잠금보다 우선순위가 높다"
+    ],
+    "answer": 1,
+    "explanation": "read-write lock은 읽기-쓰기 패턴을 최적화하기 위한 잠금입니다. 여러 reader가 동시에 읽기 잠금을 획득하여 병렬로 읽을 수 있지만, writer가 쓰기 잠금을 획득하면 다른 모든 reader와 writer가 차단됩니다. 읽기가 쓰기보다 빈번한 경우 mutex보다 높은 동시성을 제공합니다."
+  },
+  {
+    "id": "si-010",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "중급",
+    "type": "multiple-choice",
+    "question": "Linux 커널의 completion 메커니즘에 대한 설명으로 올바른 것은?",
+    "options": [
+      "completion은 타이머 기반의 지연 실행 메커니즘이다",
+      "completion은 한 스레드가 특정 작업이 완료될 때까지 대기하고, 다른 스레드가 작업 완료를 알리는 동기화 메커니즘이다",
+      "completion은 mutex의 다른 이름이다",
+      "completion은 사용자 공간에서만 사용 가능한 IPC 방식이다"
+    ],
+    "answer": 1,
+    "explanation": "completion은 한 스레드가 wait_for_completion()으로 대기하고, 다른 스레드가 complete()를 호출하여 작업 완료를 알리는 동기화 메커니즘입니다. 커널 내에서 초기화 완료 대기, 비동기 작업 완료 대기 등에 널리 사용됩니다. mutex와 달리 소유권 개념이 없으며, 이벤트 통지에 특화되어 있습니다."
+  },
+  {
+    "id": "si-011",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "중급",
+    "type": "multiple-choice",
+    "question": "Linux 커널의 atomic 연산에 대한 설명으로 올바른 것은?",
+    "options": [
+      "atomic 연산은 커널 모듈에서만 사용할 수 있다",
+      "atomic 연산은 잠금 없이 하드웨어 수준에서 원자적으로 수행되는 연산으로, atomic_t 타입과 atomic_inc(), atomic_dec() 등의 함수를 제공한다",
+      "atomic 연산은 복잡한 자료구조의 동기화에 적합하다",
+      "atomic 연산은 단일 CPU 시스템에서만 동작한다"
+    ],
+    "answer": 1,
+    "explanation": "Linux 커널의 atomic 연산은 hardware 수준에서 원자성을 보장하는 연산입니다. atomic_t 타입과 atomic_set(), atomic_read(), atomic_inc(), atomic_dec(), atomic_add(), atomic_sub() 등의 함수를 제공합니다. 잠금 오버헤드 없이 카운터 등 단순한 정수 변수에 대한 동기화를 수행할 수 있습니다."
+  },
+  {
+    "id": "si-012",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "중급",
+    "type": "multiple-choice",
+    "question": "System V message queue에 대한 설명으로 올바른 것은?",
+    "options": [
+      "message queue는 같은 스레드 내에서만 사용할 수 있다",
+      "message queue는 프로세스 간에 구조화된 메시지를 비동기적으로 주고받을 수 있으며, 메시지 타입별로 선택적 수신이 가능하다",
+      "message queue는 공유 메모리보다 데이터 전송 속도가 빠르다",
+      "message queue는 커널 3.0 이후 제거되었다"
+    ],
+    "answer": 1,
+    "explanation": "System V message queue는 msgget()으로 생성하고, msgsnd()로 메시지를 전송하며, msgrcv()로 수신합니다. 각 메시지에 타입(type)을 지정할 수 있어, 수신 시 특정 타입의 메시지만 선택적으로 가져올 수 있습니다. 커널이 메시지를 버퍼링하므로 송신자와 수신자가 동시에 실행될 필요가 없습니다."
+  },
+  {
+    "id": "si-013",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "중급",
+    "type": "short-answer",
+    "question": "Linux 커널에서 wait queue(대기 큐)의 역할과 기본 사용 패턴을 설명하시오.",
+    "keywords": ["wait_queue", "wait_event", "wake_up", "sleep"],
+    "sampleAnswer": "wait queue는 특정 조건이 충족될 때까지 프로세스(또는 스레드)를 sleep 상태로 전환하고, 조건이 충족되면 깨우는 메커니즘입니다. wait_event(wq, condition)으로 조건이 참이 될 때까지 대기하고, wake_up(&wq)으로 대기 중인 프로세스를 깨웁니다. 디바이스 드라이버에서 I/O 완료 대기, 버퍼의 데이터 가용성 대기 등에 널리 사용됩니다.",
+    "explanation": "wait queue는 DECLARE_WAIT_QUEUE_HEAD()로 선언하며, wait_event(), wait_event_interruptible(), wait_event_timeout() 등 다양한 대기 함수를 제공합니다. wake_up()은 대기 큐의 모든 프로세스를, wake_up_interruptible()은 TASK_INTERRUPTIBLE 상태의 프로세스만 깨웁니다."
+  },
+  {
+    "id": "si-014",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "중급",
+    "type": "short-answer",
+    "question": "Linux 커널의 futex(Fast Userspace Mutex)란 무엇이며, 기존 동기화 메커니즘 대비 장점을 설명하시오.",
+    "keywords": ["futex", "userspace", "커널 진입", "경합"],
+    "sampleAnswer": "futex는 사용자 공간에서 빠르게 동기화를 수행할 수 있는 메커니즘입니다. 경합이 없는 경우(uncontended case) 사용자 공간에서 atomic 연산만으로 잠금을 획득하므로 커널 진입(system call) 오버헤드가 없습니다. 경합이 발생하는 경우에만 futex() 시스템 콜을 통해 커널에서 대기 큐를 관리합니다. pthread_mutex의 내부 구현에 사용됩니다.",
+    "explanation": "futex는 사용자 공간의 정수 변수와 커널의 대기 큐를 결합한 하이브리드 메커니즘입니다. FUTEX_WAIT 연산으로 특정 값일 때 대기하고, FUTEX_WAKE 연산으로 대기 중인 스레드를 깨웁니다. 대부분의 잠금 획득이 경합 없이 이루어지는 실제 환경에서 높은 성능을 제공합니다."
+  },
+  {
+    "id": "si-015",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "고급",
+    "type": "short-answer",
+    "question": "Linux 커널에서 spinlock 사용 시 주의사항과, spin_lock_irqsave()를 사용해야 하는 상황을 설명하시오.",
+    "keywords": ["spinlock", "인터럽트", "irqsave", "deadlock"],
+    "sampleAnswer": "spinlock을 보유한 상태에서 sleep해서는 안 되며, 임계 영역을 최대한 짧게 유지해야 합니다. 인터럽트 핸들러와 공유하는 데이터를 보호할 때는 spin_lock_irqsave()를 사용해야 합니다. 이 함수는 spinlock 획득과 동시에 로컬 CPU의 인터럽트를 비활성화하여, 인터럽트 핸들러가 같은 spinlock을 획득하려 시도하여 발생하는 deadlock을 방지합니다.",
+    "explanation": "spin_lock()만 사용하면, spinlock을 보유한 상태에서 인터럽트가 발생하고 인터럽트 핸들러가 같은 spinlock을 요청할 경우 deadlock이 발생합니다. spin_lock_irqsave()는 현재 인터럽트 상태를 flags에 저장하고 인터럽트를 비활성화한 후 spinlock을 획득합니다. spin_unlock_irqrestore()로 원래 인터럽트 상태를 복원합니다."
+  },
+  {
+    "id": "si-016",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "중급",
+    "type": "code-fill",
+    "question": "Linux 커널에서 spinlock을 사용하여 인터럽트 컨텍스트와 공유 데이터를 보호하는 코드를 완성하시오.",
+    "codeTemplate": "#include <linux/spinlock.h>\n\nstatic DEFINE_SPINLOCK(my_lock);\nstatic int shared_data = 0;\n\n/* 프로세스 컨텍스트에서 호출 */\nvoid process_context_func(void)\n{\n    unsigned long flags;\n\n    ___(&my_lock, flags);\n    shared_data++;\n    ___(&my_lock, flags);\n}\n\n/* 인터럽트 핸들러에서 호출 */\nirqreturn_t my_irq_handler(int irq, void *dev)\n{\n    spin_lock(&my_lock);\n    shared_data--;\n    spin_unlock(&my_lock);\n    return IRQ_HANDLED;\n}",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["spin_lock_irqsave"],
+      ["spin_unlock_irqrestore"]
+    ],
+    "explanation": "프로세스 컨텍스트에서 인터럽트 핸들러와 공유하는 데이터를 접근할 때는 spin_lock_irqsave()로 인터럽트를 비활성화하면서 spinlock을 획득해야 합니다. 인터럽트 핸들러 내부에서는 이미 인터럽트가 비활성화된 상태이므로 spin_lock()만 사용하면 됩니다."
+  },
+  {
+    "id": "si-017",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "중급",
+    "type": "code-fill",
+    "question": "Linux 커널에서 wait queue를 사용하여 조건이 충족될 때까지 대기하는 코드를 완성하시오.",
+    "codeTemplate": "#include <linux/wait.h>\n#include <linux/sched.h>\n\nstatic DECLARE_WAIT_QUEUE_HEAD(my_wq);\nstatic int condition_flag = 0;\n\n/* 데이터를 기다리는 함수 (읽기 측) */\nvoid wait_for_data(void)\n{\n    ___(my_wq, condition_flag != 0);\n    pr_info(\"조건 충족, 작업 진행\\n\");\n    condition_flag = 0;\n}\n\n/* 데이터를 제공하는 함수 (쓰기 측) */\nvoid provide_data(void)\n{\n    condition_flag = 1;\n    ___(&my_wq);\n}",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["wait_event_interruptible", "wait_event"],
+      ["wake_up", "wake_up_interruptible"]
+    ],
+    "explanation": "wait_event_interruptible()은 조건이 참이 될 때까지 현재 프로세스를 TASK_INTERRUPTIBLE 상태로 sleep시킵니다. wake_up()은 대기 큐에서 sleep 중인 프로세스를 깨웁니다. wait_event_interruptible()은 시그널에 의해 중단될 수 있어 사용자 공간과 상호작용하는 코드에 적합합니다."
+  },
+  {
+    "id": "si-018",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "중급",
+    "type": "code-fill",
+    "question": "Linux 커널에서 completion을 사용하여 비동기 작업의 완료를 대기하는 코드를 완성하시오.",
+    "codeTemplate": "#include <linux/completion.h>\n#include <linux/kthread.h>\n\nstatic DECLARE_COMPLETION(my_completion);\n\nint worker_thread(void *data)\n{\n    pr_info(\"작업 수행 중...\\n\");\n    msleep(1000);\n    pr_info(\"작업 완료\\n\");\n    ___(&my_completion);\n    return 0;\n}\n\nvoid start_and_wait(void)\n{\n    kthread_run(worker_thread, NULL, \"worker\");\n    pr_info(\"작업 완료 대기 중...\\n\");\n    ___(&my_completion);\n    pr_info(\"작업이 완료되었습니다\\n\");\n}",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["complete"],
+      ["wait_for_completion"]
+    ],
+    "explanation": "DECLARE_COMPLETION()으로 completion 구조체를 선언하고, wait_for_completion()으로 완료를 대기합니다. 작업이 끝나면 complete()를 호출하여 대기 중인 스레드를 깨웁니다. complete_all()을 사용하면 여러 대기자를 한 번에 깨울 수 있습니다."
+  },
+  {
+    "id": "si-019",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "고급",
+    "type": "multiple-choice",
+    "question": "Linux 커널의 RCU(Read-Copy-Update) 메커니즘에 대한 설명으로 올바른 것은?",
+    "options": [
+      "RCU는 reader와 writer 모두 잠금을 획득해야 하므로 rwlock보다 느리다",
+      "RCU는 reader가 잠금 없이 데이터를 읽을 수 있게 하고, writer는 데이터의 복사본을 수정한 후 grace period가 지나면 이전 데이터를 해제하는 메커니즘이다",
+      "RCU는 단일 CPU 시스템에서만 동작한다",
+      "RCU는 데이터 쓰기 빈도가 높은 경우에 최적화되어 있다"
+    ],
+    "answer": 1,
+    "explanation": "RCU는 읽기가 매우 빈번하고 쓰기가 드문 상황에 최적화된 동기화 메커니즘입니다. reader는 rcu_read_lock()/rcu_read_unlock() 사이에서 잠금 없이(lock-free) 데이터를 읽습니다. writer는 데이터를 복사하여 수정한 후 포인터를 교체(rcu_assign_pointer)하고, synchronize_rcu()로 grace period를 기다린 후 이전 데이터를 해제합니다."
+  },
+  {
+    "id": "si-020",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "고급",
+    "type": "multiple-choice",
+    "question": "Linux 커널의 seqlock에 대한 설명으로 올바른 것은?",
+    "options": [
+      "seqlock은 semaphore의 다른 이름이다",
+      "seqlock은 reader가 시퀀스 번호를 확인하여 읽기 도중 writer의 변경이 있었는지 감지하고, 변경이 있으면 재시도하는 메커니즘이다",
+      "seqlock은 writer가 reader보다 항상 먼저 실행되도록 보장한다",
+      "seqlock은 포인터가 포함된 자료구조에 가장 적합하다"
+    ],
+    "answer": 1,
+    "explanation": "seqlock은 writer 우선(writer-favoring) 잠금입니다. writer는 시퀀스 카운터를 증가시키면서 쓰기를 수행하고, reader는 읽기 전후의 시퀀스 카운터를 비교하여 값이 변경되었으면 다시 읽습니다. writer가 reader를 블로킹하지 않으므로 쓰기 지연이 적지만, reader가 기아(starvation) 상태가 될 수 있습니다. 포인터가 포함된 구조에는 부적합합니다."
+  },
+  {
+    "id": "si-021",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "고급",
+    "type": "multiple-choice",
+    "question": "Linux 커널에서 memory barrier(메모리 배리어)의 역할로 올바른 것은?",
+    "options": [
+      "메모리 배리어는 메모리 할당 속도를 향상시키는 기법이다",
+      "메모리 배리어는 CPU의 메모리 접근 순서 재배치(reordering)를 방지하여, 배리어 이전의 메모리 연산이 배리어 이후의 연산보다 먼저 완료되도록 보장한다",
+      "메모리 배리어는 캐시를 비활성화하는 명령이다",
+      "메모리 배리어는 x86 아키텍처에서만 필요하다"
+    ],
+    "answer": 1,
+    "explanation": "현대 CPU와 컴파일러는 성능 최적화를 위해 메모리 접근 순서를 재배치할 수 있습니다. 메모리 배리어(mb(), rmb(), wmb(), smp_mb() 등)는 이러한 재배치를 방지하여 멀티프로세서 환경에서 메모리 일관성을 보장합니다. rmb()는 읽기 순서를, wmb()는 쓰기 순서를, mb()는 양쪽 모두를 보장합니다."
+  },
+  {
+    "id": "si-022",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "고급",
+    "type": "short-answer",
+    "question": "Linux 커널에서 RCU의 grace period 개념을 설명하고, synchronize_rcu()와 call_rcu()의 차이점을 서술하시오.",
+    "keywords": ["grace period", "synchronize_rcu", "call_rcu", "reader"],
+    "sampleAnswer": "grace period는 RCU에서 모든 기존 reader가 rcu_read_lock()/rcu_read_unlock() 임계 영역을 벗어나는 것이 보장되는 시간 구간입니다. synchronize_rcu()는 grace period가 완료될 때까지 호출자를 블로킹하여 대기시킵니다. call_rcu()는 비블로킹으로, grace period 완료 후 콜백 함수를 비동기적으로 실행합니다. synchronize_rcu()는 코드가 단순하고 call_rcu()는 성능이 중요한 경우에 사용합니다.",
+    "explanation": "grace period 동안 새로운 reader는 이미 업데이트된 데이터를 보고, 이전 데이터를 참조하는 reader는 없어집니다. 이 시점 이후에 이전 데이터를 안전하게 해제할 수 있습니다. call_rcu()는 softirq 컨텍스트에서 콜백을 실행하므로, 콜백 내에서 sleep이 불가능합니다."
+  },
+  {
+    "id": "si-023",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "고급",
+    "type": "short-answer",
+    "question": "Linux 커널에서 priority inversion(우선순위 역전) 문제와 이를 해결하기 위한 priority inheritance 프로토콜을 설명하시오.",
+    "keywords": ["priority inversion", "priority inheritance", "mutex", "실시간"],
+    "sampleAnswer": "우선순위 역전은 높은 우선순위의 태스크가 낮은 우선순위의 태스크가 보유한 잠금을 기다리는 동안, 중간 우선순위의 태스크가 먼저 실행되어 높은 우선순위 태스크가 무한정 지연되는 현상입니다. priority inheritance 프로토콜은 낮은 우선순위 태스크가 잠금을 보유한 동안 임시로 대기 중인 가장 높은 우선순위 태스크의 우선순위를 상속받아, 중간 우선순위 태스크에 의한 선점을 방지합니다. Linux 커널의 rt_mutex가 이 프로토콜을 구현합니다.",
+    "explanation": "우선순위 역전은 실시간 시스템에서 심각한 문제를 야기할 수 있습니다. Mars Pathfinder 사건이 대표적인 예입니다. Linux의 rt_mutex는 PI(Priority Inheritance) 체인을 통해 중첩된 잠금에서도 우선순위 역전을 해결합니다. CONFIG_RT_MUTEXES 설정으로 활성화됩니다."
+  },
+  {
+    "id": "si-024",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "고급",
+    "type": "code-fill",
+    "question": "Linux 커널에서 RCU를 사용하여 연결 리스트의 노드를 안전하게 업데이트하는 코드를 완성하시오.",
+    "codeTemplate": "#include <linux/rcupdate.h>\n#include <linux/slab.h>\n\nstruct my_data {\n    int value;\n    struct rcu_head rcu;\n};\n\nstatic struct my_data __rcu *global_data;\n\n/* Reader 측 */\nvoid read_data(void)\n{\n    struct my_data *p;\n\n    ___;\n    p = rcu_dereference(global_data);\n    if (p)\n        pr_info(\"값: %d\\n\", p->value);\n    ___;\n}\n\n/* Writer 측 */\nvoid update_data(int new_value)\n{\n    struct my_data *old, *new;\n\n    new = kmalloc(sizeof(*new), GFP_KERNEL);\n    new->value = new_value;\n\n    old = rcu_dereference_protected(global_data, lockdep_is_held(&update_lock));\n    rcu_assign_pointer(global_data, new);\n    ___(old);\n}",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["rcu_read_lock()"],
+      ["rcu_read_unlock()"],
+      ["kfree_rcu", "synchronize_rcu(); kfree"]
+    ],
+    "explanation": "reader는 rcu_read_lock()/rcu_read_unlock() 사이에서 rcu_dereference()로 포인터를 안전하게 읽습니다. writer는 새 데이터를 할당하고 rcu_assign_pointer()로 포인터를 교체한 후, kfree_rcu()로 grace period 이후 이전 데이터를 비동기적으로 해제합니다. 또는 synchronize_rcu() 후 kfree()를 호출할 수도 있습니다."
+  },
+  {
+    "id": "si-025",
+    "category": "linux-kernel",
+    "subcategory": "synchronization-ipc",
+    "difficulty": "고급",
+    "type": "code-fill",
+    "question": "Linux 커널에서 atomic 연산과 memory barrier를 사용하여 lock-free 플래그 기반 동기화를 구현하는 코드를 완성하시오.",
+    "codeTemplate": "#include <linux/atomic.h>\n#include <linux/barrier.h>\n\nstatic atomic_t ready_flag = ATOMIC_INIT(0);\nstatic int shared_payload = 0;\n\n/* Producer: 데이터를 준비하고 플래그를 설정 */\nvoid producer(void)\n{\n    shared_payload = 42;\n    ___;\n    ___(1, &ready_flag);\n}\n\n/* Consumer: 플래그를 확인하고 데이터를 읽음 */\nvoid consumer(void)\n{\n    while (atomic_read(&ready_flag) == 0)\n        cpu_relax();\n    ___;\n    pr_info(\"payload: %d\\n\", shared_payload);\n}",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["smp_wmb()", "wmb()", "smp_mb()"],
+      ["atomic_set", "WRITE_ONCE"],
+      ["smp_rmb()", "rmb()", "smp_mb()"]
+    ],
+    "explanation": "smp_wmb()는 쓰기 메모리 배리어로, shared_payload에 대한 쓰기가 ready_flag 설정보다 먼저 완료되도록 보장합니다. smp_rmb()는 읽기 메모리 배리어로, ready_flag 확인 후 shared_payload를 읽을 때 최신 값을 읽도록 보장합니다. 이 패턴은 lock-free 프로그래밍에서 publish-subscribe 패턴으로 널리 사용됩니다."
+  }
+]

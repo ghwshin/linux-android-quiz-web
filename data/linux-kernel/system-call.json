@@ -1,0 +1,358 @@
+[
+  {
+    "id": "sy-001",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "초급",
+    "type": "multiple-choice",
+    "question": "시스템 콜(system call)의 주요 목적은 무엇인가?",
+    "options": [
+      "프로세스 간 직접 메모리 접근을 허용하기 위해",
+      "사용자 공간(user space)의 프로그램이 커널의 서비스를 안전하게 요청하기 위해",
+      "커널이 사용자 프로그램을 직접 실행하기 위해",
+      "하드웨어 장치를 사용자 모드에서 직접 제어하기 위해"
+    ],
+    "answer": 1,
+    "explanation": "시스템 콜은 사용자 공간의 프로그램이 커널 모드에서만 수행할 수 있는 작업(파일 I/O, 프로세스 생성, 네트워크 통신 등)을 안전하게 요청하는 인터페이스입니다. 사용자 프로그램은 직접 하드웨어에 접근할 수 없으므로, 시스템 콜을 통해 커널에 서비스를 위임합니다."
+  },
+  {
+    "id": "sy-002",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "초급",
+    "type": "multiple-choice",
+    "question": "x86 Linux에서 시스템 콜 번호(syscall number)는 어떤 레지스터에 저장되어 커널에 전달되는가?",
+    "options": [
+      "ebx (x86) / rdi (x86_64)",
+      "ecx (x86) / rsi (x86_64)",
+      "eax (x86) / rax (x86_64)",
+      "edx (x86) / rdx (x86_64)"
+    ],
+    "answer": 2,
+    "explanation": "x86 아키텍처에서 시스템 콜 번호는 eax 레지스터에, x86_64에서는 rax 레지스터에 저장되어 커널에 전달됩니다. 커널은 이 번호를 사용하여 sys_call_table에서 해당하는 시스템 콜 핸들러 함수를 찾아 실행합니다."
+  },
+  {
+    "id": "sy-003",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "초급",
+    "type": "multiple-choice",
+    "question": "strace 명령어의 주요 기능은 무엇인가?",
+    "options": [
+      "커널 모듈의 의존성을 추적한다",
+      "프로세스가 호출하는 시스템 콜과 시그널을 추적(trace)한다",
+      "파일시스템의 변경 사항을 모니터링한다",
+      "네트워크 패킷을 캡처한다"
+    ],
+    "answer": 1,
+    "explanation": "strace는 프로세스가 호출하는 시스템 콜의 이름, 인자, 반환값, 시그널 등을 추적하는 디버깅 도구입니다. 내부적으로 ptrace() 시스템 콜을 사용하여 대상 프로세스를 추적합니다. 'strace ls'와 같이 사용하면 ls 명령이 호출하는 모든 시스템 콜을 확인할 수 있습니다."
+  },
+  {
+    "id": "sy-004",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "초급",
+    "type": "short-answer",
+    "question": "사용자 공간(user space)에서 커널 공간(kernel space)으로의 전환이 필요한 이유와, 이 전환이 발생하는 대표적인 경우를 설명하시오.",
+    "keywords": ["user space", "kernel space", "특권 레벨", "보호"],
+    "sampleAnswer": "사용자 공간에서 커널 공간으로의 전환은 하드웨어 자원 보호와 시스템 안정성을 위해 필요합니다. 사용자 프로그램은 Ring 3(비특권 모드)에서 실행되고, 커널은 Ring 0(특권 모드)에서 실행됩니다. 전환이 발생하는 대표적인 경우로는 시스템 콜 호출, 하드웨어 인터럽트 발생, 예외(exception) 발생이 있습니다.",
+    "explanation": "x86 아키텍처는 Ring 0부터 Ring 3까지 4단계의 특권 레벨을 제공합니다. Linux는 Ring 0(커널 모드)과 Ring 3(사용자 모드)만 사용합니다. 이 분리를 통해 사용자 프로그램이 커널 메모리나 하드웨어를 직접 접근하는 것을 방지하여 시스템 안정성과 보안을 보장합니다."
+  },
+  {
+    "id": "sy-005",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "초급",
+    "type": "short-answer",
+    "question": "int 0x80과 sysenter/syscall 명령어의 차이점을 설명하시오.",
+    "keywords": ["int 0x80", "sysenter", "syscall", "성능"],
+    "sampleAnswer": "int 0x80은 x86에서 소프트웨어 인터럽트를 이용하여 시스템 콜을 호출하는 전통적인 방법입니다. sysenter(32비트)와 syscall(64비트)은 Intel과 AMD가 각각 도입한 빠른 시스템 콜 진입 명령어로, 인터럽트 디스크립터 테이블(IDT) 조회 과정을 생략하여 더 빠르게 커널 모드로 전환됩니다.",
+    "explanation": "int 0x80은 IDT를 통해 인터럽트 핸들러를 찾는 과정이 필요하여 상대적으로 느립니다. sysenter/syscall은 MSR(Model Specific Register)에 미리 설정된 커널 진입점 주소를 사용하므로 오버헤드가 적습니다. 현대 Linux는 vDSO를 통해 최적의 시스템 콜 호출 방식을 자동으로 선택합니다."
+  },
+  {
+    "id": "sy-006",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "초급",
+    "type": "multiple-choice",
+    "question": "Linux 커널에서 시스템 콜 핸들러 함수들의 포인터가 저장되는 테이블의 이름은 무엇인가?",
+    "options": [
+      "interrupt_table",
+      "sys_call_table",
+      "syscall_handler_array",
+      "kernel_func_table"
+    ],
+    "answer": 1,
+    "explanation": "sys_call_table은 시스템 콜 번호를 인덱스로 사용하여 해당 시스템 콜 핸들러 함수의 포인터를 저장하는 배열입니다. 커널이 시스템 콜을 처리할 때 rax(또는 eax) 레지스터에 저장된 시스템 콜 번호로 이 테이블을 참조하여 적절한 핸들러를 호출합니다."
+  },
+  {
+    "id": "sy-007",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "초급",
+    "type": "code-fill",
+    "question": "strace를 사용하여 특정 프로세스의 시스템 콜을 추적하고, 특정 시스템 콜만 필터링하는 명령어를 완성하시오.",
+    "codeTemplate": "# PID가 1234인 프로세스에 연결하여 시스템 콜 추적\nstrace ___ 1234\n\n# open, read, write 시스템 콜만 필터링하여 추적\nstrace -e ___ open,read,write ./my_program",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["-p"],
+      ["trace"]
+    ],
+    "explanation": "strace -p PID는 이미 실행 중인 프로세스에 연결(attach)하여 시스템 콜을 추적합니다. -e trace=syscall_name 옵션을 사용하면 특정 시스템 콜만 필터링하여 출력할 수 있어 디버깅 시 유용합니다."
+  },
+  {
+    "id": "sy-008",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "초급",
+    "type": "code-fill",
+    "question": "copy_from_user()를 사용하여 사용자 공간에서 커널 공간으로 데이터를 안전하게 복사하는 커널 코드를 완성하시오.",
+    "codeTemplate": "#include <linux/uaccess.h>\n\nlong my_syscall(const char __user *user_buf, size_t len) {\n    char kernel_buf[256];\n\n    if (len > sizeof(kernel_buf))\n        return -EINVAL;\n\n    // 사용자 공간에서 커널 공간으로 데이터 복사\n    if (___(___, ___, len)) {\n        return -EFAULT;\n    }\n\n    // kernel_buf 사용...\n    return 0;\n}",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["copy_from_user"],
+      ["kernel_buf"],
+      ["user_buf"]
+    ],
+    "explanation": "copy_from_user(to, from, size)는 사용자 공간 포인터(from)에서 커널 공간 버퍼(to)로 데이터를 안전하게 복사합니다. 사용자 포인터의 유효성을 검증하여, 잘못된 주소 접근 시 커널 패닉 대신 에러를 반환합니다. 복사에 실패하면(반환값 != 0) -EFAULT를 반환하는 것이 관례입니다."
+  },
+  {
+    "id": "sy-009",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "중급",
+    "type": "multiple-choice",
+    "question": "Linux 커널에서 SYSCALL_DEFINEn 매크로의 'n'이 의미하는 것은 무엇인가?",
+    "options": [
+      "시스템 콜의 버전 번호",
+      "시스템 콜이 받는 인자의 개수",
+      "시스템 콜의 우선순위 레벨",
+      "시스템 콜이 지원하는 아키텍처의 수"
+    ],
+    "answer": 1,
+    "explanation": "SYSCALL_DEFINEn 매크로에서 n은 시스템 콜이 받는 인자의 개수를 나타냅니다. 예를 들어, SYSCALL_DEFINE3(read, unsigned int, fd, char __user *, buf, size_t, count)는 3개의 인자를 받는 read 시스템 콜을 정의합니다. n은 0부터 6까지 가능합니다."
+  },
+  {
+    "id": "sy-010",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "중급",
+    "type": "multiple-choice",
+    "question": "시스템 콜 처리 과정에서 entry_SYSCALL_64의 역할로 올바른 것은?",
+    "options": [
+      "시스템 콜 번호를 할당하는 역할을 한다",
+      "사용자 모드의 레지스터를 저장하고, sys_call_table에서 핸들러를 찾아 호출하는 커널 진입점이다",
+      "시스템 콜의 결과를 사용자 공간에 복사하는 역할만 한다",
+      "시스템 콜을 비동기적으로 큐에 넣어 나중에 처리하는 역할을 한다"
+    ],
+    "answer": 1,
+    "explanation": "entry_SYSCALL_64는 x86_64에서 syscall 명령어를 통해 커널에 진입할 때 호출되는 어셈블리 코드입니다. 사용자 모드의 레지스터 상태를 커널 스택(pt_regs)에 저장하고, rax에 저장된 시스템 콜 번호로 sys_call_table에서 적절한 핸들러를 찾아 호출합니다. 시스템 콜 완료 후 사용자 모드로 복귀하는 처리도 담당합니다."
+  },
+  {
+    "id": "sy-011",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "중급",
+    "type": "short-answer",
+    "question": "ioctl() 시스템 콜의 역할과, ioctl 명령 번호를 생성하는 _IO, _IOR, _IOW, _IOWR 매크로의 차이를 설명하시오.",
+    "keywords": ["ioctl", "_IO", "_IOR", "_IOW", "_IOWR", "디바이스 제어"],
+    "sampleAnswer": "ioctl(fd, request, ...)은 파일 디스크립터에 대해 read/write로 표현할 수 없는 디바이스별 제어 명령을 수행하는 시스템 콜입니다. _IO(type, nr)은 데이터 전송이 없는 명령, _IOR(type, nr, datatype)은 커널에서 사용자로 데이터를 읽는 명령, _IOW(type, nr, datatype)은 사용자에서 커널로 데이터를 쓰는 명령, _IOWR(type, nr, datatype)은 양방향 데이터 전송 명령을 정의합니다.",
+    "explanation": "ioctl 매크로는 명령 번호에 방향(direction), 타입(magic number), 번호(sequence number), 데이터 크기를 인코딩하여 충돌을 방지하고 커널이 데이터 복사 방향을 결정할 수 있게 합니다. 각 디바이스 드라이버는 고유한 magic number(type)를 사용하여 ioctl 명령을 구분합니다."
+  },
+  {
+    "id": "sy-012",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "중급",
+    "type": "multiple-choice",
+    "question": "ptrace() 시스템 콜의 주요 용도는 무엇인가?",
+    "options": [
+      "파일시스템의 접근 권한을 추적한다",
+      "다른 프로세스의 실행을 관찰하고 제어하며, 레지스터와 메모리를 읽고 쓸 수 있게 한다",
+      "커널 모듈의 로드/언로드를 추적한다",
+      "프로세스의 CPU 사용 시간을 측정한다"
+    ],
+    "answer": 1,
+    "explanation": "ptrace(Process Trace)는 한 프로세스가 다른 프로세스의 실행을 관찰하고 제어할 수 있게 하는 시스템 콜입니다. GDB 같은 디버거, strace, ltrace 등의 도구가 내부적으로 ptrace를 사용합니다. PTRACE_PEEKDATA로 메모리를 읽고, PTRACE_POKEDATA로 메모리에 쓰며, PTRACE_GETREGS/PTRACE_SETREGS로 레지스터를 조작할 수 있습니다."
+  },
+  {
+    "id": "sy-013",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "중급",
+    "type": "short-answer",
+    "question": "시스템 콜의 전체 처리 흐름을 사용자 프로그램의 호출부터 결과 반환까지 단계별로 설명하시오.",
+    "keywords": ["glibc", "syscall", "커널 모드", "sys_call_table", "반환"],
+    "sampleAnswer": "1) 사용자 프로그램이 glibc 래퍼 함수(예: write())를 호출합니다. 2) glibc는 시스템 콜 번호를 rax에 설정하고 인자를 레지스터(rdi, rsi, rdx, r10, r8, r9)에 배치한 후 syscall 명령어를 실행합니다. 3) CPU가 커널 모드로 전환되고 entry_SYSCALL_64가 실행됩니다. 4) 사용자 레지스터를 커널 스택에 저장하고, rax의 시스템 콜 번호로 sys_call_table에서 핸들러를 찾아 호출합니다. 5) 핸들러가 요청을 처리하고 결과를 반환합니다. 6) 사용자 레지스터를 복원하고 sysretq 명령어로 사용자 모드로 복귀합니다. 7) 반환값이 rax에 저장되어 glibc로 전달되고, 에러 시 errno가 설정됩니다.",
+    "explanation": "시스템 콜 처리는 사용자 모드와 커널 모드 간의 전환을 포함하는 과정입니다. 이 전환에는 레지스터 저장/복원, 권한 레벨 변경 등의 오버헤드가 수반되므로, 빈번한 시스템 콜 호출은 성능에 영향을 줄 수 있습니다."
+  },
+  {
+    "id": "sy-014",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "중급",
+    "type": "short-answer",
+    "question": "copy_from_user()와 copy_to_user()의 역할과, 직접 memcpy() 대신 이 함수들을 사용해야 하는 이유를 설명하시오.",
+    "keywords": ["copy_from_user", "copy_to_user", "주소 검증", "EFAULT"],
+    "sampleAnswer": "copy_from_user()는 사용자 공간에서 커널 공간으로, copy_to_user()는 커널 공간에서 사용자 공간으로 데이터를 복사합니다. memcpy() 대신 이 함수들을 사용해야 하는 이유는 사용자 공간 포인터의 유효성을 검증하고, 접근 불가능한 메모리에 대한 페이지 폴트를 안전하게 처리하기 때문입니다. memcpy()를 직접 사용하면 잘못된 사용자 포인터가 커널 패닉(kernel panic)을 유발할 수 있습니다.",
+    "explanation": "이 함수들은 내부적으로 access_ok()를 호출하여 주소가 사용자 공간 범위 내에 있는지 검사하고, 특수한 예외 처리 테이블(exception table)을 등록하여 페이지 폴트 발생 시 안전하게 에러를 반환합니다. 보안상 커널 코드에서 사용자 공간 포인터를 다룰 때 반드시 사용해야 합니다."
+  },
+  {
+    "id": "sy-015",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "중급",
+    "type": "short-answer",
+    "question": "/proc/kallsyms 파일의 역할과 시스템 콜 디버깅에서의 활용 방법을 설명하시오.",
+    "keywords": ["kallsyms", "커널 심볼", "주소", "sys_call_table"],
+    "sampleAnswer": "/proc/kallsyms는 현재 커널에 로드된 모든 심볼(함수, 변수)의 이름과 메모리 주소를 제공하는 가상 파일입니다. 시스템 콜 디버깅 시 sys_call_table의 주소를 확인하거나, 특정 시스템 콜 핸들러(예: __x64_sys_read)의 주소를 찾는 데 활용할 수 있습니다. 'cat /proc/kallsyms | grep sys_call_table'과 같이 사용합니다.",
+    "explanation": "/proc/kallsyms는 커널 디버깅과 분석에 필수적인 도구입니다. 커널이 CONFIG_KALLSYMS 옵션으로 빌드되어야 사용 가능하며, root 권한이 없으면 주소가 0으로 표시될 수 있습니다(kptr_restrict 설정에 따라). T는 텍스트(코드) 섹션, D는 데이터 섹션의 심볼을 의미합니다."
+  },
+  {
+    "id": "sy-016",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "중급",
+    "type": "code-fill",
+    "question": "SYSCALL_DEFINE 매크로를 사용하여 두 개의 정수를 더하는 커스텀 시스템 콜을 정의하는 커널 코드를 완성하시오.",
+    "codeTemplate": "#include <linux/syscalls.h>\n\n___(my_add, int, a, int, b)\n{\n    pr_info(\"my_add syscall called: %d + %d\\n\", a, b);\n    return a + b;\n}",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["SYSCALL_DEFINE2"]
+    ],
+    "explanation": "SYSCALL_DEFINE2는 2개의 인자를 받는 시스템 콜을 정의하는 매크로입니다. 매크로 이름의 숫자가 인자 개수를 나타냅니다. 이 매크로는 내부적으로 시스템 콜의 엔트리 포인트 함수를 생성하고, 인자의 타입 검증 및 레지스터에서 인자 추출을 처리합니다."
+  },
+  {
+    "id": "sy-017",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "중급",
+    "type": "code-fill",
+    "question": "copy_to_user()를 사용하여 커널 공간의 데이터를 사용자 공간으로 전달하는 시스템 콜 코드를 완성하시오.",
+    "codeTemplate": "#include <linux/syscalls.h>\n#include <linux/uaccess.h>\n#include <linux/string.h>\n\nSYSCALL_DEFINE2(get_kernel_info, char __user *, buf, size_t, len)\n{\n    const char *info = \"Linux Kernel v6.x\";\n    size_t info_len = strlen(info) + 1;\n\n    if (len < info_len)\n        return -EINVAL;\n\n    // 커널 공간에서 사용자 공간으로 데이터 복사\n    if (___(buf, ___, info_len))\n        return -EFAULT;\n\n    return info_len;\n}",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["copy_to_user"],
+      ["info"]
+    ],
+    "explanation": "copy_to_user(to, from, size)는 커널 공간의 데이터(from)를 사용자 공간 버퍼(to)로 안전하게 복사합니다. 복사 실패 시(예: 잘못된 사용자 주소) 0이 아닌 값을 반환하므로, 이를 체크하여 -EFAULT를 반환하는 것이 표준 패턴입니다."
+  },
+  {
+    "id": "sy-018",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "고급",
+    "type": "code-fill",
+    "question": "ioctl 명령 번호를 정의하고 디바이스 드라이버에서 ioctl 핸들러를 구현하는 코드를 완성하시오.",
+    "codeTemplate": "#include <linux/ioctl.h>\n#include <linux/fs.h>\n\n#define MY_IOC_MAGIC 'k'\n// _IOW: 사용자 -> 커널로 데이터를 전달하는 ioctl 명령\n#define MY_IOCTL_SET_VALUE ___(___, 1, int)\n// _IOR: 커널 -> 사용자로 데이터를 전달하는 ioctl 명령\n#define MY_IOCTL_GET_VALUE _IOR(MY_IOC_MAGIC, 2, int)\n\nstatic int my_value = 0;\n\nstatic long my_ioctl(struct file *file, unsigned int cmd,\n                     unsigned long arg)\n{\n    switch (cmd) {\n    case MY_IOCTL_SET_VALUE:\n        if (copy_from_user(&my_value, (int __user *)arg,\n                           sizeof(int)))\n            return -EFAULT;\n        break;\n    case MY_IOCTL_GET_VALUE:\n        if (___((___)arg, &my_value,\n                           sizeof(int)))\n            return -EFAULT;\n        break;\n    default:\n        return -ENOTTY;\n    }\n    return 0;\n}",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["_IOW"],
+      ["MY_IOC_MAGIC"],
+      ["copy_to_user"],
+      ["int __user *"]
+    ],
+    "explanation": "_IOW(type, nr, datatype)는 사용자에서 커널로 데이터를 쓰는 ioctl 명령 번호를 생성합니다. _IOR는 그 반대입니다. ioctl 핸들러에서는 copy_from_user/copy_to_user를 사용하여 안전하게 데이터를 교환하고, 알 수 없는 명령에 대해서는 -ENOTTY를 반환하는 것이 관례입니다."
+  },
+  {
+    "id": "sy-019",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "고급",
+    "type": "multiple-choice",
+    "question": "vDSO(virtual Dynamic Shared Object)의 역할로 올바른 것은?",
+    "options": [
+      "커널 모듈을 사용자 공간에서 직접 로드하기 위한 메커니즘이다",
+      "일부 시스템 콜을 커널 모드 전환 없이 사용자 공간에서 직접 실행할 수 있도록 커널이 매핑하는 공유 라이브러리이다",
+      "가상 파일시스템을 구현하기 위한 커널 인터페이스이다",
+      "동적 링커가 공유 라이브러리를 로드하는 것을 가속화하는 캐시이다"
+    ],
+    "answer": 1,
+    "explanation": "vDSO는 커널이 사용자 프로세스의 주소 공간에 자동으로 매핑하는 작은 공유 라이브러리입니다. gettimeofday(), clock_gettime(), getcpu() 같은 자주 호출되는 시스템 콜을 커널 모드 전환 없이 사용자 공간에서 직접 실행하여 성능을 향상시킵니다. 커널이 공유 메모리 페이지를 통해 필요한 데이터를 업데이트합니다."
+  },
+  {
+    "id": "sy-020",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "고급",
+    "type": "multiple-choice",
+    "question": "Linux 커널에 새로운 시스템 콜을 추가할 때 수정해야 하는 파일 조합으로 올바른 것은?",
+    "options": [
+      "커널 소스 파일, /etc/syscalls.conf, grub.cfg",
+      "시스템 콜 구현 파일, 시스템 콜 테이블(arch/x86/entry/syscalls/syscall_64.tbl), include/linux/syscalls.h 헤더, Makefile",
+      "시스템 콜 구현 파일, /proc/sys/kernel/syscall_table만 수정하면 된다",
+      "커널 소스 파일, init/main.c만 수정하면 된다"
+    ],
+    "answer": 1,
+    "explanation": "새 시스템 콜을 추가하려면: 1) 시스템 콜 핸들러 함수를 구현한 .c 파일을 작성합니다. 2) arch/x86/entry/syscalls/syscall_64.tbl에 새 시스템 콜 번호와 엔트리를 등록합니다. 3) include/linux/syscalls.h에 함수 프로토타입을 선언합니다. 4) 해당 디렉토리의 Makefile에 새 소스 파일을 추가합니다. 5) 커널을 재컴파일합니다."
+  },
+  {
+    "id": "sy-021",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "고급",
+    "type": "multiple-choice",
+    "question": "시스템 콜 처리 중 커널이 시그널 보류(pending signal)를 확인하는 시점은 언제인가?",
+    "options": [
+      "시스템 콜 진입 시에만 확인한다",
+      "시스템 콜 핸들러 실행 중 매 명령어마다 확인한다",
+      "시스템 콜 처리가 완료되고 사용자 모드로 복귀하기 직전에 확인한다",
+      "시그널은 시스템 콜과 무관하게 별도의 타이머에 의해서만 확인된다"
+    ],
+    "answer": 2,
+    "explanation": "커널은 시스템 콜 처리가 완료되고 사용자 모드로 복귀하기 직전에 보류 중인 시그널을 확인합니다. 시그널이 있으면 사용자 모드로 복귀하기 전에 시그널 핸들러를 설정합니다. 이 때문에 TASK_INTERRUPTIBLE 상태에서 대기 중인 시스템 콜은 시그널에 의해 -EINTR을 반환하며 중단될 수 있습니다."
+  },
+  {
+    "id": "sy-022",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "고급",
+    "type": "short-answer",
+    "question": "Linux에서 시스템 콜 필터링에 사용되는 seccomp(Secure Computing Mode)의 동작 원리와 활용 사례를 설명하시오.",
+    "keywords": ["seccomp", "BPF", "샌드박스", "syscall 필터링"],
+    "sampleAnswer": "seccomp은 프로세스가 호출할 수 있는 시스템 콜을 제한하는 커널 보안 기능입니다. SECCOMP_MODE_STRICT 모드에서는 read, write, exit, sigreturn만 허용됩니다. SECCOMP_MODE_FILTER 모드에서는 BPF(Berkeley Packet Filter) 프로그램을 사용하여 시스템 콜 번호와 인자에 따라 허용/거부/종료 등의 정책을 세밀하게 설정할 수 있습니다. Docker 컨테이너, Chrome 브라우저의 샌드박스, Android 앱 격리 등에서 활용됩니다.",
+    "explanation": "seccomp-BPF는 시스템 콜 진입 시점에서 BPF 필터를 실행하여 해당 시스템 콜의 허용 여부를 결정합니다. prctl(PR_SET_SECCOMP) 또는 seccomp() 시스템 콜로 설정하며, 한 번 설정하면 해제할 수 없어(fork된 자식에게도 상속됨) 강력한 샌드박싱이 가능합니다."
+  },
+  {
+    "id": "sy-023",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "고급",
+    "type": "short-answer",
+    "question": "시스템 콜 재시작(restart_syscall) 메커니즘이 필요한 이유와 SA_RESTART 플래그의 역할을 설명하시오.",
+    "keywords": ["EINTR", "SA_RESTART", "restart_syscall", "시그널"],
+    "sampleAnswer": "시스템 콜이 TASK_INTERRUPTIBLE 상태에서 대기 중일 때 시그널이 도착하면, 시스템 콜은 -EINTR 에러로 중단됩니다. 시그널 핸들러 실행 후 원래 시스템 콜을 자동으로 재시작하기 위해 SA_RESTART 플래그를 sigaction()에서 설정할 수 있습니다. 커널은 restart_syscall 메커니즘을 통해 시그널 처리 후 중단된 시스템 콜을 처음부터 다시 실행합니다. nanosleep 같은 시간 기반 시스템 콜은 restart_block을 사용하여 남은 시간만큼만 재시작합니다.",
+    "explanation": "모든 시스템 콜이 SA_RESTART에 의해 자동 재시작되는 것은 아닙니다. read, write 등은 재시작 가능하지만, select, poll, nanosleep 등은 SA_RESTART와 관계없이 -EINTR을 반환할 수 있어 애플리케이션에서 직접 처리해야 합니다."
+  },
+  {
+    "id": "sy-024",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "고급",
+    "type": "code-fill",
+    "question": "x86_64 인라인 어셈블리를 사용하여 syscall 명령어로 write 시스템 콜을 직접 호출하는 코드를 완성하시오.",
+    "codeTemplate": "#include <stdio.h>\n#include <unistd.h>\n\nint main() {\n    const char *msg = \"Hello, syscall!\\n\";\n    long ret;\n    long syscall_nr = 1;  // write의 시스템 콜 번호 (x86_64)\n\n    __asm__ volatile (\n        \"___\"\n        : \"=a\" (ret)\n        : \"a\" (syscall_nr),\n          \"D\" (___),         // rdi = fd (stdout)\n          \"S\" (msg),            // rsi = buf\n          \"d\" ((long)16)        // rdx = count\n        : \"rcx\", \"r11\", \"memory\"\n    );\n\n    return 0;\n}",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["syscall"],
+      ["(long)1", "1", "STDOUT_FILENO"]
+    ],
+    "explanation": "x86_64에서 syscall 명령어는 rax에 시스템 콜 번호, rdi/rsi/rdx/r10/r8/r9에 인자를 설정한 후 호출합니다. write(1, msg, 16)을 호출하기 위해 rdi에 파일 디스크립터 1(stdout), rsi에 버퍼 주소, rdx에 길이를 설정합니다. syscall 명령어 실행 후 커널이 rcx와 r11을 덮어쓰므로 clobber 리스트에 포함합니다."
+  },
+  {
+    "id": "sy-025",
+    "category": "linux-kernel",
+    "subcategory": "system-call",
+    "difficulty": "고급",
+    "type": "code-fill",
+    "question": "커스텀 시스템 콜을 시스템 콜 테이블에 등록하기 위한 syscall_64.tbl 엔트리와, 사용자 공간에서 syscall()로 호출하는 코드를 완성하시오.",
+    "codeTemplate": "/* arch/x86/entry/syscalls/syscall_64.tbl에 추가할 엔트리 */\n/* 번호  ABI    이름           핸들러 */\n/* 451   common my_custom     ___  */\n\n/* 사용자 공간에서 호출하는 코드 */\n#include <stdio.h>\n#include <unistd.h>\n#include <sys/syscall.h>\n\n#define __NR_my_custom 451\n\nint main() {\n    long result = ___(___,  10, 20);\n    printf(\"Result: %ld\\n\", result);\n    return 0;\n}",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["__x64_sys_my_custom"],
+      ["syscall"],
+      ["__NR_my_custom"]
+    ],
+    "explanation": "시스템 콜 테이블 파일(syscall_64.tbl)에 시스템 콜 번호, ABI 타입(common/64/x32), 이름, 핸들러 함수명을 등록합니다. 핸들러 이름은 __x64_sys_ 접두사 규칙을 따릅니다. 사용자 공간에서는 glibc의 syscall() 함수에 시스템 콜 번호와 인자를 전달하여 직접 호출할 수 있습니다. 이 방법은 glibc 래퍼가 없는 새로운 시스템 콜을 호출할 때 유용합니다."
+  }
+]
