@@ -1,0 +1,361 @@
+[
+  {
+    "id": "fs-001",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "초급",
+    "type": "multiple-choice",
+    "question": "리눅스에서 파일 디스크립터(file descriptor)란 무엇인가?",
+    "options": [
+      "파일의 물리적 디스크 주소를 나타내는 값",
+      "프로세스가 열린 파일을 참조하기 위해 사용하는 음이 아닌 정수 값",
+      "파일의 inode 번호와 동일한 값",
+      "파일 시스템의 블록 크기를 나타내는 값"
+    ],
+    "answer": 1,
+    "explanation": "파일 디스크립터는 프로세스가 열린 파일을 참조하기 위해 커널이 할당하는 음이 아닌 정수입니다. 표준 입력(0), 표준 출력(1), 표준 에러(2)가 기본으로 할당되며, 이후 open() 시스템 콜을 통해 새로운 파일 디스크립터가 할당됩니다."
+  },
+  {
+    "id": "fs-002",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "초급",
+    "type": "multiple-choice",
+    "question": "리눅스 VFS(Virtual File System)의 주된 역할은 무엇인가?",
+    "options": [
+      "ext4 파일 시스템만을 지원하기 위한 계층",
+      "다양한 파일 시스템에 대해 통일된 인터페이스를 제공하는 추상화 계층",
+      "디스크의 물리적 블록을 직접 관리하는 드라이버",
+      "네트워크 파일 시스템 전용 프로토콜 계층"
+    ],
+    "answer": 1,
+    "explanation": "VFS(Virtual File System)는 리눅스 커널에서 다양한 파일 시스템(ext4, btrfs, NFS 등)에 대해 공통된 인터페이스를 제공하는 추상화 계층입니다. 사용자 공간의 프로그램은 VFS를 통해 어떤 파일 시스템이든 동일한 시스템 콜(open, read, write 등)로 접근할 수 있습니다."
+  },
+  {
+    "id": "fs-003",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "초급",
+    "type": "multiple-choice",
+    "question": "하드 링크(hard link)와 심볼릭 링크(symbolic link)의 차이점으로 올바른 것은?",
+    "options": [
+      "하드 링크는 다른 파일 시스템에 걸쳐 생성할 수 있지만, 심볼릭 링크는 불가능하다",
+      "심볼릭 링크는 원본 파일이 삭제되면 깨지지만, 하드 링크는 원본과 동일한 inode를 공유하므로 깨지지 않는다",
+      "하드 링크는 디렉토리에 대해서도 자유롭게 생성할 수 있다",
+      "심볼릭 링크는 inode 번호를 공유한다"
+    ],
+    "answer": 1,
+    "explanation": "하드 링크는 원본 파일과 동일한 inode를 공유합니다. 따라서 원본 파일을 삭제해도 inode의 링크 카운트가 0이 되지 않는 한 데이터에 접근할 수 있습니다. 반면 심볼릭 링크는 원본 파일의 경로명을 저장하는 별도의 파일이므로, 원본이 삭제되면 dangling symlink가 됩니다. 또한 하드 링크는 동일 파일 시스템 내에서만 생성 가능하고, 일반적으로 디렉토리에 대한 하드 링크는 허용되지 않습니다."
+  },
+  {
+    "id": "fs-004",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "초급",
+    "type": "short-answer",
+    "question": "리눅스에서 inode란 무엇이며, inode에 저장되는 주요 정보에는 어떤 것들이 있는지 설명하시오.",
+    "keywords": ["inode", "metadata", "permission", "owner", "size", "block"],
+    "sampleAnswer": "inode는 파일 시스템에서 파일이나 디렉토리의 metadata를 저장하는 자료구조입니다. inode에는 파일의 permission(접근 권한), owner(소유자) 및 그룹 정보, file size, 데이터가 저장된 disk block의 위치, 타임스탬프(생성/수정/접근 시간), 링크 카운트 등이 저장됩니다. 단, 파일 이름은 inode가 아닌 디렉토리 엔트리(dentry)에 저장됩니다.",
+    "explanation": "inode는 유닉스 계열 파일 시스템의 핵심 자료구조로, 파일의 메타데이터를 관리합니다. 파일 이름은 inode에 포함되지 않으며, 디렉토리 엔트리가 이름과 inode 번호를 매핑합니다. 이로 인해 하나의 inode에 여러 이름(하드 링크)을 부여할 수 있습니다."
+  },
+  {
+    "id": "fs-005",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "초급",
+    "type": "short-answer",
+    "question": "/proc 파일 시스템은 무엇이며 어떤 용도로 사용되는지 설명하시오.",
+    "keywords": ["proc", "virtual", "kernel", "process"],
+    "sampleAnswer": "/proc는 리눅스 커널이 제공하는 virtual filesystem으로, 디스크에 존재하지 않고 메모리에서 동적으로 생성됩니다. kernel 내부 정보와 각 process의 상태 정보를 사용자 공간에서 파일 형태로 조회하거나 설정할 수 있게 해줍니다. 예를 들어 /proc/cpuinfo, /proc/meminfo, /proc/[pid]/status 등이 있습니다.",
+    "explanation": "/proc 파일 시스템(procfs)은 커널과 프로세스 정보를 파일 인터페이스로 노출하는 가상 파일 시스템입니다. 실제 디스크 I/O 없이 커널 자료구조를 직접 읽거나 수정할 수 있어 시스템 모니터링과 커널 파라미터 튜닝에 활용됩니다."
+  },
+  {
+    "id": "fs-006",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "초급",
+    "type": "code-fill",
+    "question": "다음은 파일을 열고 읽은 후 닫는 기본적인 시스템 콜 사용 코드입니다. 빈칸을 채우시오.",
+    "codeTemplate": "#include <fcntl.h>\n#include <unistd.h>\n\nint main() {\n    char buf[1024];\n    int fd = ___(\"myfile.txt\", O_RDONLY);\n    if (fd < 0) return -1;\n\n    ssize_t n = ___(fd, buf, sizeof(buf));\n\n    ___(fd);\n    return 0;\n}",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["open"],
+      ["read"],
+      ["close"]
+    ],
+    "explanation": "파일 I/O의 기본 흐름은 open() -> read()/write() -> close()입니다. open()은 파일 디스크립터를 반환하고, read()는 파일 디스크립터로부터 데이터를 버퍼로 읽으며, close()는 파일 디스크립터를 해제합니다. 이 세 가지는 리눅스 시스템 프로그래밍의 가장 기본적인 시스템 콜입니다."
+  },
+  {
+    "id": "fs-007",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "초급",
+    "type": "code-fill",
+    "question": "다음은 리눅스에서 파일의 상태 정보를 가져오는 코드입니다. 빈칸을 채우시오.",
+    "codeTemplate": "#include <sys/stat.h>\n#include <stdio.h>\n\nint main() {\n    struct ___ st;\n    if (stat(\"myfile.txt\", &st) == 0) {\n        printf(\"File size: %ld\\n\", st.___);\n        printf(\"Inode number: %ld\\n\", st.___);\n    }\n    return 0;\n}",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["stat"],
+      ["st_size"],
+      ["st_ino"]
+    ],
+    "explanation": "stat() 시스템 콜은 struct stat 구조체에 파일의 메타데이터를 채워줍니다. st_size는 파일의 바이트 크기, st_ino는 inode 번호를 나타냅니다. 이 외에도 st_mode(권한), st_nlink(하드 링크 수), st_uid(소유자 UID) 등 다양한 필드가 있습니다."
+  },
+  {
+    "id": "fs-008",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "초급",
+    "type": "multiple-choice",
+    "question": "리눅스 파일 권한에서 chmod 755가 의미하는 것은?",
+    "options": [
+      "소유자: 읽기+쓰기, 그룹: 읽기, 기타: 없음",
+      "소유자: 읽기+쓰기+실행, 그룹: 읽기+실행, 기타: 읽기+실행",
+      "소유자: 읽기+실행, 그룹: 읽기+쓰기, 기타: 읽기+쓰기",
+      "모든 사용자에게 읽기+쓰기+실행 권한 부여"
+    ],
+    "answer": 1,
+    "explanation": "chmod의 숫자 표기법에서 7=rwx(4+2+1), 5=r-x(4+0+1)입니다. 따라서 755는 소유자에게 읽기+쓰기+실행(7) 권한을, 그룹과 기타 사용자에게 읽기+실행(5) 권한을 부여합니다. 이는 실행 파일이나 디렉토리에 흔히 사용되는 권한 설정입니다."
+  },
+  {
+    "id": "fs-009",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "중급",
+    "type": "multiple-choice",
+    "question": "VFS에서 dentry(directory entry) 객체의 역할로 가장 적절한 것은?",
+    "options": [
+      "디스크 블록의 물리적 위치를 추적한다",
+      "파일 이름과 inode 간의 매핑을 관리하고 경로 탐색 성능을 위한 캐싱을 제공한다",
+      "프로세스별 열린 파일 목록을 관리한다",
+      "파일 시스템의 저널 로그를 기록한다"
+    ],
+    "answer": 1,
+    "explanation": "dentry는 VFS에서 파일 이름과 해당 inode 사이의 매핑을 표현하는 객체입니다. 커널은 dentry cache(dcache)를 유지하여 경로 탐색(path lookup) 시 디스크 접근 없이 빠르게 이름을 해석할 수 있도록 합니다. dentry는 부모-자식 관계를 통해 디렉토리 트리 구조를 메모리에 구성합니다."
+  },
+  {
+    "id": "fs-010",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "중급",
+    "type": "multiple-choice",
+    "question": "superblock 객체에 대한 설명으로 올바르지 않은 것은?",
+    "options": [
+      "마운트된 파일 시스템의 전체적인 메타데이터를 담고 있다",
+      "파일 시스템의 블록 크기, 총 블록 수, 마운트 상태 등의 정보를 포함한다",
+      "VFS의 super_operations 구조체를 통해 파일 시스템별 연산을 호출한다",
+      "각 파일마다 하나의 superblock이 할당된다"
+    ],
+    "answer": 3,
+    "explanation": "superblock은 파일 시스템 전체에 대해 하나만 존재하며, 개별 파일마다 할당되는 것이 아닙니다. superblock은 파일 시스템의 타입, 블록 크기, 상태, 마운트 플래그 등 파일 시스템 수준의 메타데이터를 관리합니다. VFS에서는 struct super_block으로 표현되며, super_operations를 통해 inode 할당/해제 등의 파일 시스템별 연산을 수행합니다."
+  },
+  {
+    "id": "fs-011",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "중급",
+    "type": "multiple-choice",
+    "question": "ext4 파일 시스템에서 저널링(journaling)의 목적은 무엇인가?",
+    "options": [
+      "파일 읽기 성능을 향상시키기 위한 캐싱 메커니즘",
+      "파일 시스템의 암호화를 제공하는 보안 메커니즘",
+      "시스템 충돌이나 정전 후 파일 시스템의 일관성을 보장하기 위한 메커니즘",
+      "파일 압축을 통해 디스크 공간을 절약하는 메커니즘"
+    ],
+    "answer": 2,
+    "explanation": "저널링은 파일 시스템 메타데이터(또는 데이터)의 변경 사항을 실제 반영하기 전에 저널 영역에 먼저 기록하는 기법입니다. 시스템이 비정상 종료되더라도 저널을 재생(replay)하여 파일 시스템을 일관된 상태로 복구할 수 있습니다. ext4는 journal, ordered, writeback 세 가지 저널링 모드를 지원합니다."
+  },
+  {
+    "id": "fs-012",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "중급",
+    "type": "short-answer",
+    "question": "리눅스 커널의 struct file과 struct inode의 차이점을 설명하시오.",
+    "keywords": ["struct file", "struct inode", "process", "open"],
+    "sampleAnswer": "struct inode는 파일 시스템에 존재하는 파일 자체의 메타데이터(크기, 권한, 디스크 블록 위치 등)를 나타내는 커널 객체로, 파일당 하나 존재합니다. 반면 struct file은 프로세스가 open() 시스템 콜로 파일을 열 때마다 생성되는 객체로, 현재 파일 오프셋, 접근 모드(읽기/쓰기) 등 열린 파일 인스턴스의 상태를 관리합니다. 동일한 파일을 여러 프로세스가 열면 하나의 inode에 대해 여러 struct file이 존재할 수 있습니다.",
+    "explanation": "struct inode는 파일의 정적인 속성을 나타내고, struct file은 파일을 연 동적인 상태를 나타냅니다. struct file에는 f_pos(현재 오프셋), f_flags(열기 플래그), f_op(file_operations 포인터) 등이 포함됩니다."
+  },
+  {
+    "id": "fs-013",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "중급",
+    "type": "short-answer",
+    "question": "sysfs(/sys)는 어떤 목적의 파일 시스템이며, /proc과의 차이점은 무엇인지 설명하시오.",
+    "keywords": ["sysfs", "device", "kobject", "kernel"],
+    "sampleAnswer": "sysfs는 커널의 device model과 kobject 계층 구조를 사용자 공간에 노출하는 virtual filesystem입니다. 주로 하드웨어 장치, 드라이버, 버스 등의 정보를 체계적으로 제공합니다. /proc이 주로 process 정보와 다양한 kernel 통계를 혼합하여 제공하는 반면, sysfs는 장치와 드라이버 정보에 특화되어 구조화된 계층적 인터페이스를 제공합니다.",
+    "explanation": "sysfs는 리눅스 2.6에서 도입되었으며, 이전에 /proc에 혼재되어 있던 장치 관련 정보를 분리하여 체계적으로 관리합니다. /sys/class, /sys/devices, /sys/bus 등의 디렉토리로 구성되며, 각 파일은 보통 하나의 속성 값만 포함합니다."
+  },
+  {
+    "id": "fs-014",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "중급",
+    "type": "short-answer",
+    "question": "리눅스에서 mount 명령의 역할과 마운트 시 커널 내부에서 일어나는 과정을 설명하시오.",
+    "keywords": ["mount", "superblock", "vfsmount", "filesystem"],
+    "sampleAnswer": "mount 명령은 특정 filesystem을 디렉토리 트리의 한 지점(mount point)에 연결하는 작업입니다. 커널 내부에서는 해당 파일 시스템의 superblock을 읽어 struct super_block을 초기화하고, vfsmount(또는 struct mount) 구조체를 생성하여 마운트 포인트와 파일 시스템을 연결합니다. 이후 해당 마운트 포인트 아래의 경로 탐색은 새로 마운트된 파일 시스템으로 진행됩니다.",
+    "explanation": "마운트 과정에서 커널은 파일 시스템 타입에 맞는 super_operations의 fill_super 또는 mount 콜백을 호출하여 superblock을 초기화합니다. 마운트된 파일 시스템은 VFS의 마운트 트리에 추가되어 경로 탐색 시 올바른 파일 시스템으로 라우팅됩니다."
+  },
+  {
+    "id": "fs-015",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "중급",
+    "type": "code-fill",
+    "question": "다음은 커널 모듈에서 /proc 파일을 생성하여 읽기 기능을 제공하는 코드입니다. 빈칸을 채우시오.",
+    "codeTemplate": "#include <linux/module.h>\n#include <linux/proc_fs.h>\n#include <linux/seq_file.h>\n\nstatic int my_show(struct seq_file *m, void *v) {\n    seq_printf(m, \"Hello from proc!\\n\");\n    return 0;\n}\n\nstatic int my_open(struct inode *inode, struct file *file) {\n    return single_open(file, ___, NULL);\n}\n\nstatic const struct ___ my_fops = {\n    .open    = my_open,\n    .read    = seq_read,\n    .llseek  = seq_lseek,\n    .release = single_release,\n};\n\nstatic int __init my_init(void) {\n    proc_create(\"my_proc_entry\", 0444, NULL, &___);\n    return 0;\n}",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["my_show"],
+      ["proc_ops", "file_operations"],
+      ["my_fops"]
+    ],
+    "explanation": "proc 파일을 생성할 때는 proc_create()를 사용하며, 파일 연산을 위한 구조체(커널 5.6 이상에서는 struct proc_ops, 이전에는 struct file_operations)를 정의해야 합니다. single_open()은 seq_file 인터페이스의 간편한 래퍼로, show 콜백 함수를 인자로 받아 파일 읽기 시 호출합니다."
+  },
+  {
+    "id": "fs-016",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "중급",
+    "type": "code-fill",
+    "question": "다음은 커널에서 file_operations 구조체를 정의하여 문자 디바이스의 read와 write를 구현하는 코드입니다. 빈칸을 채우시오.",
+    "codeTemplate": "#include <linux/fs.h>\n#include <linux/uaccess.h>\n\nstatic char kbuf[256];\n\nstatic ssize_t my_read(struct file *filp, char __user *buf,\n                       size_t count, loff_t *f_pos) {\n    return copy_to_user(buf, kbuf, count) ? -EFAULT : count;\n}\n\nstatic ssize_t my_write(struct file *filp, const char __user *buf,\n                        size_t count, loff_t *f_pos) {\n    return ___(kbuf, buf, count) ? -EFAULT : count;\n}\n\nstatic const struct file_operations my_fops = {\n    .owner = ___,\n    .___ = my_read,\n    .write = my_write,\n};",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["copy_from_user"],
+      ["THIS_MODULE"],
+      ["read"]
+    ],
+    "explanation": "file_operations 구조체는 VFS가 파일 연산을 수행할 때 호출할 함수 포인터들을 정의합니다. copy_from_user()는 사용자 공간에서 커널 공간으로 데이터를 복사하고, copy_to_user()는 그 반대입니다. THIS_MODULE은 현재 모듈에 대한 참조로, 모듈 사용 중 언로드를 방지합니다."
+  },
+  {
+    "id": "fs-017",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "중급",
+    "type": "code-fill",
+    "question": "다음은 write() 시스템 콜을 사용하여 파일에 데이터를 쓰고, lseek()로 위치를 이동하는 코드입니다. 빈칸을 채우시오.",
+    "codeTemplate": "#include <fcntl.h>\n#include <unistd.h>\n#include <string.h>\n\nint main() {\n    const char *msg = \"Hello, Kernel!\";\n    int fd = open(\"output.txt\", O_WRONLY | O_CREAT | ___, 0644);\n    if (fd < 0) return -1;\n\n    write(fd, msg, strlen(msg));\n\n    /* Move file offset to the beginning */\n    lseek(fd, 0, ___);\n\n    write(fd, \"Hi\", 2);\n    close(fd);\n    return 0;\n}",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["O_TRUNC"],
+      ["SEEK_SET"]
+    ],
+    "explanation": "O_TRUNC 플래그는 파일을 열 때 기존 내용을 모두 삭제합니다. O_CREAT는 파일이 없으면 생성하고, O_WRONLY는 쓰기 전용으로 엽니다. lseek()의 세 번째 인자 SEEK_SET은 파일의 시작 지점을 기준으로 오프셋을 설정합니다. SEEK_CUR은 현재 위치 기준, SEEK_END는 파일 끝 기준입니다."
+  },
+  {
+    "id": "fs-018",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "고급",
+    "type": "short-answer",
+    "question": "리눅스 커널에서 page cache의 역할과, 파일 read/write 시 page cache가 관여하는 흐름을 설명하시오. dirty page의 writeback 메커니즘도 함께 서술하시오.",
+    "keywords": ["page cache", "dirty", "writeback", "readahead", "page"],
+    "sampleAnswer": "page cache는 디스크에서 읽은 파일 데이터를 메모리의 page 단위(보통 4KB)로 캐싱하는 메커니즘입니다. read 시 먼저 page cache에서 해당 페이지를 찾고, 없으면 디스크에서 읽어와 캐싱합니다(readahead로 선행 읽기도 수행). write 시에는 page cache의 페이지에 먼저 기록하고 해당 페이지를 dirty로 표시합니다. dirty page는 커널의 writeback 스레드(예: pdflush, kworker)에 의해 주기적으로 또는 메모리 압박 시 디스크에 기록됩니다. fsync() 시스템 콜로 명시적 동기화도 가능합니다.",
+    "explanation": "page cache는 파일 I/O 성능의 핵심입니다. 반복 읽기 시 디스크 접근 없이 메모리에서 데이터를 제공하고, 쓰기 시에도 즉시 디스크에 쓰지 않고 dirty 페이지로 표시한 뒤 배치 writeback으로 I/O 효율을 높입니다. vm.dirty_ratio, vm.dirty_expire_centisecs 등의 커널 파라미터로 writeback 동작을 제어할 수 있습니다."
+  },
+  {
+    "id": "fs-019",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "고급",
+    "type": "multiple-choice",
+    "question": "ext4의 extent 기반 블록 할당 방식이 전통적인 간접 블록(indirect block) 방식에 비해 가지는 장점으로 올바르지 않은 것은?",
+    "options": [
+      "연속된 블록을 하나의 extent로 표현하여 메타데이터 오버헤드가 줄어든다",
+      "대용량 파일의 순차 접근 성능이 향상된다",
+      "파일의 최대 크기 제한이 완전히 제거된다",
+      "블록 할당의 단편화가 감소한다"
+    ],
+    "answer": 2,
+    "explanation": "extent는 연속된 물리 블록의 시작 위치와 길이로 표현되어, 간접 블록 방식처럼 블록마다 개별 포인터를 저장할 필요가 없습니다. 이로 인해 메타데이터 오버헤드가 줄고 순차 접근 성능이 향상됩니다. 그러나 파일 시스템의 최대 크기 제한이 완전히 제거되는 것은 아닙니다. ext4는 최대 1 EiB 볼륨, 16 TiB 파일 크기 제한이 있습니다."
+  },
+  {
+    "id": "fs-020",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "고급",
+    "type": "multiple-choice",
+    "question": "VFS의 경로 탐색(path lookup) 과정에서 RCU(Read-Copy-Update) walk가 실패하여 ref-walk로 전환되는 상황은?",
+    "options": [
+      "경로에 마운트 포인트가 포함된 경우 항상 전환된다",
+      "dentry가 dcache에 존재하지 않거나, 시퀀스 카운트 불일치 등으로 RCU 보호 하에서 안전한 탐색이 불가능한 경우",
+      "경로가 절대 경로인 경우 항상 ref-walk를 사용한다",
+      "파일이 심볼릭 링크인 경우 항상 전환된다"
+    ],
+    "answer": 1,
+    "explanation": "RCU-walk는 rcu_read_lock() 하에서 참조 카운트 증가 없이 dentry/vfsmount를 탐색하는 최적화된 방식입니다. dentry가 dcache에 없거나, 탐색 중 시퀀스 카운트(d_seq) 불일치가 감지되거나, 중간에 블로킹이 필요한 경우 등 RCU 보호만으로 안전성을 보장할 수 없으면 ref-walk(참조 카운트 기반 탐색)로 폴백합니다."
+  },
+  {
+    "id": "fs-021",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "고급",
+    "type": "multiple-choice",
+    "question": "리눅스 블록 I/O 계층에서 bio 구조체의 역할은?",
+    "options": [
+      "네트워크 패킷을 블록 디바이스로 전송하기 위한 구조체",
+      "파일 시스템의 디렉토리 구조를 표현하는 구조체",
+      "블록 디바이스에 대한 I/O 요청을 메모리 페이지(bio_vec) 목록과 함께 표현하는 구조체",
+      "프로세스의 I/O 스케줄링 우선순위를 관리하는 구조체"
+    ],
+    "answer": 2,
+    "explanation": "struct bio는 블록 I/O 요청을 나타내는 핵심 구조체입니다. bio는 대상 블록 디바이스, 시작 섹터, I/O 방향(읽기/쓰기) 정보와 함께 실제 데이터가 저장된 메모리 페이지들의 목록(bio_vec 배열)을 포함합니다. 파일 시스템이나 page cache에서 블록 디바이스로 I/O를 요청할 때 bio를 생성하여 블록 계층에 제출합니다."
+  },
+  {
+    "id": "fs-022",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "고급",
+    "type": "short-answer",
+    "question": "ext4 저널링의 세 가지 모드(journal, ordered, writeback)의 차이점과 각각의 장단점을 설명하시오.",
+    "keywords": ["journal", "ordered", "writeback", "metadata", "data"],
+    "sampleAnswer": "journal 모드는 metadata와 data 모두를 저널에 기록하여 가장 안전하지만 성능이 낮습니다. ordered 모드(기본값)는 metadata만 저널에 기록하되, 메타데이터를 커밋하기 전에 관련 data 블록이 먼저 디스크에 기록되도록 순서를 보장합니다. writeback 모드는 metadata만 저널에 기록하고 데이터 쓰기 순서를 보장하지 않아 가장 빠르지만, 충돌 시 파일에 오래된 데이터가 노출될 수 있습니다.",
+    "explanation": "ordered 모드가 ext4의 기본 모드인 이유는 성능과 안전성의 균형이 좋기 때문입니다. journal 모드는 모든 데이터를 두 번 쓰므로 성능 부담이 크고, writeback 모드는 충돌 시 stale data exposure 위험이 있습니다."
+  },
+  {
+    "id": "fs-023",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "고급",
+    "type": "short-answer",
+    "question": "VFS의 address_space 객체와 address_space_operations의 역할을 설명하고, page cache와의 관계를 서술하시오.",
+    "keywords": ["address_space", "page cache", "readpage", "writepage", "inode"],
+    "sampleAnswer": "address_space는 inode에 연결된 객체로, 해당 파일의 page cache 페이지들을 관리합니다. 기본적으로 파일의 내용을 페이지 단위로 캐싱하는 컨테이너 역할을 합니다. address_space_operations는 readpage(디스크에서 페이지를 읽어옴), writepage(더티 페이지를 디스크에 기록), write_begin/write_end 등의 콜백을 정의하여 각 파일 시스템이 page cache와 디스크 간의 데이터 전송을 구현합니다.",
+    "explanation": "address_space는 radix tree(또는 xarray)를 사용하여 파일 오프셋과 페이지 간의 매핑을 효율적으로 관리합니다. VFS는 read/write 시스템 콜 처리 시 address_space_operations의 콜백을 호출하여 파일 시스템별로 적절한 방식으로 디스크 I/O를 수행합니다."
+  },
+  {
+    "id": "fs-024",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "고급",
+    "type": "code-fill",
+    "question": "다음은 간단한 커널 파일 시스템의 super_operations와 inode_operations를 정의하는 코드입니다. 빈칸을 채우시오.",
+    "codeTemplate": "#include <linux/fs.h>\n\nstatic struct inode *myfs_alloc_inode(struct super_block *sb) {\n    struct inode *inode = new_inode(sb);\n    if (!inode)\n        return NULL;\n    inode->i_ino = get_next_ino();\n    inode_init_owner(&nop_mnt_idmap, inode, NULL, S_IFREG | 0644);\n    return inode;\n}\n\nstatic const struct super_operations myfs_s_ops = {\n    .alloc_inode = ___,\n    .statfs      = simple_statfs,\n};\n\nstatic const struct ___ myfs_dir_iops = {\n    .lookup = simple_lookup,\n    .mkdir  = simple_mkdir,\n};\n\nstatic int myfs_fill_super(struct super_block *sb, void *data, int silent) {\n    sb->s_op = &___;\n    return 0;\n}",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["myfs_alloc_inode"],
+      ["inode_operations"],
+      ["myfs_s_ops"]
+    ],
+    "explanation": "커널 파일 시스템을 구현할 때 super_operations는 inode 할당/해제, 파일 시스템 정보 조회 등의 연산을, inode_operations는 디렉토리 내 파일 탐색(lookup), 생성(create), 디렉토리 생성(mkdir) 등의 연산을 정의합니다. fill_super 함수에서 sb->s_op에 super_operations를 설정하여 VFS가 해당 연산을 호출할 수 있게 합니다."
+  },
+  {
+    "id": "fs-025",
+    "category": "linux-kernel",
+    "subcategory": "filesystem",
+    "difficulty": "고급",
+    "type": "code-fill",
+    "question": "다음은 커널에서 디렉토리를 순회하며 dentry를 처리하는 iterate_shared 콜백 구현 코드입니다. 빈칸을 채우시오.",
+    "codeTemplate": "#include <linux/fs.h>\n\nstatic int myfs_iterate(struct file *file, struct ___ *ctx) {\n    struct dentry *dentry = file->f_path.dentry;\n    struct inode *inode = d_inode(dentry);\n\n    if (!dir_emit_dots(file, ctx))\n        return 0;\n\n    /* Emit a regular file entry */\n    dir_emit(ctx, \"hello.txt\", 9, inode->___,\n             DT_REG);\n    ctx->___ ++;\n\n    return 0;\n}\n\nstatic const struct file_operations myfs_dir_fops = {\n    .iterate_shared = myfs_iterate,\n    .llseek         = generic_file_llseek,\n};",
+    "codeLanguage": "c",
+    "blankAnswers": [
+      ["dir_context"],
+      ["i_ino"],
+      ["pos"]
+    ],
+    "explanation": "디렉토리 내용을 사용자 공간에 전달하기 위해 iterate_shared 콜백을 구현합니다. struct dir_context는 디렉토리 순회의 상태를 관리하며, dir_emit()은 디렉토리 엔트리 하나를 사용자 공간에 전달합니다. i_ino는 inode 번호, ctx->pos는 현재 디렉토리 탐색 위치를 나타내며, dir_emit_dots()는 '.'과 '..' 엔트리를 자동으로 처리합니다."
+  }
+]
