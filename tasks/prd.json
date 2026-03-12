@@ -68,7 +68,7 @@
         "Typecheck 통과"
       ],
       "priority": 4,
-      "passes": false,
+      "passes": true,
       "notes": "scheduling: CFS, nice, priority, preemption 등. system-call: syscall table, SYSCALL_DEFINE, strace 등. synchronization-ipc: mutex, semaphore, spinlock, pipe, shared memory 등. boot-process: bootloader, initramfs, init, systemd 등."
     },
     {
