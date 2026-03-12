@@ -6,6 +6,8 @@
 - Tailwind v4 with `@tailwindcss/postcss` plugin (no tailwind.config.js needed)
 - Quiz JSON files: plain arrays, IDs use 2-letter subcategory prefix (pm-, mm-, fs-, dd-, etc.) + 3-digit number
 - Per subcategory: 25 quizzes, 8 초급 / 9 중급 / 8 고급, 10 MC / 8 SA / 7 CF
+- Quiz data imports use relative paths `../../data/` from src/lib/, cast as `Quiz[]`
+- Use `subcategory === "all"` to get all quizzes in a category
 
 ---
 
@@ -77,4 +79,20 @@
   - All 10 Android System subcategories now complete with 25 quizzes each = 250 total
   - Combined Linux Kernel (250) + Android System (250) = 500 total quizzes
   - Parallel agent creation continues to work well for independent quiz files
+---
+
+## 2026-03-12 - US-008
+- What was implemented: Quiz data loader and utility functions in src/lib/quiz-loader.ts
+  - Imports all 20 quiz JSON files (10 linux-kernel, 10 android-system)
+  - getQuizzesByCategory(): get all quizzes for a category
+  - getQuizzesBySubcategory(): get quizzes for a specific subcategory (supports "all")
+  - filterQuizzes(): filter by category, subcategory, and difficulty
+  - shuffle(): Fisher-Yates random shuffle
+  - getSubcategoryCounts(): quiz count per subcategory
+  - getCategoryQuizCount(): total quiz count for a category
+- Files changed: src/lib/quiz-loader.ts (new)
+- **Learnings for future iterations:**
+  - JSON imports work with resolveJsonModule in tsconfig, cast to Quiz[] for type safety
+  - Use "all" as subcategory value to load all quizzes in a category
+  - Fisher-Yates shuffle creates a new array (immutable)
 ---
