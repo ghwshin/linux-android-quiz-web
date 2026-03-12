@@ -4,6 +4,8 @@
 - Use `@/*` path alias for imports from `./src/*`
 - Static export via `output: "export"` in next.config.ts
 - Tailwind v4 with `@tailwindcss/postcss` plugin (no tailwind.config.js needed)
+- Quiz JSON files: plain arrays, IDs use 2-letter subcategory prefix (pm-, mm-, fs-, dd-, etc.) + 3-digit number
+- Per subcategory: 25 quizzes, 8 초급 / 9 중급 / 8 고급, 10 MC / 8 SA / 7 CF
 
 ---
 
@@ -15,4 +17,15 @@
   - scripts/ralph is an embedded git repo - must be excluded from tsconfig
   - Tailwind v4 uses `@import "tailwindcss"` instead of `@tailwind` directives
   - Next.js static export configured for SSG deployment
+---
+
+## 2026-03-12 - US-002
+- What was implemented: Linux Kernel quiz data for 3 subcategories - process-management (25 quizzes), memory-management (25 quizzes), filesystem (25 quizzes). Total: 75 quizzes.
+- Files changed: data/linux-kernel/process-management.json, data/linux-kernel/memory-management.json, data/linux-kernel/filesystem.json
+- **Learnings for future iterations:**
+  - Quiz ID convention: 2-letter prefix per subcategory (pm-, mm-, fs-) + 3-digit number
+  - Difficulty distribution per subcategory: 8 초급, 9 중급, 8 고급
+  - Type distribution per subcategory: 10 multiple-choice, 8 short-answer, 7 code-fill
+  - JSON files are plain arrays of Quiz objects (no wrapper object)
+  - code-fill quizzes use "___" markers in codeTemplate, blankAnswers is array of arrays
 ---

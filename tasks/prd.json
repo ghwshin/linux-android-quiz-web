@@ -33,7 +33,7 @@
         "Typecheck 통과"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "notes": "process-management: fork, exec, wait, 프로세스 상태, task_struct 등. memory-management: 가상 메모리, 페이징, slab allocator, mmap 등. filesystem: VFS, inode, dentry, ext4, proc 등. 코드는 C 언어 중심."
     },
     {
