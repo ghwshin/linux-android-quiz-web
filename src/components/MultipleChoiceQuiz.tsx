@@ -9,10 +9,12 @@ export function MultipleChoiceQuiz({
   quiz,
   questionNumber,
   onNext,
+  onResult,
 }: {
   quiz: Quiz;
   questionNumber: number;
   onNext: () => void;
+  onResult?: (correct: boolean) => void;
 }) {
   const [selected, setSelected] = useState<number | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -28,8 +30,10 @@ export function MultipleChoiceQuiz({
 
   function handleSubmit() {
     if (selected === null) return;
+    const correct = selected === quiz.answer;
     setSubmitted(true);
-    saveResult(quiz.id, selected === quiz.answer);
+    saveResult(quiz.id, correct);
+    onResult?.(correct);
   }
 
   return (

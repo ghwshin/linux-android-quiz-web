@@ -10,10 +10,12 @@ export function ShortAnswerQuiz({
   quiz,
   questionNumber,
   onNext,
+  onResult,
 }: {
   quiz: Quiz;
   questionNumber: number;
   onNext: () => void;
+  onResult?: (correct: boolean) => void;
 }) {
   const blankCount = quiz.blankAnswers?.length ?? 0;
   const [answers, setAnswers] = useState<string[]>(() =>
@@ -50,6 +52,7 @@ export function ShortAnswerQuiz({
     const correct = results.every(Boolean);
     setSubmitted(true);
     saveResult(quiz.id, correct);
+    onResult?.(correct);
   }
 
   function updateAnswer(index: number, value: string) {
