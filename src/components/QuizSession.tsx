@@ -9,6 +9,7 @@ import { MultipleChoiceQuiz } from "@/components/MultipleChoiceQuiz";
 import { ShortAnswerQuiz } from "@/components/ShortAnswerQuiz";
 import { CodeFillQuiz } from "@/components/CodeFillQuiz";
 import { BuffTux, type TuxMood } from "@/components/BuffTux";
+import { useQuizMode } from "@/hooks/useQuizMode";
 
 export function QuizSession({
   quizzes,
@@ -24,6 +25,7 @@ export function QuizSession({
   categoryName: string;
 }) {
   const { allProgress } = useQuizProgress();
+  const { mode, toggleMode } = useQuizMode();
 
   const filteredQuizzes = useMemo(() => {
     const unsolved = quizzes.filter((q) => !allProgress[q.id]?.correct);
@@ -136,6 +138,35 @@ export function QuizSession({
       {/* Tux - mobile: above quiz card, desktop: right side */}
       <div className="w-full max-w-3xl flex flex-col md:flex-row gap-4 md:items-start">
         <div className="flex-1 bg-gray-900 border border-gray-700 rounded-xl p-6 min-w-0 order-2 md:order-1">
+          {/* Mode toggle for short-answer / code-fill */}
+          {quiz.type !== "multiple-choice" && quiz.blankDistractors && (
+            <div className="flex justify-end mb-4">
+              <div className="inline-flex rounded-lg border border-gray-700 overflow-hidden text-xs">
+                <button
+                  type="button"
+                  onClick={() => mode !== "normal" && toggleMode()}
+                  className={`px-3 py-1.5 transition-colors ${
+                    mode === "normal"
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-800 text-gray-400 hover:text-gray-200"
+                  }`}
+                >
+                  일반
+                </button>
+                <button
+                  type="button"
+                  onClick={() => mode !== "hard" && toggleMode()}
+                  className={`px-3 py-1.5 transition-colors ${
+                    mode === "hard"
+                      ? "bg-gray-600 text-white"
+                      : "bg-gray-800 text-gray-400 hover:text-gray-200"
+                  }`}
+                >
+                  하드
+                </button>
+              </div>
+            </div>
+          )}
           {quiz.type === "multiple-choice" && (
             <MultipleChoiceQuiz
               key={quiz.id}
@@ -152,6 +183,7 @@ export function QuizSession({
               questionNumber={currentIndex + 1}
               onNext={goNext}
               onResult={handleResult}
+              mode={mode}
             />
           )}
           {quiz.type === "code-fill" && (
@@ -161,6 +193,7 @@ export function QuizSession({
               questionNumber={currentIndex + 1}
               onNext={goNext}
               onResult={handleResult}
+              mode={mode}
             />
           )}
         </div>

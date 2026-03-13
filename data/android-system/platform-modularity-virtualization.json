@@ -167,11 +167,37 @@
     "type": "short-answer",
     "question": "APEX 패키지는 내부에 ___이미지를 포함하며, 부팅 시 ___데몬이 이를 /apex/<name> 경로에 루프 마운트하여 활성화한다. 문제가 발생하면 이전 버전으로 ___이 가능하다.",
     "blankAnswers": [
-      ["ext4", "erofs", "파일시스템"],
-      ["apexd"],
-      ["롤백", "rollback"]
+      [
+        "ext4",
+        "erofs",
+        "파일시스템"
+      ],
+      [
+        "apexd"
+      ],
+      [
+        "롤백",
+        "rollback"
+      ]
     ],
-    "explanation": "APEX 패키지 내부에는 ext4 또는 erofs 형식의 파일시스템 이미지가 포함되어 있습니다. 부팅 시 apexd 데몬이 이 이미지를 /apex/<name>에 루프 마운트하여 시스템에 활성화하며, 업데이트에 문제가 있을 경우 /data/apex에 저장된 이전 버전으로 자동 롤백이 가능합니다."
+    "explanation": "APEX 패키지 내부에는 ext4 또는 erofs 형식의 파일시스템 이미지가 포함되어 있습니다. 부팅 시 apexd 데몬이 이 이미지를 /apex/<name>에 루프 마운트하여 시스템에 활성화하며, 업데이트에 문제가 있을 경우 /data/apex에 저장된 이전 버전으로 자동 롤백이 가능합니다.",
+    "blankDistractors": [
+      [
+        "modinfo",
+        "lshal",
+        "init"
+      ],
+      [
+        "lsmod",
+        "init",
+        "boot"
+      ],
+      [
+        "시작",
+        "재컴파일",
+        "하위 호환성"
+      ]
+    ]
   },
   {
     "id": "mv-012",
@@ -181,11 +207,41 @@
     "type": "short-answer",
     "question": "Mainline에서 ART 런타임은 ___라는 APEX 모듈로 제공되어 ___을 통해 업데이트된다. 이로 인해 ___의 변경도 OS OTA 없이 적용할 수 있다.",
     "blankAnswers": [
-      ["com.android.art"],
-      ["Google Play", "Google Play 시스템 업데이트", "Play 시스템 업데이트"],
-      ["bootclasspath", "부트 클래스패스", "런타임", "core libraries", "libcore", "코어 라이브러리"]
+      [
+        "com.android.art"
+      ],
+      [
+        "Google Play",
+        "Google Play 시스템 업데이트",
+        "Play 시스템 업데이트"
+      ],
+      [
+        "bootclasspath",
+        "부트 클래스패스",
+        "런타임",
+        "core libraries",
+        "libcore",
+        "코어 라이브러리"
+      ]
     ],
-    "explanation": "ART 런타임은 com.android.art APEX로 모듈화되어 Google Play 시스템 업데이트를 통해 배포됩니다. 이를 통해 bootclasspath에 포함된 핵심 Java 라이브러리와 런타임 최적화가 OEM의 OTA 없이도 빠르게 업데이트될 수 있으며, 보안 취약점 대응 속도가 크게 향상됩니다."
+    "explanation": "ART 런타임은 com.android.art APEX로 모듈화되어 Google Play 시스템 업데이트를 통해 배포됩니다. 이를 통해 bootclasspath에 포함된 핵심 Java 라이브러리와 런타임 최적화가 OEM의 OTA 없이도 빠르게 업데이트될 수 있으며, 보안 취약점 대응 속도가 크게 향상됩니다.",
+    "blankDistractors": [
+      [
+        "dmesg",
+        "list",
+        "lshal"
+      ],
+      [
+        "composite disk",
+        "--config-file /path/to/vm_config.json",
+        "--apex-only"
+      ],
+      [
+        "com.android",
+        "checkvintf",
+        "list"
+      ]
+    ]
   },
   {
     "id": "mv-013",
@@ -195,11 +251,36 @@
     "type": "short-answer",
     "question": "GKI에서 Google이 빌드하는 공통 커널 이미지는 ___파티션에 위치하고, 벤더별 커널 모듈은 ___파티션에 .ko 파일로 저장되어 부팅 시 ___를 통해 로드된다.",
     "blankAnswers": [
-      ["boot"],
-      ["vendor_dlkm"],
-      ["modprobe", "insmod", "모듈 로더"]
+      [
+        "boot"
+      ],
+      [
+        "vendor_dlkm"
+      ],
+      [
+        "modprobe",
+        "insmod",
+        "모듈 로더"
+      ]
     ],
-    "explanation": "GKI 커널 이미지는 boot 파티션에 포함되어 Google이 직접 관리하며, 벤더 고유의 드라이버와 기능은 vendor_dlkm 파티션에 로더블 커널 모듈(.ko) 형태로 분리됩니다. 부팅 시 modprobe를 통해 필요한 벤더 모듈이 로드되며, 이 분리 구조 덕분에 커널 업데이트와 벤더 모듈 업데이트가 독립적으로 수행됩니다."
+    "explanation": "GKI 커널 이미지는 boot 파티션에 포함되어 Google이 직접 관리하며, 벤더 고유의 드라이버와 기능은 vendor_dlkm 파티션에 로더블 커널 모듈(.ko) 형태로 분리됩니다. 부팅 시 modprobe를 통해 필요한 벤더 모듈이 로드되며, 이 분리 구조 덕분에 커널 업데이트와 벤더 모듈 업데이트가 독립적으로 수행됩니다.",
+    "blankDistractors": [
+      [
+        "bootclasspath",
+        "dumpsys",
+        "com.android"
+      ],
+      [
+        "com.android.art",
+        "lshal",
+        "modinfo"
+      ],
+      [
+        "com.android",
+        "ext4",
+        "bootclasspath"
+      ]
+    ]
   },
   {
     "id": "mv-014",
@@ -209,11 +290,39 @@
     "type": "short-answer",
     "question": "KMI가 ___되면 해당 커널 버전 내에서 심볼의 ___가 변경되지 않으므로, 벤더 모듈을 ___없이 계속 사용할 수 있다.",
     "blankAnswers": [
-      ["freeze", "동결"],
-      ["ABI", "시그니처", "인터페이스"],
-      ["재컴파일", "다시 빌드", "재빌드"]
+      [
+        "freeze",
+        "동결"
+      ],
+      [
+        "ABI",
+        "시그니처",
+        "인터페이스"
+      ],
+      [
+        "재컴파일",
+        "다시 빌드",
+        "재빌드"
+      ]
     ],
-    "explanation": "KMI freeze는 특정 시점 이후 GKI 커널이 노출하는 심볼의 ABI(Application Binary Interface)를 변경하지 않겠다는 보장입니다. 이를 통해 벤더는 KMI freeze 시점에 빌드한 커널 모듈을 이후의 GKI 커널 업데이트에서도 재컴파일 없이 사용할 수 있어 업데이트 비용이 크게 절감됩니다."
+    "explanation": "KMI freeze는 특정 시점 이후 GKI 커널이 노출하는 심볼의 ABI(Application Binary Interface)를 변경하지 않겠다는 보장입니다. 이를 통해 벤더는 KMI freeze 시점에 빌드한 커널 모듈을 이후의 GKI 커널 업데이트에서도 재컴파일 없이 사용할 수 있어 업데이트 비용이 크게 절감됩니다.",
+    "blankDistractors": [
+      [
+        "apexservice",
+        "init",
+        "boot"
+      ],
+      [
+        "APEX",
+        "X0",
+        "BLOCKED"
+      ],
+      [
+        "시작",
+        "롤백",
+        "재시작"
+      ]
+    ]
   },
   {
     "id": "mv-015",
@@ -223,11 +332,38 @@
     "type": "short-answer",
     "question": "Mainline 모듈은 ___형식(APEX 또는 APK)으로 패키징되며, 모듈 이름은 ___네임스페이스를 사용한다. 각 모듈은 Google의 ___서버를 통해 디바이스에 전달된다.",
     "blankAnswers": [
-      ["APEX", "APK", "APEX 또는 APK"],
-      ["com.android", "com.android.*"],
-      ["Google Play", "Play"]
+      [
+        "APEX",
+        "APK",
+        "APEX 또는 APK"
+      ],
+      [
+        "com.android",
+        "com.android.*"
+      ],
+      [
+        "Google Play",
+        "Play"
+      ]
     ],
-    "explanation": "Mainline 모듈은 용도에 따라 APEX(네이티브/시스템 컴포넌트) 또는 APK(Java 기반 컴포넌트) 형식으로 패키징됩니다. com.android.* 네임스페이스(예: com.android.wifi, com.android.media)로 명명되며, Google Play 시스템 업데이트 인프라를 통해 기기에 배포됩니다."
+    "explanation": "Mainline 모듈은 용도에 따라 APEX(네이티브/시스템 컴포넌트) 또는 APK(Java 기반 컴포넌트) 형식으로 패키징됩니다. com.android.* 네임스페이스(예: com.android.wifi, com.android.media)로 명명되며, Google Play 시스템 업데이트 인프라를 통해 기기에 배포됩니다.",
+    "blankDistractors": [
+      [
+        "ABI",
+        "PRODUCT_PROPERTY_OVERRIDES",
+        "PRODUCT_PACKAGES"
+      ],
+      [
+        "dumpsys",
+        "checkvintf",
+        "vm"
+      ],
+      [
+        "composite disk",
+        "--config-file /path/to/vm_config.json",
+        "--apex-only"
+      ]
+    ]
   },
   {
     "id": "mv-016",
@@ -237,11 +373,34 @@
     "type": "short-answer",
     "question": "AVF에서 VM 생성은 ___시스템 서비스가 관리하며, 실제 VM 실행은 ___VMM(Virtual Machine Monitor)이 담당한다. protected VM에서는 ___하이퍼바이저가 호스트의 게스트 메모리 접근을 차단한다.",
     "blankAnswers": [
-      ["VirtualizationService"],
-      ["crosvm"],
-      ["pKVM"]
+      [
+        "VirtualizationService"
+      ],
+      [
+        "crosvm"
+      ],
+      [
+        "pKVM"
+      ]
     ],
-    "explanation": "AVF 아키텍처에서 VirtualizationService는 Android 시스템 서비스로서 VM의 생명주기(생성, 시작, 중지)를 관리합니다. 실제 하드웨어 에뮬레이션과 VM 실행은 Chrome OS에서 유래한 crosvm이 담당하며, pKVM 하이퍼바이저가 EL2에서 stage-2 페이지 테이블을 관리하여 호스트 커널도 게스트 메모리에 접근할 수 없도록 격리합니다."
+    "explanation": "AVF 아키텍처에서 VirtualizationService는 Android 시스템 서비스로서 VM의 생명주기(생성, 시작, 중지)를 관리합니다. 실제 하드웨어 에뮬레이션과 VM 실행은 Chrome OS에서 유래한 crosvm이 담당하며, pKVM 하이퍼바이저가 EL2에서 stage-2 페이지 테이블을 관리하여 호스트 커널도 게스트 메모리에 접근할 수 없도록 격리합니다.",
+    "blankDistractors": [
+      [
+        "com.android.art",
+        "com.android",
+        "SELinux"
+      ],
+      [
+        "lshal",
+        "vendor_dlkm",
+        "init"
+      ],
+      [
+        "checkvintf",
+        "apexd",
+        "init"
+      ]
+    ]
   },
   {
     "id": "mv-017",
@@ -251,11 +410,37 @@
     "type": "short-answer",
     "question": "Microdroid 부팅 시 ___에서 커널과 initrd가 로드되고, 최소한의 ___프로세스가 실행된다. 호스트 앱과 게스트 간 통신은 ___을 통해 이루어진다.",
     "blankAnswers": [
-      ["composite disk", "부트 이미지", "APEX"],
-      ["init"],
-      ["vsock", "virtio-vsock"]
+      [
+        "composite disk",
+        "부트 이미지",
+        "APEX"
+      ],
+      [
+        "init"
+      ],
+      [
+        "vsock",
+        "virtio-vsock"
+      ]
     ],
-    "explanation": "Microdroid는 crosvm이 composite disk(APEX에서 추출된 커널, initrd, 디스크 이미지를 조합)에서 커널과 initrd를 로드하여 부팅합니다. Microdroid 커널은 호스트 부트 파티션이 아닌 com.android.virt APEX에 포함된 별도의 VM용 커널입니다. 게스트 내부에서는 최소한의 init 프로세스가 시작되어 필요한 서비스만 초기화합니다. 호스트 Android 앱과 Microdroid 게스트 간의 통신은 vsock(virtio-vsock) 소켓을 통해 이루어지며, 이는 네트워크 스택 없이도 호스트-게스트 간 효율적인 데이터 교환을 가능하게 합니다."
+    "explanation": "Microdroid는 crosvm이 composite disk(APEX에서 추출된 커널, initrd, 디스크 이미지를 조합)에서 커널과 initrd를 로드하여 부팅합니다. Microdroid 커널은 호스트 부트 파티션이 아닌 com.android.virt APEX에 포함된 별도의 VM용 커널입니다. 게스트 내부에서는 최소한의 init 프로세스가 시작되어 필요한 서비스만 초기화합니다. 호스트 Android 앱과 Microdroid 게스트 간의 통신은 vsock(virtio-vsock) 소켓을 통해 이루어지며, 이는 네트워크 스택 없이도 호스트-게스트 간 효율적인 데이터 교환을 가능하게 합니다.",
+    "blankDistractors": [
+      [
+        "--config-file /path/to/vm_config.json",
+        "--apex-only",
+        "Google Play"
+      ],
+      [
+        "bootclasspath",
+        "boot",
+        "lsmod"
+      ],
+      [
+        "vm",
+        "checkvintf",
+        "ext4"
+      ]
+    ]
   },
   {
     "id": "mv-018",
@@ -265,11 +450,40 @@
     "type": "short-answer",
     "question": "VINTF 호환성 검사를 통과했지만 런타임에 HAL 서비스 실패가 발생하는 경우, 주요 원인으로 ___정책에 의한 접근 거부, HAL 서비스 프로세스의 ___실패, 또는 하위 의존성 라이브러리의 ___불일치가 있다.",
     "blankAnswers": [
-      ["SELinux", "sepolicy"],
-      ["시작", "실행", "launch", "start"],
-      ["ABI", "버전", "심볼"]
+      [
+        "SELinux",
+        "sepolicy"
+      ],
+      [
+        "시작",
+        "실행",
+        "launch",
+        "start"
+      ],
+      [
+        "ABI",
+        "버전",
+        "심볼"
+      ]
     ],
-    "explanation": "VINTF는 매니페스트 수준의 정적 검증만 수행하므로, 실제 런타임 동작은 보장하지 않습니다. SELinux 정책이 HAL 프로세스의 binder 통신이나 파일 접근을 차단하거나, HAL 서비스 바이너리가 크래시로 시작되지 않거나, 벤더 라이브러리의 ABI가 프레임워크 기대와 불일치하면 매니페스트 검사를 통과해도 런타임 실패가 발생할 수 있습니다."
+    "explanation": "VINTF는 매니페스트 수준의 정적 검증만 수행하므로, 실제 런타임 동작은 보장하지 않습니다. SELinux 정책이 HAL 프로세스의 binder 통신이나 파일 접근을 차단하거나, HAL 서비스 바이너리가 크래시로 시작되지 않거나, 벤더 라이브러리의 ABI가 프레임워크 기대와 불일치하면 매니페스트 검사를 통과해도 런타임 실패가 발생할 수 있습니다.",
+    "blankDistractors": [
+      [
+        "com.android",
+        "list",
+        "pKVM"
+      ],
+      [
+        "재컴파일",
+        "롤백",
+        "단일 구현"
+      ],
+      [
+        "APEX",
+        "DAC",
+        "BOARD_SYSTEMIMAGE_PARTITION_SIZE"
+      ]
+    ]
   },
   {
     "id": "mv-019",
@@ -281,10 +495,26 @@
     "codeTemplate": "adb shell ___ list packages ___",
     "codeLanguage": "shell",
     "blankAnswers": [
-      ["pm"],
-      ["--apex-only"]
+      [
+        "pm"
+      ],
+      [
+        "--apex-only"
+      ]
     ],
-    "explanation": "pm(Package Manager) 명령어에 --apex-only 플래그를 사용하면 일반 APK를 제외하고 APEX 패키지만 필터링하여 출력합니다. 이를 통해 현재 디바이스에 설치된 Mainline APEX 모듈 목록을 빠르게 확인할 수 있습니다."
+    "explanation": "pm(Package Manager) 명령어에 --apex-only 플래그를 사용하면 일반 APK를 제외하고 APEX 패키지만 필터링하여 출력합니다. 이를 통해 현재 디바이스에 설치된 Mainline APEX 모듈 목록을 빠르게 확인할 수 있습니다.",
+    "blankDistractors": [
+      [
+        "apex_manifest.json",
+        "SELinux",
+        "lshal"
+      ],
+      [
+        "Google Play",
+        "composite disk",
+        "--config-file /path/to/vm_config.json"
+      ]
+    ]
   },
   {
     "id": "mv-020",
@@ -296,10 +526,26 @@
     "codeTemplate": "adb shell ___ ___",
     "codeLanguage": "shell",
     "blankAnswers": [
-      ["dumpsys"],
-      ["apexservice"]
+      [
+        "dumpsys"
+      ],
+      [
+        "apexservice"
+      ]
     ],
-    "explanation": "dumpsys apexservice 명령어는 apexd 데몬이 관리하는 모든 APEX 패키지의 상태 정보를 출력합니다. 각 APEX의 이름, 버전, 활성화 경로, 설치 상태(factory/updated) 등의 상세 정보를 확인할 수 있어 APEX 관련 문제 디버깅에 유용합니다."
+    "explanation": "dumpsys apexservice 명령어는 apexd 데몬이 관리하는 모든 APEX 패키지의 상태 정보를 출력합니다. 각 APEX의 이름, 버전, 활성화 경로, 설치 상태(factory/updated) 등의 상세 정보를 확인할 수 있어 APEX 관련 문제 디버깅에 유용합니다.",
+    "blankDistractors": [
+      [
+        "VirtualizationService",
+        "dmesg",
+        "pKVM"
+      ],
+      [
+        "apex_manifest.json",
+        "vsock",
+        "vm"
+      ]
+    ]
   },
   {
     "id": "mv-021",
@@ -311,10 +557,26 @@
     "codeTemplate": "# 현재 로드된 모든 커널 모듈 목록 확인\nadb shell ___\n\n# 특정 벤더 모듈의 상세 정보 확인\nadb shell ___ my_vendor_driver",
     "codeLanguage": "shell",
     "blankAnswers": [
-      ["lsmod"],
-      ["modinfo"]
+      [
+        "lsmod"
+      ],
+      [
+        "modinfo"
+      ]
     ],
-    "explanation": "lsmod 명령어는 현재 커널에 로드된 모든 모듈과 크기, 의존성 정보를 출력합니다. modinfo 명령어는 특정 모듈의 상세 정보(버전, 작성자, 라이선스, 파라미터, 의존성 등)를 확인할 수 있어 vendor_dlkm에서 로드된 벤더 모듈의 상태를 진단하는 데 유용합니다."
+    "explanation": "lsmod 명령어는 현재 커널에 로드된 모든 모듈과 크기, 의존성 정보를 출력합니다. modinfo 명령어는 특정 모듈의 상세 정보(버전, 작성자, 라이선스, 파라미터, 의존성 등)를 확인할 수 있어 vendor_dlkm에서 로드된 벤더 모듈의 상태를 진단하는 데 유용합니다.",
+    "blankDistractors": [
+      [
+        "init",
+        "com.android.art",
+        "list"
+      ],
+      [
+        "pm",
+        "vendor_dlkm",
+        "vsock"
+      ]
+    ]
   },
   {
     "id": "mv-022",
@@ -326,10 +588,26 @@
     "codeTemplate": "# 현재 등록된 HAL 서비스 목록 확인\nadb shell ___\n\n# VINTF 호환성 검증 수행\nadb shell ___",
     "codeLanguage": "shell",
     "blankAnswers": [
-      ["lshal"],
-      ["checkvintf"]
+      [
+        "lshal"
+      ],
+      [
+        "checkvintf"
+      ]
     ],
-    "explanation": "lshal 명령어는 hwservicemanager와 servicemanager에 등록된 모든 HAL 서비스의 인터페이스, 전송 방식(passthrough/hwbinder), PID 등을 출력합니다. checkvintf는 device manifest와 framework compatibility matrix를 비교하여 호환성 위반 사항을 보고하며, OTA 업데이트 전 사전 검증에 활용됩니다."
+    "explanation": "lshal 명령어는 hwservicemanager와 servicemanager에 등록된 모든 HAL 서비스의 인터페이스, 전송 방식(passthrough/hwbinder), PID 등을 출력합니다. checkvintf는 device manifest와 framework compatibility matrix를 비교하여 호환성 위반 사항을 보고하며, OTA 업데이트 전 사전 검증에 활용됩니다.",
+    "blankDistractors": [
+      [
+        "list",
+        "SELinux",
+        "apexd"
+      ],
+      [
+        "list",
+        "vm",
+        "com.android"
+      ]
+    ]
   },
   {
     "id": "mv-023",
@@ -341,10 +619,26 @@
     "codeTemplate": "# 마운트된 APEX 모듈 목록 확인\nadb shell ls ___\n\n# com.android.art APEX의 버전 정보 확인 (JSON 형식)\nadb shell cat /apex/com.android.art/___",
     "codeLanguage": "shell",
     "blankAnswers": [
-      ["/apex"],
-      ["apex_manifest.json"]
+      [
+        "/apex"
+      ],
+      [
+        "apex_manifest.json"
+      ]
     ],
-    "explanation": "/apex 디렉터리에는 활성화된 모든 APEX 모듈이 마운트되어 있으며, 각 모듈 디렉터리 내의 apex_manifest.json 파일에서 모듈 이름과 버전 정보를 확인할 수 있습니다. 바이너리 형식인 apex_manifest.pb도 존재하지만 cat으로 읽을 수 없으며, 이를 읽으려면 protoc --decode 등의 도구가 필요합니다. apex_manifest.json은 사람이 읽을 수 있는 JSON 형식이므로 cat으로 직접 확인 가능합니다."
+    "explanation": "/apex 디렉터리에는 활성화된 모든 APEX 모듈이 마운트되어 있으며, 각 모듈 디렉터리 내의 apex_manifest.json 파일에서 모듈 이름과 버전 정보를 확인할 수 있습니다. 바이너리 형식인 apex_manifest.pb도 존재하지만 cat으로 읽을 수 없으며, 이를 읽으려면 protoc --decode 등의 도구가 필요합니다. apex_manifest.json은 사람이 읽을 수 있는 JSON 형식이므로 cat으로 직접 확인 가능합니다.",
+    "blankDistractors": [
+      [
+        ".hal",
+        ".ninja",
+        "/data/anr/traces.txt"
+      ],
+      [
+        "dumpsys",
+        "SELinux",
+        "VirtualizationService"
+      ]
+    ]
   },
   {
     "id": "mv-024",
@@ -356,11 +650,36 @@
     "codeTemplate": "# VirtualizationService가 실행 중인지 확인\nadb shell service ___ | grep virtualization\n\n# vm 도구로 protected VM 실행 (config 파일 지정)\nadb shell /apex/com.android.virt/bin/___ run ___",
     "codeLanguage": "shell",
     "blankAnswers": [
-      ["list"],
-      ["vm"],
-      ["--config-file /path/to/vm_config.json", "/path/to/vm_config.json", "vm_config.json"]
+      [
+        "list"
+      ],
+      [
+        "vm"
+      ],
+      [
+        "--config-file /path/to/vm_config.json",
+        "/path/to/vm_config.json",
+        "vm_config.json"
+      ]
     ],
-    "explanation": "'adb shell service list'는 현재 등록된 모든 AIDL 서비스를 출력하며, grep으로 virtualization 서비스를 필터링할 수 있습니다. VM 실행은 /apex/com.android.virt/bin/vm 도구를 사용하며, 'vm run --config-file <path>' 형식으로 JSON 설정 파일을 지정하여 커널, initrd, 디스크 이미지 등의 VM 구성을 정의합니다. protected 모드에서는 pKVM이 자동으로 게스트 메모리 격리를 적용합니다."
+    "explanation": "'adb shell service list'는 현재 등록된 모든 AIDL 서비스를 출력하며, grep으로 virtualization 서비스를 필터링할 수 있습니다. VM 실행은 /apex/com.android.virt/bin/vm 도구를 사용하며, 'vm run --config-file <path>' 형식으로 JSON 설정 파일을 지정하여 커널, initrd, 디스크 이미지 등의 VM 구성을 정의합니다. protected 모드에서는 pKVM이 자동으로 게스트 메모리 격리를 적용합니다.",
+    "blankDistractors": [
+      [
+        "init",
+        "kallsyms",
+        "modinfo"
+      ],
+      [
+        "apex_manifest.json",
+        "com.android.art",
+        "pKVM"
+      ],
+      [
+        "composite disk",
+        "--apex-only",
+        "Google Play"
+      ]
+    ]
   },
   {
     "id": "mv-025",
@@ -372,9 +691,25 @@
     "codeTemplate": "# 커널 로그에서 모듈 로드 실패 메시지 확인\nadb shell ___ | grep -E \"module|disagrees about version of symbol\"\n\n# GKI 커널의 KMI 심볼 목록 확인\nadb shell cat /proc/___",
     "codeLanguage": "shell",
     "blankAnswers": [
-      ["dmesg"],
-      ["kallsyms"]
+      [
+        "dmesg"
+      ],
+      [
+        "kallsyms"
+      ]
     ],
-    "explanation": "벤더 모듈이 KMI 불일치로 로드에 실패하면 dmesg에 'disagrees about version of symbol' 또는 'Unknown symbol' 등의 오류가 기록됩니다. /proc/kallsyms는 현재 커널에 로드된 심볼 목록을 보여주어 벤더 모듈이 요구하는 심볼이 존재하는지 확인하는 데 활용할 수 있습니다. 단, /proc/kallsyms는 공식 KMI 심볼 목록이 아니며, 정확한 KMI 호환성 검증에는 빌드 시 생성되는 abi_symbollist 파일이나 'check_abi' 도구를 사용해야 합니다."
+    "explanation": "벤더 모듈이 KMI 불일치로 로드에 실패하면 dmesg에 'disagrees about version of symbol' 또는 'Unknown symbol' 등의 오류가 기록됩니다. /proc/kallsyms는 현재 커널에 로드된 심볼 목록을 보여주어 벤더 모듈이 요구하는 심볼이 존재하는지 확인하는 데 활용할 수 있습니다. 단, /proc/kallsyms는 공식 KMI 심볼 목록이 아니며, 정확한 KMI 호환성 검증에는 빌드 시 생성되는 abi_symbollist 파일이나 'check_abi' 도구를 사용해야 합니다.",
+    "blankDistractors": [
+      [
+        "VirtualizationService",
+        "boot",
+        "dumpsys"
+      ],
+      [
+        "vm",
+        "modprobe",
+        "checkvintf"
+      ]
+    ]
   }
 ]

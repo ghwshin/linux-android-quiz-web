@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import type { Quiz } from "@/types/quiz";
+import type { QuizMode } from "@/hooks/useQuizMode";
 import { useQuizProgress } from "@/hooks/useQuizProgress";
 import { DIFFICULTIES } from "@/lib/constants";
 import { checkBlank } from "@/lib/quiz-utils";
+import { WordBank } from "@/components/WordBank";
 
 const LANGUAGE_LABELS: Record<string, string> = {
   c: "C",
@@ -23,11 +25,13 @@ export function CodeFillQuiz({
   questionNumber,
   onNext,
   onResult,
+  mode = "hard",
 }: {
   quiz: Quiz;
   questionNumber: number;
   onNext: () => void;
   onResult?: (correct: boolean) => void;
+  mode?: QuizMode;
 }) {
   const blankCount = quiz.blankAnswers?.length ?? 0;
   const [answers, setAnswers] = useState<string[]>(() =>
@@ -36,15 +40,27 @@ export function CodeFillQuiz({
   const [submitted, setSubmitted] = useState(false);
   const { saveResult, getResult, clearResult } = useQuizProgress();
 
+  // Word bank state
+  const [filledValues, setFilledValues] = useState<(string | null)[]>(() =>
+    Array(blankCount).fill(null)
+  );
+  const [activeBlankIndex, setActiveBlankIndex] = useState<number | null>(
+    blankCount > 0 ? 0 : null
+  );
+
+  const useWordBank =
+    mode === "normal" && !!quiz.blankDistractors && quiz.blankDistractors.length > 0;
+
   const previousResult = getResult(quiz.id);
   const isAnswered = submitted || previousResult !== undefined;
 
   const blankResults = useMemo(() => {
     if (!submitted || !quiz.blankAnswers) return null;
+    const vals = useWordBank ? filledValues.map((v) => v ?? "") : answers;
     return quiz.blankAnswers.map((acceptable, i) =>
-      checkBlank(answers[i] ?? "", acceptable)
+      checkBlank(vals[i] ?? "", acceptable)
     );
-  }, [submitted, quiz.blankAnswers, answers]);
+  }, [submitted, quiz.blankAnswers, answers, filledValues, useWordBank]);
 
   const isCorrect = submitted
     ? blankResults?.every(Boolean) ?? false
@@ -53,14 +69,25 @@ export function CodeFillQuiz({
   const difficultyInfo = DIFFICULTIES.find((d) => d.id === quiz.difficulty);
 
   function handleSubmit() {
-    if (answers.some((a) => !a.trim())) return;
-    const results = quiz.blankAnswers!.map((acceptable, i) =>
-      checkBlank(answers[i], acceptable)
-    );
-    const correct = results.every(Boolean);
-    setSubmitted(true);
-    saveResult(quiz.id, correct);
-    onResult?.(correct);
+    if (useWordBank) {
+      if (filledValues.some((v) => v === null)) return;
+      const results = quiz.blankAnswers!.map((acceptable, i) =>
+        checkBlank(filledValues[i] ?? "", acceptable)
+      );
+      const correct = results.every(Boolean);
+      setSubmitted(true);
+      saveResult(quiz.id, correct);
+      onResult?.(correct);
+    } else {
+      if (answers.some((a) => !a.trim())) return;
+      const results = quiz.blankAnswers!.map((acceptable, i) =>
+        checkBlank(answers[i], acceptable)
+      );
+      const correct = results.every(Boolean);
+      setSubmitted(true);
+      saveResult(quiz.id, correct);
+      onResult?.(correct);
+    }
   }
 
   function updateAnswer(index: number, value: string) {
@@ -71,6 +98,44 @@ export function CodeFillQuiz({
     });
   }
 
+  const handleChipSelect = useCallback(
+    (value: string) => {
+      if (activeBlankIndex === null) return;
+      setFilledValues((prev) => {
+        const next = [...prev];
+        next[activeBlankIndex] = value;
+        return next;
+      });
+      setActiveBlankIndex((currentActive) => {
+        for (let i = 1; i < blankCount; i++) {
+          const nextIdx = (currentActive! + i) % blankCount;
+          if (filledValues[nextIdx] === null && nextIdx !== currentActive) {
+            return nextIdx;
+          }
+        }
+        return null;
+      });
+    },
+    [activeBlankIndex, blankCount, filledValues]
+  );
+
+  const handleBlankClear = useCallback((index: number) => {
+    setFilledValues((prev) => {
+      const next = [...prev];
+      next[index] = null;
+      return next;
+    });
+    setActiveBlankIndex(index);
+  }, []);
+
+  const wordBankBlanks = useMemo(() => {
+    if (!quiz.blankAnswers || !quiz.blankDistractors) return [];
+    return quiz.blankAnswers.map((answers, i) => ({
+      answer: answers[0],
+      distractors: quiz.blankDistractors![i] ?? [],
+    }));
+  }, [quiz.blankAnswers, quiz.blankDistractors]);
+
   // Split code template into parts around ___ markers
   const codeParts = useMemo(() => {
     if (!quiz.codeTemplate) return [];
@@ -79,6 +144,10 @@ export function CodeFillQuiz({
 
   const langLabel =
     LANGUAGE_LABELS[quiz.codeLanguage ?? ""] ?? quiz.codeLanguage ?? "";
+
+  const isSubmitDisabled = useWordBank
+    ? filledValues.some((v) => v === null)
+    : answers.some((a) => !a.trim());
 
   return (
     <div className="space-y-6">
@@ -128,9 +197,28 @@ export function CodeFillQuiz({
                       }`}
                     >
                       {submitted
-                        ? answers[i] || "___"
+                        ? (useWordBank ? filledValues[i] : answers[i]) || "___"
                         : quiz.blankAnswers?.[i]?.[0] ?? "___"}
                     </span>
+                  ) : useWordBank ? (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        filledValues[i] !== null
+                          ? handleBlankClear(i)
+                          : setActiveBlankIndex(i)
+                      }
+                      className={`inline-block min-w-[60px] px-2 py-0.5 rounded text-sm font-mono transition-all ${
+                        filledValues[i] !== null
+                          ? "bg-gray-800 border border-gray-600 text-gray-200 cursor-pointer hover:border-red-400"
+                          : activeBlankIndex === i
+                            ? "border-dashed border-2 border-blue-400 bg-gray-800 ring-2 ring-blue-400/30 cursor-pointer"
+                            : "border-dashed border border-blue-500/50 bg-gray-800 cursor-pointer"
+                      }`}
+                      data-testid={`blank-slot-${i + 1}`}
+                    >
+                      {filledValues[i] ?? `빈칸 ${i + 1}`}
+                    </button>
                   ) : (
                     <input
                       type="text"
@@ -147,11 +235,22 @@ export function CodeFillQuiz({
         </pre>
       </div>
 
+      {/* Word Bank */}
+      {useWordBank && !isAnswered && (
+        <WordBank
+          blanks={wordBankBlanks}
+          filledValues={filledValues}
+          activeBlankIndex={activeBlankIndex}
+          submitted={submitted}
+          onChipSelect={handleChipSelect}
+        />
+      )}
+
       {/* Submit / Result */}
       {!isAnswered ? (
         <button
           onClick={handleSubmit}
-          disabled={answers.some((a) => !a.trim())}
+          disabled={isSubmitDisabled}
           className="px-6 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
         >
           제출
@@ -207,6 +306,8 @@ export function CodeFillQuiz({
                   clearResult(quiz.id);
                   setSubmitted(false);
                   setAnswers(Array(blankCount).fill(""));
+                  setFilledValues(Array(blankCount).fill(null));
+                  setActiveBlankIndex(0);
                 }}
                 className="px-6 py-2 rounded-lg border border-yellow-600 text-yellow-400 font-medium hover:bg-yellow-600/10 transition-colors"
               >

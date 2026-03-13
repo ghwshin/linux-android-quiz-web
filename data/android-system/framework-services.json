@@ -70,8 +70,38 @@
     "difficulty": "초급",
     "type": "short-answer",
     "question": "___ 프로세스가 fork()를 통해 system_server를 생성하며, SystemServer는 ___ Services, ___ Services, Other Services의 세 단계로 서비스를 시작한다.",
-    "blankAnswers": [["Zygote", "자이고트"], ["Bootstrap", "부트스트랩"], ["Core", "코어"]],
-    "explanation": "SystemServer.main()이 호출되면 내부적으로 run() 메서드에서 startBootstrapServices(), startCoreServices(), startOtherServices() 순서로 서비스를 시작합니다. 서비스 간 의존성 때문에 이 순서가 중요합니다."
+    "blankAnswers": [
+      [
+        "Zygote",
+        "자이고트"
+      ],
+      [
+        "Bootstrap",
+        "부트스트랩"
+      ],
+      [
+        "Core",
+        "코어"
+      ]
+    ],
+    "explanation": "SystemServer.main()이 호출되면 내부적으로 run() 메서드에서 startBootstrapServices(), startCoreServices(), startOtherServices() 순서로 서비스를 시작합니다. 서비스 간 의존성 때문에 이 순서가 중요합니다.",
+    "blankDistractors": [
+      [
+        "dex2oat",
+        "InputManagerService",
+        "PowerManager"
+      ],
+      [
+        "lmkd",
+        "package",
+        "release"
+      ],
+      [
+        "ServiceManager",
+        "lmkd",
+        "Z-order"
+      ]
+    ]
   },
   {
     "id": "fw-006",
@@ -80,8 +110,35 @@
     "difficulty": "초급",
     "type": "short-answer",
     "question": "___는 Binder IPC의 서비스 디렉토리 역할을 하며, ___()로 서비스를 등록하고 ___()로 이름 기반 조회를 수행한다.",
-    "blankAnswers": [["ServiceManager"], ["addService"], ["getService"]],
-    "explanation": "ServiceManager는 네이티브 프로세스로서 Binder의 context manager 역할을 합니다. 모든 시스템 서비스는 ServiceManager에 등록되어야 다른 프로세스에서 접근할 수 있으며, 항상 handle 0번을 가집니다."
+    "blankAnswers": [
+      [
+        "ServiceManager"
+      ],
+      [
+        "addService"
+      ],
+      [
+        "getService"
+      ]
+    ],
+    "explanation": "ServiceManager는 네이티브 프로세스로서 Binder의 context manager 역할을 합니다. 모든 시스템 서비스는 ServiceManager에 등록되어야 다른 프로세스에서 접근할 수 있으며, 항상 handle 0번을 가집니다.",
+    "blankDistractors": [
+      [
+        "Core",
+        "PowerManagerService",
+        "EventHub"
+      ],
+      [
+        "InputReader",
+        "ActivityThread",
+        "activity"
+      ],
+      [
+        "InputManagerService",
+        "Zygote",
+        "PowerManager"
+      ]
+    ]
   },
   {
     "id": "fw-007",
@@ -93,10 +150,26 @@
     "codeTemplate": "adb shell ___ ___",
     "codeLanguage": "shell",
     "blankAnswers": [
-      ["service"],
-      ["list"]
+      [
+        "service"
+      ],
+      [
+        "list"
+      ]
     ],
-    "explanation": "'service list' 명령어는 ServiceManager에 등록된 모든 Binder 서비스의 목록을 출력합니다. 각 서비스의 이름과 인터페이스 정보를 확인할 수 있으며, 디버깅 시 서비스 존재 여부를 확인하는 데 유용합니다."
+    "explanation": "'service list' 명령어는 ServiceManager에 등록된 모든 Binder 서비스의 목록을 출력합니다. 각 서비스의 이름과 인터페이스 정보를 확인할 수 있으며, 디버깅 시 서비스 존재 여부를 확인하는 데 유용합니다.",
+    "blankDistractors": [
+      [
+        "InputManagerService",
+        "ServiceManager",
+        "WakeLock"
+      ],
+      [
+        "package",
+        "release",
+        "Z-order"
+      ]
+    ]
   },
   {
     "id": "fw-008",
@@ -108,10 +181,26 @@
     "codeTemplate": "adb shell ___ ___ activities",
     "codeLanguage": "shell",
     "blankAnswers": [
-      ["dumpsys"],
-      ["activity"]
+      [
+        "dumpsys"
+      ],
+      [
+        "activity"
+      ]
     ],
-    "explanation": "'dumpsys activity activities'는 AMS가 관리하는 현재 Activity 스택과 Task 정보를 출력합니다. 이를 통해 foreground Activity, back stack 상태, Task affinity 등을 확인할 수 있습니다."
+    "explanation": "'dumpsys activity activities'는 AMS가 관리하는 현재 Activity 스택과 Task 정보를 출력합니다. 이를 통해 foreground Activity, back stack 상태, Task affinity 등을 확인할 수 있습니다.",
+    "blankDistractors": [
+      [
+        "dex2oat",
+        "AndroidManifest.xml",
+        "InputManagerService"
+      ],
+      [
+        "AndroidManifest.xml",
+        "Z-order",
+        "Core"
+      ]
+    ]
   },
   {
     "id": "fw-009",
@@ -184,8 +273,36 @@
     "difficulty": "중급",
     "type": "short-answer",
     "question": "WMS는 Window의 크기/위치/___를 관리하고, ___와 협력하여 입력 이벤트를 올바른 Window로 라우팅하며, Surface를 ___에 전달하여 화면 합성을 조율한다.",
-    "blankAnswers": [["Z-order"], ["InputManagerService", "IMS"], ["SurfaceFlinger"]],
-    "explanation": "WMS는 Android 그래픽 스택에서 정책(Policy) 레이어 역할을 합니다. Window의 논리적 배치를 결정하고, 실제 렌더링은 각 앱 프로세스와 SurfaceFlinger가 담당합니다. InputManagerService와 긴밀하게 연동하여 입력 이벤트를 적절한 Window에 전달합니다."
+    "blankAnswers": [
+      [
+        "Z-order"
+      ],
+      [
+        "InputManagerService",
+        "IMS"
+      ],
+      [
+        "SurfaceFlinger"
+      ]
+    ],
+    "explanation": "WMS는 Android 그래픽 스택에서 정책(Policy) 레이어 역할을 합니다. Window의 논리적 배치를 결정하고, 실제 렌더링은 각 앱 프로세스와 SurfaceFlinger가 담당합니다. InputManagerService와 긴밀하게 연동하여 입력 이벤트를 적절한 Window에 전달합니다.",
+    "blankDistractors": [
+      [
+        "startBootstrapServices",
+        "list",
+        "addService"
+      ],
+      [
+        "service",
+        "init",
+        "Core"
+      ],
+      [
+        "PowerManagerService",
+        "Bootstrap",
+        "startCoreServices"
+      ]
+    ]
   },
   {
     "id": "fw-014",
@@ -194,8 +311,39 @@
     "difficulty": "중급",
     "type": "short-answer",
     "question": "___은 ___가 제공하는 메커니즘으로, CPU나 화면을 깨어있는 상태로 유지하며, 적절히 ___하지 않으면 배터리가 빠르게 소모된다.",
-    "blankAnswers": [["WakeLock", "웨이크락"], ["PowerManagerService", "PMS", "PowerManager"], ["release", "해제"]],
-    "explanation": "WakeLock은 반드시 try-finally 패턴이나 타임아웃과 함께 사용하여 확실히 해제되도록 해야 합니다. Android에서는 WakeLock 남용을 방지하기 위해 JobScheduler, WorkManager 등의 대안을 권장합니다."
+    "blankAnswers": [
+      [
+        "WakeLock",
+        "웨이크락"
+      ],
+      [
+        "PowerManagerService",
+        "PMS",
+        "PowerManager"
+      ],
+      [
+        "release",
+        "해제"
+      ]
+    ],
+    "explanation": "WakeLock은 반드시 try-finally 패턴이나 타임아웃과 함께 사용하여 확실히 해제되도록 해야 합니다. Android에서는 WakeLock 남용을 방지하기 위해 JobScheduler, WorkManager 등의 대안을 권장합니다.",
+    "blankDistractors": [
+      [
+        "lmkd",
+        "Core",
+        "Zygote"
+      ],
+      [
+        "startBootstrapServices",
+        "InputDispatcher",
+        "activity"
+      ],
+      [
+        "addService",
+        "activity",
+        "service"
+      ]
+    ]
   },
   {
     "id": "fw-015",
@@ -204,8 +352,35 @@
     "difficulty": "중급",
     "type": "short-answer",
     "question": "IMS의 터치 이벤트 처리에서 ___가 /dev/input에서 raw 이벤트를 읽고, ___가 이를 의미 있는 입력 이벤트로 변환하며, ___가 WMS와 협력하여 올바른 Window에 전달한다.",
-    "blankAnswers": [["EventHub"], ["InputReader"], ["InputDispatcher"]],
-    "explanation": "IMS는 네이티브 C++ 코드(InputReader, InputDispatcher)와 Java Framework 코드(InputManagerService)로 구성됩니다. EventHub는 Linux의 evdev 인터페이스를 통해 하드웨어 이벤트를 읽으며, WMS에 의해 결정된 Window 레이아웃 정보를 기반으로 이벤트를 올바른 Window에 전달합니다."
+    "blankAnswers": [
+      [
+        "EventHub"
+      ],
+      [
+        "InputReader"
+      ],
+      [
+        "InputDispatcher"
+      ]
+    ],
+    "explanation": "IMS는 네이티브 C++ 코드(InputReader, InputDispatcher)와 Java Framework 코드(InputManagerService)로 구성됩니다. EventHub는 Linux의 evdev 인터페이스를 통해 하드웨어 이벤트를 읽으며, WMS에 의해 결정된 Window 레이아웃 정보를 기반으로 이벤트를 올바른 Window에 전달합니다.",
+    "blankDistractors": [
+      [
+        "activity",
+        "Bootstrap",
+        "PowerManagerService"
+      ],
+      [
+        "ServiceManager",
+        "ActivityThread",
+        "list"
+      ],
+      [
+        "service",
+        "package",
+        "PowerManagerService"
+      ]
+    ]
   },
   {
     "id": "fw-016",
@@ -217,10 +392,26 @@
     "codeTemplate": "ServiceManager.___(\"my_service\", new MyService());\n\n// 다른 프로세스에서 서비스 조회\nIBinder binder = ServiceManager.___(\"my_service\");",
     "codeLanguage": "java",
     "blankAnswers": [
-      ["addService"],
-      ["getService"]
+      [
+        "addService"
+      ],
+      [
+        "getService"
+      ]
     ],
-    "explanation": "ServiceManager.addService()로 Binder 서비스를 이름과 함께 등록하고, ServiceManager.getService()로 이름을 사용하여 해당 서비스의 IBinder 핸들을 얻습니다. 이 패턴은 Android의 모든 시스템 서비스가 따르는 기본 등록/조회 메커니즘입니다."
+    "explanation": "ServiceManager.addService()로 Binder 서비스를 이름과 함께 등록하고, ServiceManager.getService()로 이름을 사용하여 해당 서비스의 IBinder 핸들을 얻습니다. 이 패턴은 Android의 모든 시스템 서비스가 따르는 기본 등록/조회 메커니즘입니다.",
+    "blankDistractors": [
+      [
+        "init",
+        "Bootstrap",
+        "dumpsys"
+      ],
+      [
+        "startCoreServices",
+        "Core",
+        "Bootstrap"
+      ]
+    ]
   },
   {
     "id": "fw-017",
@@ -232,10 +423,26 @@
     "codeTemplate": "val powerManager = getSystemService(Context.___) as ___\nval wakeLock = powerManager.newWakeLock(\n    PowerManager.PARTIAL_WAKE_LOCK,\n    \"MyApp::MyWakeLockTag\"\n)",
     "codeLanguage": "kotlin",
     "blankAnswers": [
-      ["POWER_SERVICE"],
-      ["PowerManager"]
+      [
+        "POWER_SERVICE"
+      ],
+      [
+        "PowerManager"
+      ]
     ],
-    "explanation": "Context.getSystemService()는 시스템 서비스의 클라이언트 측 매니저 객체를 반환합니다. POWER_SERVICE 상수를 사용하면 PowerManager 객체를 얻을 수 있으며, 이를 통해 WakeLock을 생성하고 화면/CPU 상태를 제어할 수 있습니다."
+    "explanation": "Context.getSystemService()는 시스템 서비스의 클라이언트 측 매니저 객체를 반환합니다. POWER_SERVICE 상수를 사용하면 PowerManager 객체를 얻을 수 있으며, 이를 통해 WakeLock을 생성하고 화면/CPU 상태를 제어할 수 있습니다.",
+    "blankDistractors": [
+      [
+        "LMK",
+        "CTS",
+        "DIST_DIR"
+      ],
+      [
+        "Core",
+        "activity",
+        "ActivityThread"
+      ]
+    ]
   },
   {
     "id": "fw-018",
@@ -247,10 +454,26 @@
     "codeTemplate": "adb shell ___ ___ packages com.example.myapp",
     "codeLanguage": "shell",
     "blankAnswers": [
-      ["dumpsys"],
-      ["package"]
+      [
+        "dumpsys"
+      ],
+      [
+        "package"
+      ]
     ],
-    "explanation": "'dumpsys package packages <패키지명>'은 PMS에 등록된 특정 패키지의 상세 정보를 출력합니다. 버전 코드, 설치 경로, 퍼미션, IntentFilter, 서명 정보 등을 확인할 수 있어 앱 디버깅에 매우 유용합니다."
+    "explanation": "'dumpsys package packages <패키지명>'은 PMS에 등록된 특정 패키지의 상세 정보를 출력합니다. 버전 코드, 설치 경로, 퍼미션, IntentFilter, 서명 정보 등을 확인할 수 있어 앱 디버깅에 매우 유용합니다.",
+    "blankDistractors": [
+      [
+        "attach",
+        "Zygote",
+        "AndroidManifest.xml"
+      ],
+      [
+        "InputDispatcher",
+        "EventHub",
+        "ActivityThread"
+      ]
+    ]
   },
   {
     "id": "fw-019",
@@ -291,8 +514,37 @@
     "difficulty": "고급",
     "type": "short-answer",
     "question": "___는 메모리 부족 시 프로세스를 종료하는 메커니즘으로, AMS가 프로세스 상태에 따라 ___ 값을 계산하고, ___ 데몬이 이 값이 높은 프로세스부터 종료한다.",
-    "blankAnswers": [["LMK", "Low Memory Killer"], ["oom_score_adj", "oom_adj"], ["lmkd"]],
-    "explanation": "Android에서 oom_score_adj 범위는 -1000(절대 kill 안 됨)부터 1000(가장 먼저 kill됨)까지입니다. native process는 -1000, system_server는 -900, foreground app은 0, cached app은 900~999 정도의 값을 가집니다. 최신 Android에서는 커널 레벨 LMK 대신 사용자 공간의 lmkd 데몬이 PSI(Pressure Stall Information)를 활용합니다. 참고로 구버전에서는 oom_adj를 사용했으나 현재는 oom_score_adj가 표준 용어입니다."
+    "blankAnswers": [
+      [
+        "LMK",
+        "Low Memory Killer"
+      ],
+      [
+        "oom_score_adj",
+        "oom_adj"
+      ],
+      [
+        "lmkd"
+      ]
+    ],
+    "explanation": "Android에서 oom_score_adj 범위는 -1000(절대 kill 안 됨)부터 1000(가장 먼저 kill됨)까지입니다. native process는 -1000, system_server는 -900, foreground app은 0, cached app은 900~999 정도의 값을 가집니다. 최신 Android에서는 커널 레벨 LMK 대신 사용자 공간의 lmkd 데몬이 PSI(Pressure Stall Information)를 활용합니다. 참고로 구버전에서는 oom_adj를 사용했으나 현재는 oom_score_adj가 표준 용어입니다.",
+    "blankDistractors": [
+      [
+        "POWER_SERVICE",
+        "PRODUCT_PACKAGES",
+        "X7"
+      ],
+      [
+        "WakeLock",
+        "dex2oat",
+        "EventHub"
+      ],
+      [
+        "PowerManagerService",
+        "Core",
+        "activity"
+      ]
+    ]
   },
   {
     "id": "fw-022",
@@ -301,8 +553,37 @@
     "difficulty": "고급",
     "type": "short-answer",
     "question": "system_server가 비정상 종료되면 ___가 이를 감지하고 종료되며, ___ 프로세스가 Zygote를 재시작하여 시스템이 ___상태가 된다.",
-    "blankAnswers": [["Zygote", "자이고트"], ["init"], ["소프트 리부팅", "soft reboot"]],
-    "explanation": "system_server는 Android의 핵심 프로세스이므로 종료 시 전체 사용자 공간이 재시작됩니다. Watchdog가 system_server의 hang을 감지하여 의도적으로 종료시키는 경우도 있습니다. 커널은 재부팅되지 않으므로 하드웨어 리셋보다는 빠르게 복구됩니다."
+    "blankAnswers": [
+      [
+        "Zygote",
+        "자이고트"
+      ],
+      [
+        "init"
+      ],
+      [
+        "소프트 리부팅",
+        "soft reboot"
+      ]
+    ],
+    "explanation": "system_server는 Android의 핵심 프로세스이므로 종료 시 전체 사용자 공간이 재시작됩니다. Watchdog가 system_server의 hang을 감지하여 의도적으로 종료시키는 경우도 있습니다. 커널은 재부팅되지 않으므로 하드웨어 리셋보다는 빠르게 복구됩니다.",
+    "blankDistractors": [
+      [
+        "PowerManagerService",
+        "startBootstrapServices",
+        "InputManagerService"
+      ],
+      [
+        "startCoreServices",
+        "package",
+        "getService"
+      ],
+      [
+        "서명",
+        "도메인",
+        "선언적"
+      ]
+    ]
   },
   {
     "id": "fw-023",
@@ -311,8 +592,46 @@
     "difficulty": "고급",
     "type": "short-answer",
     "question": "PMS의 APK 설치 과정은 ___을 검증하고, ___을 파싱하여 정보를 추출한 후, ___를 통해 AOT 컴파일을 수행하고, ___디렉토리를 생성하여 UID/GID를 할당한다.",
-    "blankAnswers": [["서명", "signature"], ["AndroidManifest.xml", "매니페스트"], ["dex2oat"], ["/data/data/", "/data/user/"]],
-    "explanation": "PMS는 설치 시 기존 앱과의 서명 일치 여부(업데이트 시), 퍼미션 충돌, 저장 공간 등도 확인합니다. dex2oat를 통한 AOT 컴파일은 항상 수행되는 것은 아니며, Android 7.0 이후에는 프로파일 기반의 선택적 컴파일이 적용되어 설치 시에는 verify 또는 speed-profile 수준만 수행될 수 있습니다. 앱 데이터 디렉토리는 /data/data/<패키지명> 또는 /data/user/<userId>/<패키지명> 경로에 생성됩니다. 설치 완료 후 PACKAGE_ADDED 브로드캐스트를 전송합니다."
+    "blankAnswers": [
+      [
+        "서명",
+        "signature"
+      ],
+      [
+        "AndroidManifest.xml",
+        "매니페스트"
+      ],
+      [
+        "dex2oat"
+      ],
+      [
+        "/data/data/",
+        "/data/user/"
+      ]
+    ],
+    "explanation": "PMS는 설치 시 기존 앱과의 서명 일치 여부(업데이트 시), 퍼미션 충돌, 저장 공간 등도 확인합니다. dex2oat를 통한 AOT 컴파일은 항상 수행되는 것은 아니며, Android 7.0 이후에는 프로파일 기반의 선택적 컴파일이 적용되어 설치 시에는 verify 또는 speed-profile 수준만 수행될 수 있습니다. 앱 데이터 디렉토리는 /data/data/<패키지명> 또는 /data/user/<userId>/<패키지명> 경로에 생성됩니다. 설치 완료 후 PACKAGE_ADDED 브로드캐스트를 전송합니다.",
+    "blankDistractors": [
+      [
+        "소프트 리부팅",
+        "타입 안전성",
+        "녹색"
+      ],
+      [
+        "PowerManager",
+        "PowerManagerService",
+        "service"
+      ],
+      [
+        "Core",
+        "EventHub",
+        "package"
+      ],
+      [
+        "/data/anr/traces.txt",
+        "/dev",
+        ".aidl"
+      ]
+    ]
   },
   {
     "id": "fw-024",
@@ -324,10 +643,26 @@
     "codeTemplate": "private void run() {\n    // ...\n    try {\n        ___();\n        ___();\n        startOtherServices();\n    } catch (Throwable ex) {\n        throw ex;\n    }\n}",
     "codeLanguage": "java",
     "blankAnswers": [
-      ["startBootstrapServices"],
-      ["startCoreServices"]
+      [
+        "startBootstrapServices"
+      ],
+      [
+        "startCoreServices"
+      ]
     ],
-    "explanation": "SystemServer의 run() 메서드는 startBootstrapServices(), startCoreServices(), startOtherServices() 순서로 서비스를 시작합니다. Bootstrap 서비스에는 AMS, PMS 등 다른 서비스의 기반이 되는 핵심 서비스가 포함되고, Core 서비스는 BatteryService 등, Other 서비스에는 WMS, IMS 등이 포함됩니다."
+    "explanation": "SystemServer의 run() 메서드는 startBootstrapServices(), startCoreServices(), startOtherServices() 순서로 서비스를 시작합니다. Bootstrap 서비스에는 AMS, PMS 등 다른 서비스의 기반이 되는 핵심 서비스가 포함되고, Core 서비스는 BatteryService 등, Other 서비스에는 WMS, IMS 등이 포함됩니다.",
+    "blankDistractors": [
+      [
+        "Z-order",
+        "package",
+        "getService"
+      ],
+      [
+        "oom_score_adj",
+        "service",
+        "attach"
+      ]
+    ]
   },
   {
     "id": "fw-025",
@@ -339,9 +674,25 @@
     "codeTemplate": "// AMS가 새 앱 프로세스를 시작할 때\nProcessList.startProcessLocked(...) {\n    // Zygote에 프로세스 fork 요청\n    Process.start(\"android.app.___\",\n        app.processName, uid, gid, ...);\n}\n\n// 새 프로세스에서 실행되는 진입점\npublic static void main(String[] args) {\n    Looper.prepareMainLooper();\n    ActivityThread thread = new ActivityThread();\n    thread.___(false);\n    Looper.loop();\n}",
     "codeLanguage": "java",
     "blankAnswers": [
-      ["ActivityThread"],
-      ["attach"]
+      [
+        "ActivityThread"
+      ],
+      [
+        "attach"
+      ]
     ],
-    "explanation": "AMS가 새 앱을 시작하면 Zygote에 fork를 요청하고, 새 프로세스에서 ActivityThread.main()이 실행됩니다. ActivityThread는 앱 프로세스의 메인 스레드를 관리하며, attach() 메서드를 통해 AMS에 자신을 등록합니다. 이후 Looper.loop()으로 메시지 루프에 진입하여 AMS로부터의 생명주기 콜백을 처리합니다."
+    "explanation": "AMS가 새 앱을 시작하면 Zygote에 fork를 요청하고, 새 프로세스에서 ActivityThread.main()이 실행됩니다. ActivityThread는 앱 프로세스의 메인 스레드를 관리하며, attach() 메서드를 통해 AMS에 자신을 등록합니다. 이후 Looper.loop()으로 메시지 루프에 진입하여 AMS로부터의 생명주기 콜백을 처리합니다.",
+    "blankDistractors": [
+      [
+        "ServiceManager",
+        "Bootstrap",
+        "list"
+      ],
+      [
+        "dumpsys",
+        "release",
+        "WakeLock"
+      ]
+    ]
   }
 ]

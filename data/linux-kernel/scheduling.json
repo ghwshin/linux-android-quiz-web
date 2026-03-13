@@ -54,8 +54,29 @@
     "difficulty": "초급",
     "type": "short-answer",
     "question": "CFS에서 ___는 실제 CPU 실행 시간을 nice 값 가중치로 정규화한 가상 실행 시간이며, CFS는 이 값이 가장 작은 프로세스를 다음에 실행한다. 프로세스들은 이 값을 키로 ___ 트리에 정렬된다.",
-    "blankAnswers": [["vruntime", "virtual runtime"], ["red-black", "레드-블랙"]],
-    "explanation": "vruntime은 CFS의 핵심 메커니즘입니다. 우선순위가 높은(nice 값이 낮은) 프로세스는 vruntime이 더 느리게 증가하므로 더 많은 CPU 시간을 할당받게 됩니다. 트리의 가장 왼쪽 노드(가장 작은 vruntime)가 다음 실행 대상이 됩니다."
+    "blankAnswers": [
+      [
+        "vruntime",
+        "virtual runtime"
+      ],
+      [
+        "red-black",
+        "레드-블랙"
+      ]
+    ],
+    "explanation": "vruntime은 CFS의 핵심 메커니즘입니다. 우선순위가 높은(nice 값이 낮은) 프로세스는 vruntime이 더 느리게 증가하므로 더 많은 CPU 시간을 할당받게 됩니다. 트리의 가장 왼쪽 노드(가장 작은 vruntime)가 다음 실행 대상이 됩니다.",
+    "blankDistractors": [
+      [
+        "runtime",
+        "sched_setaffinity",
+        "sched_priority"
+      ],
+      [
+        "per-CPU",
+        "runqueue",
+        "prio"
+      ]
+    ]
   },
   {
     "id": "sc-005",
@@ -64,8 +85,41 @@
     "difficulty": "초급",
     "type": "short-answer",
     "question": "컨텍스트 스위칭 시 현재 프로세스의 CPU ___, 프로그램 카운터, ___ 등을 task_struct에 저장하고, 다음 프로세스의 컨텍스트를 복원한다. Linux 커널에서는 ___ 함수가 이 과정을 처리한다.",
-    "blankAnswers": [["레지스터", "register"], ["스택 포인터", "stack pointer", "SP"], ["context_switch", "context_switch()", "switch_to", "__switch_to"]],
-    "explanation": "컨텍스트 스위칭은 멀티태스킹의 기본 메커니즘이지만 오버헤드가 발생합니다. 레지스터 저장/복원, TLB 플러시, 캐시 미스 증가 등이 성능에 영향을 줄 수 있으며, Linux 커널은 context_switch() 함수에서 이 과정을 처리합니다."
+    "blankAnswers": [
+      [
+        "레지스터",
+        "register"
+      ],
+      [
+        "스택 포인터",
+        "stack pointer",
+        "SP"
+      ],
+      [
+        "context_switch",
+        "context_switch()",
+        "switch_to",
+        "__switch_to"
+      ]
+    ],
+    "explanation": "컨텍스트 스위칭은 멀티태스킹의 기본 메커니즘이지만 오버헤드가 발생합니다. 레지스터 저장/복원, TLB 플러시, 캐시 미스 증가 등이 성능에 영향을 줄 수 있으며, Linux 커널은 context_switch() 함수에서 이 과정을 처리합니다.",
+    "blankDistractors": [
+      [
+        "비선점형",
+        "선점형",
+        "nice 값"
+      ],
+      [
+        "우선순위",
+        "선점형",
+        "nice 값"
+      ],
+      [
+        "prio",
+        "sched_getscheduler",
+        "sched_yield"
+      ]
+    ]
   },
   {
     "id": "sc-006",
@@ -74,8 +128,37 @@
     "difficulty": "초급",
     "type": "short-answer",
     "question": "___ 스케줄링은 실행 중인 프로세스를 강제로 중단하고 다른 프로세스에게 CPU를 할당할 수 있고, ___ 스케줄링은 프로세스가 자발적으로 CPU를 양보할 때까지 실행을 보장한다. Linux 커널에서 커널 코드의 선점을 허용하려면 ___ 옵션을 활성화해야 한다.",
-    "blankAnswers": [["선점형", "preemptive"], ["비선점형", "non-preemptive"], ["CONFIG_PREEMPT"]],
-    "explanation": "Linux는 사용자 공간 프로세스에 대해 완전한 선점형 스케줄링을 지원합니다. 커널 공간에서도 CONFIG_PREEMPT 옵션을 활성화하면 커널 코드 실행 중에도 선점이 가능합니다. 선점형 스케줄링은 응답성을 향상시키지만, 동기화 문제에 더 주의해야 합니다."
+    "blankAnswers": [
+      [
+        "선점형",
+        "preemptive"
+      ],
+      [
+        "비선점형",
+        "non-preemptive"
+      ],
+      [
+        "CONFIG_PREEMPT"
+      ]
+    ],
+    "explanation": "Linux는 사용자 공간 프로세스에 대해 완전한 선점형 스케줄링을 지원합니다. 커널 공간에서도 CONFIG_PREEMPT 옵션을 활성화하면 커널 코드 실행 중에도 선점이 가능합니다. 선점형 스케줄링은 응답성을 향상시키지만, 동기화 문제에 더 주의해야 합니다.",
+    "blankDistractors": [
+      [
+        "스택 포인터",
+        "락",
+        "우선순위"
+      ],
+      [
+        "스택 포인터",
+        "락",
+        "우선순위"
+      ],
+      [
+        "SCHED_FIFO",
+        "CPU_COUNT",
+        "TASK_RUNNING"
+      ]
+    ]
   },
   {
     "id": "sc-007",
@@ -87,10 +170,26 @@
     "codeTemplate": "#include <stdio.h>\n#include <unistd.h>\n#include <sys/resource.h>\n\nint main() {\n    int current_nice;\n\n    // 현재 nice 값 가져오기\n    current_nice = getpriority(___, 0);\n    printf(\"현재 nice 값: %d\\n\", current_nice);\n\n    // nice 값을 10 증가시키기 (우선순위 낮추기)\n    ___(10);\n\n    current_nice = getpriority(PRIO_PROCESS, 0);\n    printf(\"변경된 nice 값: %d\\n\", current_nice);\n\n    return 0;\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["PRIO_PROCESS"],
-      ["nice"]
+      [
+        "PRIO_PROCESS"
+      ],
+      [
+        "nice"
+      ]
     ],
-    "explanation": "getpriority(PRIO_PROCESS, 0)는 현재 프로세스의 nice 값을 반환합니다. nice() 함수는 인자로 전달된 값만큼 현재 프로세스의 nice 값을 증가시킵니다. 양수 값은 우선순위를 낮추고, 음수 값은 우선순위를 높입니다(root 권한 필요)."
+    "explanation": "getpriority(PRIO_PROCESS, 0)는 현재 프로세스의 nice 값을 반환합니다. nice() 함수는 인자로 전달된 값만큼 현재 프로세스의 nice 값을 증가시킵니다. 양수 값은 우선순위를 낮추고, 음수 값은 우선순위를 높입니다(root 권한 필요).",
+    "blankDistractors": [
+      [
+        "TASK_RUNNING",
+        "CONFIG_PREEMPT",
+        "CPU_COUNT"
+      ],
+      [
+        "runqueue",
+        "sched_yield",
+        "current"
+      ]
+    ]
   },
   {
     "id": "sc-008",
@@ -102,10 +201,26 @@
     "codeTemplate": "#include <stdio.h>\n#include <sched.h>\n#include <unistd.h>\n\nint main() {\n    int i;\n\n    for (i = 0; i < 5; i++) {\n        printf(\"작업 %d 수행 중 (PID: %d)\\n\", i, getpid());\n\n        // 현재 프로세스가 자발적으로 CPU를 양보\n        if (___() == -1) {\n            perror(\"sched_yield failed\");\n        }\n    }\n\n    // 현재 스케줄링 정책 확인\n    int policy = ___(0);\n    printf(\"현재 스케줄링 정책: %d\\n\", policy);\n\n    return 0;\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["sched_yield"],
-      ["sched_getscheduler"]
+      [
+        "sched_yield"
+      ],
+      [
+        "sched_getscheduler"
+      ]
     ],
-    "explanation": "sched_yield()는 호출한 스레드가 자발적으로 CPU를 양보하여 같은 우선순위의 다른 프로세스가 실행될 수 있게 합니다. sched_getscheduler(0)는 현재 프로세스의 스케줄링 정책(SCHED_NORMAL, SCHED_FIFO, SCHED_RR 등)을 반환합니다. 인자 0은 호출 프로세스 자신을 의미합니다."
+    "explanation": "sched_yield()는 호출한 스레드가 자발적으로 CPU를 양보하여 같은 우선순위의 다른 프로세스가 실행될 수 있게 합니다. sched_getscheduler(0)는 현재 프로세스의 스케줄링 정책(SCHED_NORMAL, SCHED_FIFO, SCHED_RR 등)을 반환합니다. 인자 0은 호출 프로세스 자신을 의미합니다.",
+    "blankDistractors": [
+      [
+        "vruntime",
+        "for_each_process",
+        "runqueue"
+      ],
+      [
+        "sched_setaffinity",
+        "runqueue",
+        "runtime"
+      ]
+    ]
   },
   {
     "id": "sc-009",
@@ -178,8 +293,38 @@
     "difficulty": "중급",
     "type": "short-answer",
     "question": "___는 실행 대기 중인 프로세스들을 관리하는 자료구조이며, Linux 커널은 각 CPU 코어마다 독립적인 ___ runqueue를 유지하여 ___ 경쟁을 줄이고 캐시 친화성을 향상시킨다.",
-    "blankAnswers": [["runqueue", "실행 큐", "struct rq"], ["per-CPU"], ["락", "lock"]],
-    "explanation": "struct rq는 <kernel/sched/sched.h>에 정의되어 있으며, CFS runqueue(cfs_rq), 실시간 runqueue(rt_rq), deadline runqueue(dl_rq) 등을 포함합니다. 각 CPU의 runqueue는 독립적으로 동작하며, 필요 시 load balancing을 통해 CPU 간 태스크를 재분배합니다."
+    "blankAnswers": [
+      [
+        "runqueue",
+        "실행 큐",
+        "struct rq"
+      ],
+      [
+        "per-CPU"
+      ],
+      [
+        "락",
+        "lock"
+      ]
+    ],
+    "explanation": "struct rq는 <kernel/sched/sched.h>에 정의되어 있으며, CFS runqueue(cfs_rq), 실시간 runqueue(rt_rq), deadline runqueue(dl_rq) 등을 포함합니다. 각 CPU의 runqueue는 독립적으로 동작하며, 필요 시 load balancing을 통해 CPU 간 태스크를 재분배합니다.",
+    "blankDistractors": [
+      [
+        "nice",
+        "sched_min_granularity",
+        "period"
+      ],
+      [
+        "pick_next_task",
+        "for_each_process",
+        "sched_yield"
+      ],
+      [
+        "비선점형",
+        "스택 포인터",
+        "nice 값"
+      ]
+    ]
   },
   {
     "id": "sc-014",
@@ -188,8 +333,37 @@
     "difficulty": "중급",
     "type": "short-answer",
     "question": "___는 CFS 스케줄링의 기본 단위를 나타내는 구조체로, ___ 내부에 포함되어 있으며 vruntime과 load weight 등을 저장한다. task_struct의 ___ 멤버가 이에 해당한다.",
-    "blankAnswers": [["sched_entity", "struct sched_entity"], ["task_struct", "struct task_struct"], ["se"]],
-    "explanation": "sched_entity는 스케줄링 가능한 엔티티를 추상화한 구조체입니다. 하나의 태스크뿐만 아니라 그룹(task_group)도 sched_entity로 표현될 수 있어, 계층적 스케줄링이 가능합니다. task_struct의 se 멤버가 이에 해당합니다."
+    "blankAnswers": [
+      [
+        "sched_entity",
+        "struct sched_entity"
+      ],
+      [
+        "task_struct",
+        "struct task_struct"
+      ],
+      [
+        "se"
+      ]
+    ],
+    "explanation": "sched_entity는 스케줄링 가능한 엔티티를 추상화한 구조체입니다. 하나의 태스크뿐만 아니라 그룹(task_group)도 sched_entity로 표현될 수 있어, 계층적 스케줄링이 가능합니다. task_struct의 se 멤버가 이에 해당합니다.",
+    "blankDistractors": [
+      [
+        "sched_setaffinity",
+        "runqueue",
+        "pick_next_task"
+      ],
+      [
+        "sched_class",
+        "current",
+        "sched_yield"
+      ],
+      [
+        "runtime",
+        "sched_getscheduler",
+        "context_switch"
+      ]
+    ]
   },
   {
     "id": "sc-015",
@@ -201,10 +375,26 @@
     "codeTemplate": "#define _GNU_SOURCE\n#include <stdio.h>\n#include <sched.h>\n#include <unistd.h>\n\nint main() {\n    cpu_set_t mask;\n    int cpu_count;\n\n    // 현재 프로세스의 CPU affinity 가져오기\n    if (___(0, sizeof(cpu_set_t), &mask) == -1) {\n        perror(\"sched_getaffinity\");\n        return 1;\n    }\n\n    // 설정된 CPU 수 확인\n    cpu_count = ___(&mask);\n    printf(\"사용 가능한 CPU 수: %d\\n\", cpu_count);\n\n    // 각 CPU 번호 출력\n    for (int i = 0; i < CPU_SETSIZE; i++) {\n        if (CPU_ISSET(i, &mask)) {\n            printf(\"CPU %d 사용 가능\\n\", i);\n        }\n    }\n\n    return 0;\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["sched_getaffinity"],
-      ["CPU_COUNT"]
+      [
+        "sched_getaffinity"
+      ],
+      [
+        "CPU_COUNT"
+      ]
     ],
-    "explanation": "sched_getaffinity()는 프로세스가 실행 가능한 CPU 집합을 가져옵니다. 첫 번째 인자 0은 호출 프로세스 자신을 의미합니다. CPU_COUNT() 매크로는 cpu_set_t에서 설정된 CPU의 수를 반환하며, CPU_ISSET()으로 특정 CPU가 집합에 포함되어 있는지 확인할 수 있습니다. 이를 통해 load balancing이 허용하는 CPU 범위를 확인할 수 있습니다."
+    "explanation": "sched_getaffinity()는 프로세스가 실행 가능한 CPU 집합을 가져옵니다. 첫 번째 인자 0은 호출 프로세스 자신을 의미합니다. CPU_COUNT() 매크로는 cpu_set_t에서 설정된 CPU의 수를 반환하며, CPU_ISSET()으로 특정 CPU가 집합에 포함되어 있는지 확인할 수 있습니다. 이를 통해 load balancing이 허용하는 CPU 범위를 확인할 수 있습니다.",
+    "blankDistractors": [
+      [
+        "se",
+        "context_switch",
+        "current"
+      ],
+      [
+        "SCHED_FIFO",
+        "CONFIG_PREEMPT",
+        "PRIO_PROCESS"
+      ]
+    ]
   },
   {
     "id": "sc-016",
@@ -216,10 +406,26 @@
     "codeTemplate": "#define _GNU_SOURCE\n#include <stdio.h>\n#include <sched.h>\n#include <unistd.h>\n\nint main() {\n    cpu_set_t mask;\n\n    // CPU 집합 초기화\n    CPU_ZERO(&mask);\n\n    // CPU 0번과 2번만 사용하도록 설정\n    ___(&mask);\n    CPU_SET(2, &mask);\n\n    // 현재 프로세스에 CPU affinity 설정\n    if (___(0, sizeof(cpu_set_t), &mask) == -1) {\n        perror(\"sched_setaffinity\");\n        return 1;\n    }\n\n    printf(\"CPU affinity가 코어 0, 2로 설정됨\\n\");\n    return 0;\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["CPU_SET(0, &mask)"],
-      ["sched_setaffinity"]
+      [
+        "CPU_SET(0, &mask)"
+      ],
+      [
+        "sched_setaffinity"
+      ]
     ],
-    "explanation": "CPU_ZERO()로 CPU 집합을 초기화하고, CPU_SET()으로 사용할 CPU 코어를 추가합니다. sched_setaffinity()의 첫 번째 인자 0은 호출 프로세스 자신을 의미합니다. 이를 통해 프로세스가 지정된 CPU 코어에서만 실행되도록 제한할 수 있으며, 캐시 성능 최적화나 코어 격리에 활용됩니다."
+    "explanation": "CPU_ZERO()로 CPU 집합을 초기화하고, CPU_SET()으로 사용할 CPU 코어를 추가합니다. sched_setaffinity()의 첫 번째 인자 0은 호출 프로세스 자신을 의미합니다. 이를 통해 프로세스가 지정된 CPU 코어에서만 실행되도록 제한할 수 있으며, 캐시 성능 최적화나 코어 격리에 활용됩니다.",
+    "blankDistractors": [
+      [
+        "MODULE_LICENSE(\"GPL\")",
+        "MODULE_DEVICE_TABLE(of, my_of_match)",
+        "WIFEXITED(status)"
+      ],
+      [
+        "sched_getscheduler",
+        "se",
+        "prio"
+      ]
+    ]
   },
   {
     "id": "sc-017",
@@ -231,10 +437,26 @@
     "codeTemplate": "#include <stdio.h>\n#include <sched.h>\n#include <string.h>\n\nint main() {\n    struct sched_param param;\n    memset(&param, 0, sizeof(param));\n\n    // 실시간 우선순위 설정 (1~99)\n    param.___ = 50;\n\n    // 현재 프로세스를 SCHED_FIFO 정책으로 변경\n    if (sched_setscheduler(0, ___, &param) == -1) {\n        perror(\"sched_setscheduler\");\n        return 1;\n    }\n\n    printf(\"SCHED_FIFO 정책으로 변경 완료, 우선순위: 50\\n\");\n    return 0;\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["sched_priority"],
-      ["SCHED_FIFO"]
+      [
+        "sched_priority"
+      ],
+      [
+        "SCHED_FIFO"
+      ]
     ],
-    "explanation": "sched_setscheduler()는 프로세스의 스케줄링 정책과 우선순위를 변경합니다. struct sched_param의 sched_priority 멤버에 실시간 우선순위(1~99)를 설정합니다. SCHED_FIFO 정책은 동일 우선순위의 다른 프로세스보다 먼저 실행이 보장되며, root 권한이나 CAP_SYS_NICE capability가 필요합니다."
+    "explanation": "sched_setscheduler()는 프로세스의 스케줄링 정책과 우선순위를 변경합니다. struct sched_param의 sched_priority 멤버에 실시간 우선순위(1~99)를 설정합니다. SCHED_FIFO 정책은 동일 우선순위의 다른 프로세스보다 먼저 실행이 보장되며, root 권한이나 CAP_SYS_NICE capability가 필요합니다.",
+    "blankDistractors": [
+      [
+        "per-CPU",
+        "runtime",
+        "current"
+      ],
+      [
+        "TASK_RUNNING",
+        "PRIO_PROCESS",
+        "CPU_COUNT"
+      ]
+    ]
   },
   {
     "id": "sc-018",
@@ -291,8 +513,38 @@
     "difficulty": "고급",
     "type": "short-answer",
     "question": "___는 __schedule()에서 호출되어 다음 실행할 태스크를 선택하며, 스케줄링 클래스를 ___ 순서로 순회한다. 각 스케줄링 클래스는 ___ 구조체에 자신의 콜백을 등록한다.",
-    "blankAnswers": [["pick_next_task", "pick_next_task()"], ["우선순위", "priority"], ["sched_class", "struct sched_class"]],
-    "explanation": "pick_next_task()는 스케줄러의 핵심 로직으로, 스케줄링 클래스 추상화를 통해 다양한 스케줄링 정책을 통합적으로 관리합니다. 각 스케줄링 클래스는 sched_class 구조체에 자신의 pick_next_task 콜백을 등록합니다."
+    "blankAnswers": [
+      [
+        "pick_next_task",
+        "pick_next_task()"
+      ],
+      [
+        "우선순위",
+        "priority"
+      ],
+      [
+        "sched_class",
+        "struct sched_class"
+      ]
+    ],
+    "explanation": "pick_next_task()는 스케줄러의 핵심 로직으로, 스케줄링 클래스 추상화를 통해 다양한 스케줄링 정책을 통합적으로 관리합니다. 각 스케줄링 클래스는 sched_class 구조체에 자신의 pick_next_task 콜백을 등록합니다.",
+    "blankDistractors": [
+      [
+        "sched_getscheduler",
+        "sched_min_granularity",
+        "current"
+      ],
+      [
+        "스택 포인터",
+        "선점형",
+        "레지스터"
+      ],
+      [
+        "vruntime",
+        "sched_priority",
+        "task_struct"
+      ]
+    ]
   },
   {
     "id": "sc-022",
@@ -301,8 +553,36 @@
     "difficulty": "고급",
     "type": "short-answer",
     "question": "CFS에서 프로세스의 time slice는 ___(목표 스케줄링 주기)를 각 프로세스의 가중치(___에 의해 결정) 비율로 분배하여 동적으로 계산되며, ___에 의해 최소 시간이 보장된다.",
-    "blankAnswers": [["sched_latency"], ["nice 값", "nice"], ["sched_min_granularity"]],
-    "explanation": "이 동적 time slice 방식 덕분에 CFS는 프로세스 수에 관계없이 공정한 CPU 분배를 유지합니다. nice 값이 1 차이 날 때 약 1.25배의 가중치 차이가 발생하도록 설계되어 있으며, 이는 prio_to_weight[] 배열에 정의되어 있습니다. sched_min_granularity는 각 프로세스에 보장되는 최소 실행 시간으로, sched_latency와 상호작용합니다. 프로세스 수가 많아져 sched_latency를 가중치로 나눈 값이 sched_min_granularity보다 작아지면, sched_min_granularity가 적용되어 실제 스케줄링 주기가 sched_latency보다 길어질 수 있습니다."
+    "blankAnswers": [
+      [
+        "sched_latency"
+      ],
+      [
+        "nice 값",
+        "nice"
+      ],
+      [
+        "sched_min_granularity"
+      ]
+    ],
+    "explanation": "이 동적 time slice 방식 덕분에 CFS는 프로세스 수에 관계없이 공정한 CPU 분배를 유지합니다. nice 값이 1 차이 날 때 약 1.25배의 가중치 차이가 발생하도록 설계되어 있으며, 이는 prio_to_weight[] 배열에 정의되어 있습니다. sched_min_granularity는 각 프로세스에 보장되는 최소 실행 시간으로, sched_latency와 상호작용합니다. 프로세스 수가 많아져 sched_latency를 가중치로 나눈 값이 sched_min_granularity보다 작아지면, sched_min_granularity가 적용되어 실제 스케줄링 주기가 sched_latency보다 길어질 수 있습니다.",
+    "blankDistractors": [
+      [
+        "sched_getscheduler",
+        "task_struct",
+        "prio"
+      ],
+      [
+        "스택 포인터",
+        "락",
+        "우선순위"
+      ],
+      [
+        "se",
+        "vruntime",
+        "per-CPU"
+      ]
+    ]
   },
   {
     "id": "sc-023",
@@ -311,8 +591,36 @@
     "difficulty": "고급",
     "type": "short-answer",
     "question": "SCHED_DEADLINE은 ___ 알고리즘을 기반으로 하며, ___는 각 주기 내 최대 CPU 실행 시간을, ___는 태스크의 활성화 주기를, deadline은 실행 완료 마감 시한을 나타낸다.",
-    "blankAnswers": [["EDF", "Earliest Deadline First"], ["runtime"], ["period"]],
-    "explanation": "SCHED_DEADLINE은 모든 스케줄링 클래스 중 가장 높은 우선순위를 가집니다. CBS(Constant Bandwidth Server) 알고리즘과 결합하여 deadline 태스크가 다른 태스크를 기아 상태로 만들지 않도록 bandwidth를 제한합니다. sched_setattr() 시스템 콜로 설정합니다."
+    "blankAnswers": [
+      [
+        "EDF",
+        "Earliest Deadline First"
+      ],
+      [
+        "runtime"
+      ],
+      [
+        "period"
+      ]
+    ],
+    "explanation": "SCHED_DEADLINE은 모든 스케줄링 클래스 중 가장 높은 우선순위를 가집니다. CBS(Constant Bandwidth Server) 알고리즘과 결합하여 deadline 태스크가 다른 태스크를 기아 상태로 만들지 않도록 bandwidth를 제한합니다. sched_setattr() 시스템 콜로 설정합니다.",
+    "blankDistractors": [
+      [
+        "CONFIG_PREEMPT",
+        "CPU_COUNT",
+        "TASK_RUNNING"
+      ],
+      [
+        "sched_getaffinity",
+        "pick_next_task",
+        "sched_yield"
+      ],
+      [
+        "sched_class",
+        "sched_entity",
+        "sched_getscheduler"
+      ]
+    ]
   },
   {
     "id": "sc-024",
@@ -324,10 +632,26 @@
     "codeTemplate": "#include <linux/module.h>\n#include <linux/kernel.h>\n#include <linux/sched.h>\n\nstatic int __init sched_info_init(void)\n{\n    struct task_struct *task = ___;\n\n    pr_info(\"현재 태스크: %s (PID: %d)\\n\",\n            task->comm, task->pid);\n    pr_info(\"정적 우선순위(static_prio): %d\\n\",\n            task->static_prio);\n    pr_info(\"정규 우선순위(normal_prio): %d\\n\",\n            task->normal_prio);\n    pr_info(\"동적 우선순위(prio): %d\\n\",\n            task->___);\n    pr_info(\"스케줄링 정책: %u\\n\",\n            task->policy);\n\n    return 0;\n}\n\nstatic void __exit sched_info_exit(void)\n{\n    pr_info(\"sched_info 모듈 언로드\\n\");\n}\n\nmodule_init(sched_info_init);\nmodule_exit(sched_info_exit);\nMODULE_LICENSE(\"GPL\");",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["current"],
-      ["prio"]
+      [
+        "current"
+      ],
+      [
+        "prio"
+      ]
     ],
-    "explanation": "current 매크로는 현재 CPU에서 실행 중인 태스크의 task_struct 포인터를 반환합니다. task_struct에는 세 가지 우선순위 필드가 있습니다: static_prio는 nice 값에서 파생된 정적 우선순위, normal_prio는 스케줄링 정책을 고려한 정규 우선순위, prio는 우선순위 역전 방지 등을 위해 일시적으로 조정될 수 있는 동적 우선순위입니다."
+    "explanation": "current 매크로는 현재 CPU에서 실행 중인 태스크의 task_struct 포인터를 반환합니다. task_struct에는 세 가지 우선순위 필드가 있습니다: static_prio는 nice 값에서 파생된 정적 우선순위, normal_prio는 스케줄링 정책을 고려한 정규 우선순위, prio는 우선순위 역전 방지 등을 위해 일시적으로 조정될 수 있는 동적 우선순위입니다.",
+    "blankDistractors": [
+      [
+        "runqueue",
+        "sched_getaffinity",
+        "vruntime"
+      ],
+      [
+        "sched_getscheduler",
+        "for_each_process",
+        "context_switch"
+      ]
+    ]
   },
   {
     "id": "sc-025",
@@ -339,9 +663,25 @@
     "codeTemplate": "#include <linux/module.h>\n#include <linux/kernel.h>\n#include <linux/sched.h>\n#include <linux/sched/signal.h>\n\nstatic int __init rq_info_init(void)\n{\n    struct task_struct *task;\n    int running_count = 0;\n    int total_count = 0;\n\n    // 모든 프로세스를 순회\n    ___(task) {\n        total_count++;\n        if (task->__state == ___)\n            running_count++;\n    }\n\n    pr_info(\"전체 태스크 수: %d\\n\", total_count);\n    pr_info(\"실행 가능(TASK_RUNNING) 태스크 수: %d\\n\",\n            running_count);\n\n    return 0;\n}\n\nstatic void __exit rq_info_exit(void)\n{\n    pr_info(\"rq_info 모듈 언로드\\n\");\n}\n\nmodule_init(rq_info_init);\nmodule_exit(rq_info_exit);\nMODULE_LICENSE(\"GPL\");",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["for_each_process"],
-      ["TASK_RUNNING"]
+      [
+        "for_each_process"
+      ],
+      [
+        "TASK_RUNNING"
+      ]
     ],
-    "explanation": "for_each_process()는 시스템의 모든 태스크를 순회하는 매크로로, init_task부터 시작하여 tasks 리스트를 따라갑니다. TASK_RUNNING(값 0)은 실행 중이거나 runqueue에서 실행 대기 중인 상태를 나타냅니다. 최신 커널에서는 task_struct의 상태 필드가 __state로 변경되었습니다. 이 코드는 학습 목적이며, 실제로는 적절한 락(RCU 등)을 사용해야 합니다."
+    "explanation": "for_each_process()는 시스템의 모든 태스크를 순회하는 매크로로, init_task부터 시작하여 tasks 리스트를 따라갑니다. TASK_RUNNING(값 0)은 실행 중이거나 runqueue에서 실행 대기 중인 상태를 나타냅니다. 최신 커널에서는 task_struct의 상태 필드가 __state로 변경되었습니다. 이 코드는 학습 목적이며, 실제로는 적절한 락(RCU 등)을 사용해야 합니다.",
+    "blankDistractors": [
+      [
+        "context_switch",
+        "se",
+        "nice"
+      ],
+      [
+        "PRIO_PROCESS",
+        "SCHED_FIFO",
+        "CPU_COUNT"
+      ]
+    ]
   }
 ]

@@ -54,8 +54,29 @@
     "difficulty": "초급",
     "type": "short-answer",
     "question": "파일 시스템에서 파일의 권한, 소유자, 크기, 디스크 블록 위치 등 메타데이터를 저장하는 자료구조를 ___라 한다. 단, 파일 이름은 inode가 아닌 ___에 저장된다.",
-    "blankAnswers": [["inode"], ["디렉토리 엔트리", "dentry", "directory entry"]],
-    "explanation": "inode는 유닉스 계열 파일 시스템의 핵심 자료구조로, 파일의 메타데이터를 관리합니다. 파일 이름은 inode에 포함되지 않으며, 디렉토리 엔트리가 이름과 inode 번호를 매핑합니다. 이로 인해 하나의 inode에 여러 이름(하드 링크)을 부여할 수 있습니다."
+    "blankAnswers": [
+      [
+        "inode"
+      ],
+      [
+        "디렉토리 엔트리",
+        "dentry",
+        "directory entry"
+      ]
+    ],
+    "explanation": "inode는 유닉스 계열 파일 시스템의 핵심 자료구조로, 파일의 메타데이터를 관리합니다. 파일 이름은 inode에 포함되지 않으며, 디렉토리 엔트리가 이름과 inode 번호를 매핑합니다. 이로 인해 하나의 inode에 여러 이름(하드 링크)을 부여할 수 있습니다.",
+    "blankDistractors": [
+      [
+        "readpage",
+        "open",
+        "superblock"
+      ],
+      [
+        "장치",
+        "프로세스",
+        "커널"
+      ]
+    ]
   },
   {
     "id": "fs-005",
@@ -64,8 +85,39 @@
     "difficulty": "초급",
     "type": "short-answer",
     "question": "/proc는 디스크에 존재하지 않고 메모리에서 동적으로 생성되는 ___으로, ___ 내부 정보와 각 ___의 상태 정보를 파일 형태로 제공한다.",
-    "blankAnswers": [["가상 파일 시스템", "virtual filesystem", "virtual file system"], ["커널", "kernel"], ["프로세스", "process"]],
-    "explanation": "/proc 파일 시스템(procfs)은 커널과 프로세스 정보를 파일 인터페이스로 노출하는 가상 파일 시스템입니다. 실제 디스크 I/O 없이 커널 자료구조를 직접 읽거나 수정할 수 있어 시스템 모니터링과 커널 파라미터 튜닝에 활용됩니다."
+    "blankAnswers": [
+      [
+        "가상 파일 시스템",
+        "virtual filesystem",
+        "virtual file system"
+      ],
+      [
+        "커널",
+        "kernel"
+      ],
+      [
+        "프로세스",
+        "process"
+      ]
+    ],
+    "explanation": "/proc 파일 시스템(procfs)은 커널과 프로세스 정보를 파일 인터페이스로 노출하는 가상 파일 시스템입니다. 실제 디스크 I/O 없이 커널 자료구조를 직접 읽거나 수정할 수 있어 시스템 모니터링과 커널 파라미터 튜닝에 활용됩니다.",
+    "blankDistractors": [
+      [
+        "디렉토리 엔트리",
+        "장치",
+        "우선순위"
+      ],
+      [
+        "장치",
+        "디렉토리 엔트리",
+        "고아 프로세스"
+      ],
+      [
+        "장치",
+        "디렉토리 엔트리",
+        "구체적"
+      ]
+    ]
   },
   {
     "id": "fs-006",
@@ -77,11 +129,34 @@
     "codeTemplate": "#include <fcntl.h>\n#include <unistd.h>\n\nint main() {\n    char buf[1024];\n    int fd = ___(\"myfile.txt\", O_RDONLY);\n    if (fd < 0) return -1;\n\n    ssize_t n = ___(fd, buf, sizeof(buf));\n\n    ___(fd);\n    return 0;\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["open"],
-      ["read"],
-      ["close"]
+      [
+        "open"
+      ],
+      [
+        "read"
+      ],
+      [
+        "close"
+      ]
     ],
-    "explanation": "파일 I/O의 기본 흐름은 open() -> read()/write() -> close()입니다. open()은 파일 디스크립터를 반환하고, read()는 파일 디스크립터로부터 데이터를 버퍼로 읽으며, close()는 파일 디스크립터를 해제합니다. 이 세 가지는 리눅스 시스템 프로그래밍의 가장 기본적인 시스템 콜입니다."
+    "explanation": "파일 I/O의 기본 흐름은 open() -> read()/write() -> close()입니다. open()은 파일 디스크립터를 반환하고, read()는 파일 디스크립터로부터 데이터를 버퍼로 읽으며, close()는 파일 디스크립터를 해제합니다. 이 세 가지는 리눅스 시스템 프로그래밍의 가장 기본적인 시스템 콜입니다.",
+    "blankDistractors": [
+      [
+        "my_fops",
+        "myfs_s_ops",
+        "inode_operations"
+      ],
+      [
+        "copy_from_user",
+        "superblock",
+        "st_size"
+      ],
+      [
+        "readpage",
+        "journal",
+        "inode_operations"
+      ]
+    ]
   },
   {
     "id": "fs-007",
@@ -93,11 +168,34 @@
     "codeTemplate": "#include <sys/stat.h>\n#include <stdio.h>\n\nint main() {\n    struct ___ st;\n    if (stat(\"myfile.txt\", &st) == 0) {\n        printf(\"File size: %ld\\n\", st.___);\n        printf(\"Inode number: %ld\\n\", st.___);\n    }\n    return 0;\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["stat"],
-      ["st_size"],
-      ["st_ino"]
+      [
+        "stat"
+      ],
+      [
+        "st_size"
+      ],
+      [
+        "st_ino"
+      ]
     ],
-    "explanation": "stat() 시스템 콜은 struct stat 구조체에 파일의 메타데이터를 채워줍니다. st_size는 파일의 바이트 크기, st_ino는 inode 번호를 나타냅니다. 이 외에도 st_mode(권한), st_nlink(하드 링크 수), st_uid(소유자 UID) 등 다양한 필드가 있습니다."
+    "explanation": "stat() 시스템 콜은 struct stat 구조체에 파일의 메타데이터를 채워줍니다. st_size는 파일의 바이트 크기, st_ino는 inode 번호를 나타냅니다. 이 외에도 st_mode(권한), st_nlink(하드 링크 수), st_uid(소유자 UID) 등 다양한 필드가 있습니다.",
+    "blankDistractors": [
+      [
+        "my_show",
+        "pos",
+        "myfs_alloc_inode"
+      ],
+      [
+        "i_ino",
+        "journal",
+        "dirty"
+      ],
+      [
+        "read",
+        "my_fops",
+        "writeback"
+      ]
+    ]
   },
   {
     "id": "fs-008",
@@ -170,8 +268,28 @@
     "difficulty": "중급",
     "type": "short-answer",
     "question": "___는 파일 자체의 메타데이터(크기, 권한 등)를 나타내는 커널 객체로 파일당 하나 존재하고, ___는 프로세스가 open()으로 파일을 열 때마다 생성되어 현재 파일 오프셋 등 열린 파일의 동적 상태를 관리한다.",
-    "blankAnswers": [["struct inode", "inode"], ["struct file"]],
-    "explanation": "struct inode는 파일의 정적인 속성을 나타내고, struct file은 파일을 연 동적인 상태를 나타냅니다. struct file에는 f_pos(현재 오프셋), f_flags(열기 플래그), f_op(file_operations 포인터) 등이 포함됩니다."
+    "blankAnswers": [
+      [
+        "struct inode",
+        "inode"
+      ],
+      [
+        "struct file"
+      ]
+    ],
+    "explanation": "struct inode는 파일의 정적인 속성을 나타내고, struct file은 파일을 연 동적인 상태를 나타냅니다. struct file에는 f_pos(현재 오프셋), f_flags(열기 플래그), f_op(file_operations 포인터) 등이 포함됩니다.",
+    "blankDistractors": [
+      [
+        "page cache",
+        "linux/mm_types.h",
+        "struct page"
+      ],
+      [
+        "page cache",
+        "page fault",
+        "_IO"
+      ]
+    ]
   },
   {
     "id": "fs-013",
@@ -180,8 +298,30 @@
     "difficulty": "중급",
     "type": "short-answer",
     "question": "sysfs는 커널의 ___ 계층 구조를 사용자 공간에 노출하는 가상 파일 시스템으로, /proc이 프로세스 정보를 제공하는 반면 sysfs는 ___와 드라이버 정보에 특화되어 있다.",
-    "blankAnswers": [["kobject", "device model"], ["장치", "device", "디바이스"]],
-    "explanation": "sysfs는 리눅스 2.6에서 도입되었으며, 이전에 /proc에 혼재되어 있던 장치 관련 정보를 분리하여 체계적으로 관리합니다. /sys/class, /sys/devices, /sys/bus 등의 디렉토리로 구성되며, 각 파일은 보통 하나의 속성 값만 포함합니다."
+    "blankAnswers": [
+      [
+        "kobject",
+        "device model"
+      ],
+      [
+        "장치",
+        "device",
+        "디바이스"
+      ]
+    ],
+    "explanation": "sysfs는 리눅스 2.6에서 도입되었으며, 이전에 /proc에 혼재되어 있던 장치 관련 정보를 분리하여 체계적으로 관리합니다. /sys/class, /sys/devices, /sys/bus 등의 디렉토리로 구성되며, 각 파일은 보통 하나의 속성 값만 포함합니다.",
+    "blankDistractors": [
+      [
+        "superblock",
+        "open",
+        "journal"
+      ],
+      [
+        "디렉토리 엔트리",
+        "프로세스",
+        "가상 파일 시스템"
+      ]
+    ]
   },
   {
     "id": "fs-014",
@@ -190,8 +330,29 @@
     "difficulty": "중급",
     "type": "short-answer",
     "question": "마운트 시 커널은 파일 시스템의 ___를 읽어 struct super_block을 초기화하고, ___ 구조체를 생성하여 마운트 포인트와 파일 시스템을 연결한다.",
-    "blankAnswers": [["superblock", "슈퍼블록"], ["vfsmount", "struct mount"]],
-    "explanation": "마운트 과정에서 커널은 파일 시스템 타입에 맞는 super_operations의 fill_super 또는 mount 콜백을 호출하여 superblock을 초기화합니다. 마운트된 파일 시스템은 VFS의 마운트 트리에 추가되어 경로 탐색 시 올바른 파일 시스템으로 라우팅됩니다."
+    "blankAnswers": [
+      [
+        "superblock",
+        "슈퍼블록"
+      ],
+      [
+        "vfsmount",
+        "struct mount"
+      ]
+    ],
+    "explanation": "마운트 과정에서 커널은 파일 시스템 타입에 맞는 super_operations의 fill_super 또는 mount 콜백을 호출하여 superblock을 초기화합니다. 마운트된 파일 시스템은 VFS의 마운트 트리에 추가되어 경로 탐색 시 올바른 파일 시스템으로 라우팅됩니다.",
+    "blankDistractors": [
+      [
+        "writepage",
+        "kobject",
+        "journal"
+      ],
+      [
+        "myfs_s_ops",
+        "address_space",
+        "open"
+      ]
+    ]
   },
   {
     "id": "fs-015",
@@ -203,11 +364,35 @@
     "codeTemplate": "#include <linux/module.h>\n#include <linux/proc_fs.h>\n#include <linux/seq_file.h>\n\nstatic int my_show(struct seq_file *m, void *v) {\n    seq_printf(m, \"Hello from proc!\\n\");\n    return 0;\n}\n\nstatic int my_open(struct inode *inode, struct file *file) {\n    return single_open(file, ___, NULL);\n}\n\nstatic const struct ___ my_fops = {\n    .open    = my_open,\n    .read    = seq_read,\n    .llseek  = seq_lseek,\n    .release = single_release,\n};\n\nstatic int __init my_init(void) {\n    proc_create(\"my_proc_entry\", 0444, NULL, &___);\n    return 0;\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["my_show"],
-      ["proc_ops", "file_operations"],
-      ["my_fops"]
+      [
+        "my_show"
+      ],
+      [
+        "proc_ops",
+        "file_operations"
+      ],
+      [
+        "my_fops"
+      ]
     ],
-    "explanation": "proc 파일을 생성할 때는 proc_create()를 사용하며, 파일 연산을 위한 구조체(커널 5.6 이상에서는 struct proc_ops, 이전에는 struct file_operations)를 정의해야 합니다. single_open()은 seq_file 인터페이스의 간편한 래퍼로, show 콜백 함수를 인자로 받아 파일 읽기 시 호출합니다."
+    "explanation": "proc 파일을 생성할 때는 proc_create()를 사용하며, 파일 연산을 위한 구조체(커널 5.6 이상에서는 struct proc_ops, 이전에는 struct file_operations)를 정의해야 합니다. single_open()은 seq_file 인터페이스의 간편한 래퍼로, show 콜백 함수를 인자로 받아 파일 읽기 시 호출합니다.",
+    "blankDistractors": [
+      [
+        "inode_operations",
+        "inode",
+        "ordered"
+      ],
+      [
+        "copy_from_user",
+        "st_ino",
+        "read"
+      ],
+      [
+        "writeback",
+        "st_ino",
+        "pos"
+      ]
+    ]
   },
   {
     "id": "fs-016",
@@ -219,11 +404,34 @@
     "codeTemplate": "#include <linux/fs.h>\n#include <linux/uaccess.h>\n\nstatic char kbuf[256];\n\nstatic ssize_t my_read(struct file *filp, char __user *buf,\n                       size_t count, loff_t *f_pos) {\n    return copy_to_user(buf, kbuf, count) ? -EFAULT : count;\n}\n\nstatic ssize_t my_write(struct file *filp, const char __user *buf,\n                        size_t count, loff_t *f_pos) {\n    return ___(kbuf, buf, count) ? -EFAULT : count;\n}\n\nstatic const struct file_operations my_fops = {\n    .owner = ___,\n    .___ = my_read,\n    .write = my_write,\n};",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["copy_from_user"],
-      ["THIS_MODULE"],
-      ["read"]
+      [
+        "copy_from_user"
+      ],
+      [
+        "THIS_MODULE"
+      ],
+      [
+        "read"
+      ]
     ],
-    "explanation": "file_operations 구조체는 VFS가 파일 연산을 수행할 때 호출할 함수 포인터들을 정의합니다. copy_from_user()는 사용자 공간에서 커널 공간으로 데이터를 복사하고, copy_to_user()는 그 반대입니다. THIS_MODULE은 현재 모듈에 대한 참조로, 모듈 사용 중 언로드를 방지합니다."
+    "explanation": "file_operations 구조체는 VFS가 파일 연산을 수행할 때 호출할 함수 포인터들을 정의합니다. copy_from_user()는 사용자 공간에서 커널 공간으로 데이터를 복사하고, copy_to_user()는 그 반대입니다. THIS_MODULE은 현재 모듈에 대한 참조로, 모듈 사용 중 언로드를 방지합니다.",
+    "blankDistractors": [
+      [
+        "inode",
+        "vfsmount",
+        "ordered"
+      ],
+      [
+        "O_TRUNC",
+        "SEEK_SET",
+        "LRU"
+      ],
+      [
+        "address_space",
+        "dir_context",
+        "pos"
+      ]
+    ]
   },
   {
     "id": "fs-017",
@@ -235,10 +443,26 @@
     "codeTemplate": "#include <fcntl.h>\n#include <unistd.h>\n#include <string.h>\n\nint main() {\n    const char *msg = \"Hello, Kernel!\";\n    int fd = open(\"output.txt\", O_WRONLY | O_CREAT | ___, 0644);\n    if (fd < 0) return -1;\n\n    write(fd, msg, strlen(msg));\n\n    /* Move file offset to the beginning */\n    lseek(fd, 0, ___);\n\n    write(fd, \"Hi\", 2);\n    close(fd);\n    return 0;\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["O_TRUNC"],
-      ["SEEK_SET"]
+      [
+        "O_TRUNC"
+      ],
+      [
+        "SEEK_SET"
+      ]
     ],
-    "explanation": "O_TRUNC 플래그는 파일을 열 때 기존 내용을 모두 삭제합니다. O_CREAT는 파일이 없으면 생성하고, O_WRONLY는 쓰기 전용으로 엽니다. lseek()의 세 번째 인자 SEEK_SET은 파일의 시작 지점을 기준으로 오프셋을 설정합니다. SEEK_CUR은 현재 위치 기준, SEEK_END는 파일 끝 기준입니다."
+    "explanation": "O_TRUNC 플래그는 파일을 열 때 기존 내용을 모두 삭제합니다. O_CREAT는 파일이 없으면 생성하고, O_WRONLY는 쓰기 전용으로 엽니다. lseek()의 세 번째 인자 SEEK_SET은 파일의 시작 지점을 기준으로 오프셋을 설정합니다. SEEK_CUR은 현재 위치 기준, SEEK_END는 파일 끝 기준입니다.",
+    "blankDistractors": [
+      [
+        "THIS_MODULE",
+        "EPERM",
+        "PATH"
+      ],
+      [
+        "THIS_MODULE",
+        "CPU_COUNT",
+        "SCHED_FIFO"
+      ]
+    ]
   },
   {
     "id": "fs-018",
@@ -247,8 +471,38 @@
     "difficulty": "고급",
     "type": "short-answer",
     "question": "___는 파일 데이터를 메모리의 페이지 단위로 캐싱하는 메커니즘이다. write 시 페이지에 먼저 기록하고 해당 페이지를 ___로 표시하며, 이러한 페이지는 커널의 ___ 스레드에 의해 주기적으로 디스크에 기록된다.",
-    "blankAnswers": [["page cache", "페이지 캐시"], ["dirty", "더티"], ["writeback", "kworker"]],
-    "explanation": "page cache는 파일 I/O 성능의 핵심입니다. 반복 읽기 시 디스크 접근 없이 메모리에서 데이터를 제공하고, 쓰기 시에도 즉시 디스크에 쓰지 않고 dirty 페이지로 표시한 뒤 배치 writeback으로 I/O 효율을 높입니다. vm.dirty_ratio, vm.dirty_expire_centisecs 등의 커널 파라미터로 writeback 동작을 제어할 수 있습니다."
+    "blankAnswers": [
+      [
+        "page cache",
+        "페이지 캐시"
+      ],
+      [
+        "dirty",
+        "더티"
+      ],
+      [
+        "writeback",
+        "kworker"
+      ]
+    ],
+    "explanation": "page cache는 파일 I/O 성능의 핵심입니다. 반복 읽기 시 디스크 접근 없이 메모리에서 데이터를 제공하고, 쓰기 시에도 즉시 디스크에 쓰지 않고 dirty 페이지로 표시한 뒤 배치 writeback으로 I/O 효율을 높입니다. vm.dirty_ratio, vm.dirty_expire_centisecs 등의 커널 파라미터로 writeback 동작을 제어할 수 있습니다.",
+    "blankDistractors": [
+      [
+        "struct inode",
+        "struct file",
+        "kernel panic"
+      ],
+      [
+        "my_show",
+        "myfs_alloc_inode",
+        "inode_operations"
+      ],
+      [
+        "open",
+        "my_show",
+        "myfs_alloc_inode"
+      ]
+    ]
   },
   {
     "id": "fs-019",
@@ -305,8 +559,35 @@
     "difficulty": "고급",
     "type": "short-answer",
     "question": "ext4 저널링에서 ___ 모드는 메타데이터와 데이터 모두 저널에 기록하여 가장 안전하고, ___ 모드(기본값)는 메타데이터만 저널에 기록하되 데이터 쓰기 순서를 보장하며, ___ 모드는 메타데이터만 저널에 기록하고 순서를 보장하지 않아 가장 빠르다.",
-    "blankAnswers": [["journal"], ["ordered"], ["writeback"]],
-    "explanation": "ordered 모드가 ext4의 기본 모드인 이유는 성능과 안전성의 균형이 좋기 때문입니다. journal 모드는 모든 데이터를 두 번 쓰므로 성능 부담이 크고, writeback 모드는 충돌 시 stale data exposure 위험이 있습니다."
+    "blankAnswers": [
+      [
+        "journal"
+      ],
+      [
+        "ordered"
+      ],
+      [
+        "writeback"
+      ]
+    ],
+    "explanation": "ordered 모드가 ext4의 기본 모드인 이유는 성능과 안전성의 균형이 좋기 때문입니다. journal 모드는 모든 데이터를 두 번 쓰므로 성능 부담이 크고, writeback 모드는 충돌 시 stale data exposure 위험이 있습니다.",
+    "blankDistractors": [
+      [
+        "close",
+        "readpage",
+        "superblock"
+      ],
+      [
+        "address_space",
+        "dirty",
+        "myfs_alloc_inode"
+      ],
+      [
+        "myfs_alloc_inode",
+        "superblock",
+        "address_space"
+      ]
+    ]
   },
   {
     "id": "fs-023",
@@ -315,8 +596,37 @@
     "difficulty": "고급",
     "type": "short-answer",
     "question": "___는 inode에 연결되어 해당 파일의 page cache 페이지들을 관리하는 객체이다. address_space_operations의 ___ 콜백은 디스크에서 페이지를 읽어오고, ___ 콜백은 더티 페이지를 디스크에 기록한다.",
-    "blankAnswers": [["address_space"], ["readpage", "readfolio"], ["writepage", "writepages"]],
-    "explanation": "address_space는 radix tree(또는 xarray)를 사용하여 파일 오프셋과 페이지 간의 매핑을 효율적으로 관리합니다. VFS는 read/write 시스템 콜 처리 시 address_space_operations의 콜백을 호출하여 파일 시스템별로 적절한 방식으로 디스크 I/O를 수행합니다."
+    "blankAnswers": [
+      [
+        "address_space"
+      ],
+      [
+        "readpage",
+        "readfolio"
+      ],
+      [
+        "writepage",
+        "writepages"
+      ]
+    ],
+    "explanation": "address_space는 radix tree(또는 xarray)를 사용하여 파일 오프셋과 페이지 간의 매핑을 효율적으로 관리합니다. VFS는 read/write 시스템 콜 처리 시 address_space_operations의 콜백을 호출하여 파일 시스템별로 적절한 방식으로 디스크 I/O를 수행합니다.",
+    "blankDistractors": [
+      [
+        "myfs_s_ops",
+        "journal",
+        "kobject"
+      ],
+      [
+        "st_ino",
+        "inode_operations",
+        "stat"
+      ],
+      [
+        "proc_ops",
+        "inode",
+        "dir_context"
+      ]
+    ]
   },
   {
     "id": "fs-024",
@@ -328,11 +638,34 @@
     "codeTemplate": "#include <linux/fs.h>\n\nstatic struct inode *myfs_alloc_inode(struct super_block *sb) {\n    struct inode *inode = new_inode(sb);\n    if (!inode)\n        return NULL;\n    inode->i_ino = get_next_ino();\n    inode_init_owner(&nop_mnt_idmap, inode, NULL, S_IFREG | 0644);\n    return inode;\n}\n\nstatic const struct super_operations myfs_s_ops = {\n    .alloc_inode = ___,\n    .statfs      = simple_statfs,\n};\n\nstatic const struct ___ myfs_dir_iops = {\n    .lookup = simple_lookup,\n    .mkdir  = simple_mkdir,\n};\n\nstatic int myfs_fill_super(struct super_block *sb, void *data, int silent) {\n    sb->s_op = &___;\n    return 0;\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["myfs_alloc_inode"],
-      ["inode_operations"],
-      ["myfs_s_ops"]
+      [
+        "myfs_alloc_inode"
+      ],
+      [
+        "inode_operations"
+      ],
+      [
+        "myfs_s_ops"
+      ]
     ],
-    "explanation": "커널 파일 시스템을 구현할 때 super_operations는 inode 할당/해제, 파일 시스템 정보 조회 등의 연산을, inode_operations는 디렉토리 내 파일 탐색(lookup), 생성(create), 디렉토리 생성(mkdir) 등의 연산을 정의합니다. fill_super 함수에서 sb->s_op에 super_operations를 설정하여 VFS가 해당 연산을 호출할 수 있게 합니다."
+    "explanation": "커널 파일 시스템을 구현할 때 super_operations는 inode 할당/해제, 파일 시스템 정보 조회 등의 연산을, inode_operations는 디렉토리 내 파일 탐색(lookup), 생성(create), 디렉토리 생성(mkdir) 등의 연산을 정의합니다. fill_super 함수에서 sb->s_op에 super_operations를 설정하여 VFS가 해당 연산을 호출할 수 있게 합니다.",
+    "blankDistractors": [
+      [
+        "my_fops",
+        "ordered",
+        "read"
+      ],
+      [
+        "i_ino",
+        "open",
+        "read"
+      ],
+      [
+        "dirty",
+        "copy_from_user",
+        "my_fops"
+      ]
+    ]
   },
   {
     "id": "fs-025",
@@ -344,10 +677,33 @@
     "codeTemplate": "#include <linux/fs.h>\n\nstatic int myfs_iterate(struct file *file, struct ___ *ctx) {\n    struct dentry *dentry = file->f_path.dentry;\n    struct inode *inode = d_inode(dentry);\n\n    if (!dir_emit_dots(file, ctx))\n        return 0;\n\n    /* Emit a regular file entry */\n    dir_emit(ctx, \"hello.txt\", 9, inode->___,\n             DT_REG);\n    ctx->___ ++;\n\n    return 0;\n}\n\nstatic const struct file_operations myfs_dir_fops = {\n    .iterate_shared = myfs_iterate,\n    .llseek         = generic_file_llseek,\n};",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["dir_context"],
-      ["i_ino"],
-      ["pos"]
+      [
+        "dir_context"
+      ],
+      [
+        "i_ino"
+      ],
+      [
+        "pos"
+      ]
     ],
-    "explanation": "디렉토리 내용을 사용자 공간에 전달하기 위해 iterate_shared 콜백을 구현합니다. struct dir_context는 디렉토리 순회의 상태를 관리하며, dir_emit()은 디렉토리 엔트리 하나를 사용자 공간에 전달합니다. i_ino는 inode 번호, ctx->pos는 현재 디렉토리 탐색 위치를 나타내며, dir_emit_dots()는 '.'과 '..' 엔트리를 자동으로 처리합니다."
+    "explanation": "디렉토리 내용을 사용자 공간에 전달하기 위해 iterate_shared 콜백을 구현합니다. struct dir_context는 디렉토리 순회의 상태를 관리하며, dir_emit()은 디렉토리 엔트리 하나를 사용자 공간에 전달합니다. i_ino는 inode 번호, ctx->pos는 현재 디렉토리 탐색 위치를 나타내며, dir_emit_dots()는 '.'과 '..' 엔트리를 자동으로 처리합니다.",
+    "blankDistractors": [
+      [
+        "proc_ops",
+        "open",
+        "st_size"
+      ],
+      [
+        "st_size",
+        "myfs_alloc_inode",
+        "inode"
+      ],
+      [
+        "myfs_s_ops",
+        "kobject",
+        "inode"
+      ]
+    ]
   }
 ]

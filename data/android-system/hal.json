@@ -55,11 +55,37 @@
     "type": "short-answer",
     "question": "Passthrough HAL은 클라이언트와 ___에서 실행되며 ___으로 라이브러리를 직접 로드하고, Binderized HAL은 ___에서 실행되며 Binder IPC를 통해 통신한다.",
     "blankAnswers": [
-      ["같은 프로세스", "동일 프로세스"],
-      ["dlopen", "dlopen()"],
-      ["별도 프로세스", "독립 프로세스"]
+      [
+        "같은 프로세스",
+        "동일 프로세스"
+      ],
+      [
+        "dlopen",
+        "dlopen()"
+      ],
+      [
+        "별도 프로세스",
+        "독립 프로세스"
+      ]
     ],
-    "explanation": "Passthrough HAL은 legacy HAL을 래핑하여 같은 프로세스에서 직접 호출하는 방식으로, 성능은 좋지만 보안과 격리가 약합니다. Binderized HAL은 독립 프로세스로 실행되어 HAL 서비스 크래시가 프레임워크에 영향을 주지 않으며, 권한 분리와 SELinux 정책 적용이 용이합니다."
+    "explanation": "Passthrough HAL은 legacy HAL을 래핑하여 같은 프로세스에서 직접 호출하는 방식으로, 성능은 좋지만 보안과 격리가 약합니다. Binderized HAL은 독립 프로세스로 실행되어 HAL 서비스 크래시가 프레임워크에 영향을 주지 않으며, 권한 분리와 SELinux 정책 적용이 용이합니다.",
+    "blankDistractors": [
+      [
+        "인터페이스",
+        "버전 관리",
+        "FCM 레벨"
+      ],
+      [
+        "VNDK-SP",
+        "hw_module_t",
+        "ICameraProvider"
+      ],
+      [
+        "하위 호환성",
+        "인터페이스",
+        "FCM 레벨"
+      ]
+    ]
   },
   {
     "id": "hl-005",
@@ -69,11 +95,36 @@
     "type": "short-answer",
     "question": "___은 Android 8.0에서 Project Treble과 함께 도입된 HAL ___를 명확하게 정의하는 언어로, 인터페이스의 ___를 지원하여 프레임워크와 벤더 구현의 독립적인 업데이트를 가능하게 한다.",
     "blankAnswers": [
-      ["HIDL"],
-      ["인터페이스", "interface"],
-      ["버전 관리", "versioning"]
+      [
+        "HIDL"
+      ],
+      [
+        "인터페이스",
+        "interface"
+      ],
+      [
+        "버전 관리",
+        "versioning"
+      ]
     ],
-    "explanation": "HIDL은 .hal 파일로 인터페이스를 정의하며, hidl-gen 도구를 통해 C++ 및 Java 바인딩 코드를 자동 생성합니다. 패키지 형태(예: android.hardware.camera@2.0)로 관리되어 버전 관리가 용이하고, 프레임워크와 벤더 간의 안정적인 계약(contract)을 보장합니다."
+    "explanation": "HIDL은 .hal 파일로 인터페이스를 정의하며, hidl-gen 도구를 통해 C++ 및 Java 바인딩 코드를 자동 생성합니다. 패키지 형태(예: android.hardware.camera@2.0)로 관리되어 버전 관리가 용이하고, 프레임워크와 벤더 간의 안정적인 계약(contract)을 보장합니다.",
+    "blankDistractors": [
+      [
+        "VTS",
+        "LIFO",
+        "ABI"
+      ],
+      [
+        "FCM 레벨",
+        "하위 호환성",
+        "호환성"
+      ],
+      [
+        "FCM 레벨",
+        "같은 프로세스",
+        "호환성"
+      ]
+    ]
   },
   {
     "id": "hl-006",
@@ -85,10 +136,26 @@
     "codeTemplate": "const struct hw_module_t *module;\nint ret = ___(HAL_MODULE_ID, &module);\nif (ret == 0) {\n    struct hw_device_t *device;\n    module->methods->___(module, NULL, &device);\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["hw_get_module"],
-      ["open"]
+      [
+        "hw_get_module"
+      ],
+      [
+        "open"
+      ]
     ],
-    "explanation": "hw_get_module() 함수는 모듈 ID를 기반으로 /vendor/lib/hw 또는 /system/lib/hw 경로에서 해당 HAL 공유 라이브러리를 찾아 dlopen()으로 로드합니다. 로드된 모듈의 methods->open()을 호출하여 hw_device_t 디바이스 인스턴스를 생성합니다."
+    "explanation": "hw_get_module() 함수는 모듈 ID를 기반으로 /vendor/lib/hw 또는 /system/lib/hw 경로에서 해당 HAL 공유 라이브러리를 찾아 dlopen()으로 로드합니다. 로드된 모듈의 methods->open()을 호출하여 hw_device_t 디바이스 인스턴스를 생성합니다.",
+    "blankDistractors": [
+      [
+        "VNDK-SP",
+        "initialize",
+        "id"
+      ],
+      [
+        "getService",
+        "ICameraProvider",
+        "methods"
+      ]
+    ]
   },
   {
     "id": "hl-007",
@@ -100,11 +167,34 @@
     "codeTemplate": "typedef struct hw_module_t {\n    uint32_t tag;           // HARDWARE_MODULE_TAG로 초기화\n    uint16_t module_api_version;\n    uint16_t hal_api_version;\n    const char *___;        // 모듈 고유 식별자\n    const char *name;\n    const char *author;\n    struct hw_module_methods_t *___; // open() 등 메서드 포인터\n} ___;",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["id"],
-      ["methods"],
-      ["hw_module_t"]
+      [
+        "id"
+      ],
+      [
+        "methods"
+      ],
+      [
+        "hw_module_t"
+      ]
     ],
-    "explanation": "hw_module_t는 legacy HAL의 핵심 구조체입니다. id 필드는 모듈을 식별하는 고유 문자열이며, methods 필드는 hw_module_methods_t 구조체를 가리키는 포인터로 open() 메서드를 포함합니다. 모든 HAL 모듈은 HAL_MODULE_INFO_SYM 심볼로 이 구조체를 export해야 합니다."
+    "explanation": "hw_module_t는 legacy HAL의 핵심 구조체입니다. id 필드는 모듈을 식별하는 고유 문자열이며, methods 필드는 hw_module_methods_t 구조체를 가리키는 포인터로 open() 메서드를 포함합니다. 모든 HAL 모듈은 HAL_MODULE_INFO_SYM 심볼로 이 구조체를 export해야 합니다.",
+    "blankDistractors": [
+      [
+        "VNDK-SP",
+        "optional",
+        "hw_get_module"
+      ],
+      [
+        "true",
+        "hwbinder",
+        "ICameraProvider"
+      ],
+      [
+        "true",
+        "getService",
+        "Void"
+      ]
+    ]
   },
   {
     "id": "hl-008",
@@ -130,11 +220,35 @@
     "type": "short-answer",
     "question": "HIDL 패키지는 ___형식의 명명 규칙을 따르며, 예를 들어 카메라 HAL 2.0은 ___로 표현되고, AOSP의 ___디렉토리에 매핑된다.",
     "blankAnswers": [
-      ["android.hardware.<name>@<major>.<minor>"],
-      ["android.hardware.camera@2.0"],
-      ["hardware/interfaces/", "hardware/interfaces"]
+      [
+        "android.hardware.<name>@<major>.<minor>"
+      ],
+      [
+        "android.hardware.camera@2.0"
+      ],
+      [
+        "hardware/interfaces/",
+        "hardware/interfaces"
+      ]
     ],
-    "explanation": "HIDL 패키지는 android.hardware.<name>@<major>.<minor> 형식을 따릅니다. 예를 들어 android.hardware.camera@2.0은 카메라 HAL 버전 2.0을 의미합니다. 이 명명 규칙은 hardware/interfaces 디렉토리 구조에 직접 매핑되어, 패키지명만으로 소스 코드 위치를 쉽게 찾을 수 있습니다."
+    "explanation": "HIDL 패키지는 android.hardware.<name>@<major>.<minor> 형식을 따릅니다. 예를 들어 android.hardware.camera@2.0은 카메라 HAL 버전 2.0을 의미합니다. 이 명명 규칙은 hardware/interfaces 디렉토리 구조에 직접 매핑되어, 패키지명만으로 소스 코드 위치를 쉽게 찾을 수 있습니다.",
+    "blankDistractors": [
+      [
+        "OpenGL ES",
+        "android.hardware.<name>@<version>",
+        "1.0"
+      ],
+      [
+        "\"default\"",
+        "Target FCM Version",
+        "1.0"
+      ],
+      [
+        "\"default\"",
+        "hardware/interfaces/<name>/<version>/",
+        "linker namespace"
+      ]
+    ]
   },
   {
     "id": "hl-010",
@@ -192,11 +306,36 @@
     "type": "short-answer",
     "question": "HAL 버전 관리에서 ___ 버전 변경은 기존 인터페이스에 새로운 메서드를 추가하는 것으로 ___이 유지되고, ___ 버전 변경은 기존 인터페이스의 시그니처 변경이나 메서드 제거를 포함할 수 있어 호환성이 깨진다.",
     "blankAnswers": [
-      ["minor"],
-      ["하위 호환성", "backward compatibility", "호환성"],
-      ["major"]
+      [
+        "minor"
+      ],
+      [
+        "하위 호환성",
+        "backward compatibility",
+        "호환성"
+      ],
+      [
+        "major"
+      ]
     ],
-    "explanation": "HIDL에서 minor 버전 업데이트(@2.0 → @2.1)는 기존 인터페이스를 extends하여 메서드를 추가할 수 있으며, @2.0 클라이언트가 @2.1 서비스를 그대로 사용할 수 있습니다. major 버전 업데이트(@2.x → @3.0)는 호환성을 보장하지 않으며, 클라이언트와 서버 모두 업데이트가 필요합니다."
+    "explanation": "HIDL에서 minor 버전 업데이트(@2.0 → @2.1)는 기존 인터페이스를 extends하여 메서드를 추가할 수 있으며, @2.0 클라이언트가 @2.1 서비스를 그대로 사용할 수 있습니다. major 버전 업데이트(@2.x → @3.0)는 호환성을 보장하지 않으며, 클라이언트와 서버 모두 업데이트가 필요합니다.",
+    "blankDistractors": [
+      [
+        "dlopen",
+        "registerAsService",
+        "hw_module_t"
+      ],
+      [
+        "별도 프로세스",
+        "FCM 레벨",
+        "같은 프로세스"
+      ],
+      [
+        "initialize",
+        "dlopen",
+        "open"
+      ]
+    ]
   },
   {
     "id": "hl-014",
@@ -206,11 +345,36 @@
     "type": "short-answer",
     "question": "AOSP의 ___디렉토리는 모든 HIDL HAL 인터페이스가 정의된 곳으로, 각 HAL은 ___구조로 관리되며, 해당 디렉토리의 인터페이스들은 ___패키지로 매핑된다.",
     "blankAnswers": [
-      ["hardware/interfaces", "hardware/interfaces/"],
-      ["hardware/interfaces/<name>/<version>/", "<name>/<version>/"],
-      ["android.hardware.<name>@<version>"]
+      [
+        "hardware/interfaces",
+        "hardware/interfaces/"
+      ],
+      [
+        "hardware/interfaces/<name>/<version>/",
+        "<name>/<version>/"
+      ],
+      [
+        "android.hardware.<name>@<version>"
+      ]
     ],
-    "explanation": "hardware/interfaces는 AOSP 프레임워크 측의 HAL 인터페이스 정의 저장소입니다. 각 하위 디렉토리에는 .hal 인터페이스 파일, types.hal(공통 타입 정의), Android.bp(빌드 파일) 등이 포함됩니다. hidl-gen 도구가 이 파일들로부터 C++/Java 바인딩 코드를 생성합니다."
+    "explanation": "hardware/interfaces는 AOSP 프레임워크 측의 HAL 인터페이스 정의 저장소입니다. 각 하위 디렉토리에는 .hal 인터페이스 파일, types.hal(공통 타입 정의), Android.bp(빌드 파일) 등이 포함됩니다. hidl-gen 도구가 이 파일들로부터 C++/Java 바인딩 코드를 생성합니다.",
+    "blankDistractors": [
+      [
+        "OpenGL ES",
+        "Target FCM Version",
+        "android.hardware.<name>@<major>.<minor>"
+      ],
+      [
+        "linker namespace",
+        "Target FCM Version",
+        "\"default\""
+      ],
+      [
+        "Target FCM Version",
+        "OpenGL ES",
+        "android.hardware.camera@2.0"
+      ]
+    ]
   },
   {
     "id": "hl-015",
@@ -220,11 +384,37 @@
     "type": "short-answer",
     "question": "___는 벤더 HAL 구현이 AOSP에서 정의한 HAL ___ 규격을 올바르게 준수하는지 검증하는 자동화 테스트 프레임워크로, 이를 통과해야 Android ___를 보장받을 수 있다.",
     "blankAnswers": [
-      ["VTS", "Vendor Test Suite"],
-      ["인터페이스", "interface"],
-      ["호환성", "compatibility"]
+      [
+        "VTS",
+        "Vendor Test Suite"
+      ],
+      [
+        "인터페이스",
+        "interface"
+      ],
+      [
+        "호환성",
+        "compatibility"
+      ]
     ],
-    "explanation": "VTS는 벤더 HAL 구현의 호환성을 검증하는 테스트 프레임워크입니다. HAL 인터페이스의 각 메서드에 대한 기능 테스트, 성능 테스트, 보안 테스트를 포함합니다. VTS는 Treble 호환성 검증을 위한 것이며, GMS 인증(Google Mobile Services 인증)은 CTS(Compatibility Test Suite) 통과가 주요 요건입니다. VTS 통과는 Android 호환성을 보장하는 핵심 메커니즘입니다."
+    "explanation": "VTS는 벤더 HAL 구현의 호환성을 검증하는 테스트 프레임워크입니다. HAL 인터페이스의 각 메서드에 대한 기능 테스트, 성능 테스트, 보안 테스트를 포함합니다. VTS는 Treble 호환성 검증을 위한 것이며, GMS 인증(Google Mobile Services 인증)은 CTS(Compatibility Test Suite) 통과가 주요 요건입니다. VTS 통과는 Android 호환성을 보장하는 핵심 메커니즘입니다.",
+    "blankDistractors": [
+      [
+        "HIDL",
+        "AIDL",
+        "LLNDK"
+      ],
+      [
+        "하위 호환성",
+        "FCM 레벨",
+        "같은 프로세스"
+      ],
+      [
+        "같은 프로세스",
+        "별도 프로세스",
+        "하위 호환성"
+      ]
+    ]
   },
   {
     "id": "hl-016",
@@ -236,11 +426,35 @@
     "codeTemplate": "// hardware/interfaces/example/1.0/IExample.hal\npackage android.hardware.example@___;\n\n___ IExample {\n    initialize() generates (bool success);\n    getData() generates (vec<uint8_t> data, ___ status);\n};",
     "codeLanguage": "hidl",
     "blankAnswers": [
-      ["1.0"],
-      ["interface"],
-      ["Status", "int32_t"]
+      [
+        "1.0"
+      ],
+      [
+        "interface"
+      ],
+      [
+        "Status",
+        "int32_t"
+      ]
     ],
-    "explanation": "HIDL .hal 파일에서 package 선언은 패키지명과 버전(@major.minor)을 명시합니다. interface 키워드로 인터페이스를 정의하며, generates 키워드를 사용하여 반환값을 선언합니다. HIDL은 다중 반환값을 지원하며, Status나 기본 타입으로 에러 상태를 반환할 수 있습니다."
+    "explanation": "HIDL .hal 파일에서 package 선언은 패키지명과 버전(@major.minor)을 명시합니다. interface 키워드로 인터페이스를 정의하며, generates 키워드를 사용하여 반환값을 선언합니다. HIDL은 다중 반환값을 지원하며, Status나 기본 타입으로 에러 상태를 반환할 수 있습니다.",
+    "blankDistractors": [
+      [
+        "Target FCM Version",
+        "hardware/interfaces",
+        "\"default\""
+      ],
+      [
+        "ICameraProvider",
+        "device",
+        "getService"
+      ],
+      [
+        "module_current",
+        "dlopen",
+        "hw_get_module"
+      ]
+    ]
   },
   {
     "id": "hl-017",
@@ -252,11 +466,34 @@
     "codeTemplate": "#include <android/hardware/example/1.0/IExample.h>\n#include <hidl/HidlTransportSupport.h>\n\nusing android::hardware::example::V1_0::IExample;\nusing android::hardware::example::V1_0::implementation::Example;\n\nint main() {\n    android::hardware::configureRpcThreadpool(4, ___);\n\n    android::sp<IExample> service = new Example();\n    android::status_t status = service->___(___);\n\n    android::hardware::joinRpcThreadpool();\n    return 0;\n}",
     "codeLanguage": "cpp",
     "blankAnswers": [
-      ["true"],
-      ["registerAsService"],
-      ["\"default\""]
+      [
+        "true"
+      ],
+      [
+        "registerAsService"
+      ],
+      [
+        "\"default\""
+      ]
     ],
-    "explanation": "configureRpcThreadpool()의 두 번째 인자 true는 이 프로세스가 RPC 전용(callerWillJoin)임을 의미합니다. registerAsService()로 HAL 서비스를 hwservicemanager에 등록하며, \"default\"는 서비스 인스턴스 이름입니다. joinRpcThreadpool()로 메인 스레드가 Binder 요청을 처리하도록 합니다."
+    "explanation": "configureRpcThreadpool()의 두 번째 인자 true는 이 프로세스가 RPC 전용(callerWillJoin)임을 의미합니다. registerAsService()로 HAL 서비스를 hwservicemanager에 등록하며, \"default\"는 서비스 인스턴스 이름입니다. joinRpcThreadpool()로 메인 스레드가 Binder 요청을 처리하도록 합니다.",
+    "blankDistractors": [
+      [
+        "minor",
+        "id",
+        "vintf"
+      ],
+      [
+        "initialize",
+        "dlopen",
+        "device"
+      ],
+      [
+        "android.hardware.camera@2.0",
+        "1.0",
+        "hardware/interfaces"
+      ]
+    ]
   },
   {
     "id": "hl-018",
@@ -314,11 +551,36 @@
     "type": "short-answer",
     "question": "HAL deprecation 과정에서 ___은 Android 버전마다 증가하는 숫자로 요구되는 HAL 목록을 정의하며, HAL 제거 시 먼저 해당 HAL을 ___로 표시한 후 이후 버전에서 완전히 제거하고, 디바이스의 ___이 제거된 레벨 이상이면 해당 HAL은 더 이상 지원되지 않는다.",
     "blankAnswers": [
-      ["FCM 레벨", "FCM level"],
-      ["optional"],
-      ["Target FCM Version", "target-level"]
+      [
+        "FCM 레벨",
+        "FCM level"
+      ],
+      [
+        "optional"
+      ],
+      [
+        "Target FCM Version",
+        "target-level"
+      ]
     ],
-    "explanation": "FCM 레벨 기반의 HAL deprecation은 점진적 전환을 보장합니다. 예를 들어 FCM 레벨 5에서 HAL A를 optional로 표시하면, 새 디바이스는 HAL A를 제공하지 않아도 됩니다. FCM 레벨 7에서 완전히 제거되면, Target FCM Version 7 이상의 디바이스에서는 HAL A가 프레임워크에서 접근 불가합니다."
+    "explanation": "FCM 레벨 기반의 HAL deprecation은 점진적 전환을 보장합니다. 예를 들어 FCM 레벨 5에서 HAL A를 optional로 표시하면, 새 디바이스는 HAL A를 제공하지 않아도 됩니다. FCM 레벨 7에서 완전히 제거되면, Target FCM Version 7 이상의 디바이스에서는 HAL A가 프레임워크에서 접근 불가합니다.",
+    "blankDistractors": [
+      [
+        "하위 호환성",
+        "호환성",
+        "버전 관리"
+      ],
+      [
+        "dlopen",
+        "registerAsService",
+        "Void"
+      ],
+      [
+        "android.hardware.camera@2.0",
+        "android.hardware.<name>@<major>.<minor>",
+        "OpenGL ES"
+      ]
+    ]
   },
   {
     "id": "hl-022",
@@ -328,11 +590,37 @@
     "type": "short-answer",
     "question": "SP-HAL은 ___와 같이 성능이 극도로 중요한 HAL에 대해 같은 프로세스에서 직접 로드를 허용하는 예외적 메커니즘으로, ___ 라이브러리만 링크할 수 있으며, ___를 통해 접근 가능한 라이브러리가 엄격히 통제된다.",
     "blankAnswers": [
-      ["OpenGL ES", "Vulkan", "그래픽스 드라이버"],
-      ["VNDK-SP"],
-      ["linker namespace", "링커 네임스페이스"]
+      [
+        "OpenGL ES",
+        "Vulkan",
+        "그래픽스 드라이버"
+      ],
+      [
+        "VNDK-SP"
+      ],
+      [
+        "linker namespace",
+        "링커 네임스페이스"
+      ]
     ],
-    "explanation": "그래픽스 HAL은 프레임당 수천 번의 호출이 발생하므로 IPC 오버헤드가 허용되지 않습니다. SP-HAL은 이 성능 요구를 충족하면서도 VNDK-SP(VNDK의 하위집합) 라이브러리만 사용하도록 제한하여 system/vendor 분리 원칙을 최대한 유지합니다. linker namespace 격리를 통해 SP-HAL이 접근할 수 있는 라이브러리를 엄격히 통제합니다."
+    "explanation": "그래픽스 HAL은 프레임당 수천 번의 호출이 발생하므로 IPC 오버헤드가 허용되지 않습니다. SP-HAL은 이 성능 요구를 충족하면서도 VNDK-SP(VNDK의 하위집합) 라이브러리만 사용하도록 제한하여 system/vendor 분리 원칙을 최대한 유지합니다. linker namespace 격리를 통해 SP-HAL이 접근할 수 있는 라이브러리를 엄격히 통제합니다.",
+    "blankDistractors": [
+      [
+        "hardware/interfaces/",
+        "android.hardware.<name>@<version>",
+        "1.0"
+      ],
+      [
+        "hw_module_t",
+        "module_current",
+        "interface"
+      ],
+      [
+        "hardware/interfaces",
+        "1.0",
+        "\"default\""
+      ]
+    ]
   },
   {
     "id": "hl-023",
@@ -344,11 +632,35 @@
     "codeTemplate": "___ {\n    name: \"android.hardware.example\",\n    vendor_available: true,\n    srcs: [\"android/hardware/example/*.aidl\"],\n    stability: \"___\",\n    backend: {\n        cpp: {\n            enabled: true,\n        },\n        java: {\n            sdk_version: \"___\",\n        },\n    },\n}",
     "codeLanguage": "text",
     "blankAnswers": [
-      ["aidl_interface"],
-      ["vintf"],
-      ["module_current", "system_current"]
+      [
+        "aidl_interface"
+      ],
+      [
+        "vintf"
+      ],
+      [
+        "module_current",
+        "system_current"
+      ]
     ],
-    "explanation": "AIDL HAL은 Android.bp(Blueprint 형식)에서 aidl_interface 모듈로 정의합니다. stability를 \"vintf\"로 설정하면 안정적인 AIDL 인터페이스임을 선언하며, VINTF 호환성 검증 대상이 됩니다. Java 백엔드의 sdk_version은 모듈의 API 레벨을 지정합니다. 이 설정으로 빌드 시스템이 자동으로 C++/Java 바인딩과 버전 스냅샷을 관리합니다."
+    "explanation": "AIDL HAL은 Android.bp(Blueprint 형식)에서 aidl_interface 모듈로 정의합니다. stability를 \"vintf\"로 설정하면 안정적인 AIDL 인터페이스임을 선언하며, VINTF 호환성 검증 대상이 됩니다. Java 백엔드의 sdk_version은 모듈의 API 레벨을 지정합니다. 이 설정으로 빌드 시스템이 자동으로 C++/Java 바인딩과 버전 스냅샷을 관리합니다.",
+    "blankDistractors": [
+      [
+        "device",
+        "Status",
+        "hw_get_module"
+      ],
+      [
+        "dlopen",
+        "minor",
+        "device"
+      ],
+      [
+        "VNDK-SP",
+        "open",
+        "methods"
+      ]
+    ]
   },
   {
     "id": "hl-024",
@@ -360,11 +672,34 @@
     "codeTemplate": "#include <android/hardware/sensors/2.0/ISensors.h>\n#include <android/hardware/sensors/2.0/ISensorsCallback.h>\n#include <fmq/MessageQueue.h>\n\nusing android::hardware::sensors::V2_0::ISensors;\nusing android::hardware::sensors::V2_0::ISensorsCallback;\n\nclass SensorsCallback : public ISensorsCallback {\npublic:\n    Return<void> onDynamicSensorsConnected(\n            const hidl_vec<SensorInfo>& info) override {\n        return ___();\n    }\n};\n\nvoid initSensors() {\n    android::sp<ISensors> sensors = ISensors::___(\"default\");\n    if (sensors == nullptr) {\n        return;\n    }\n    android::sp<ISensorsCallback> callback = new SensorsCallback();\n    sensors->___(callback);\n}",
     "codeLanguage": "cpp",
     "blankAnswers": [
-      ["Void"],
-      ["getService"],
-      ["initialize"]
+      [
+        "Void"
+      ],
+      [
+        "getService"
+      ],
+      [
+        "initialize"
+      ]
     ],
-    "explanation": "HIDL HAL 클라이언트는 ISensors::getService()를 호출하여 hwservicemanager에서 서비스를 조회합니다. Return<void>의 경우 Void()를 반환합니다. Sensors HAL 2.0에서는 initialize() 메서드를 호출하여 FMQ(Fast Message Queue)와 콜백을 설정합니다. FMQ를 통해 센서 이벤트를 Binder IPC 없이 효율적으로 전달할 수 있습니다."
+    "explanation": "HIDL HAL 클라이언트는 ISensors::getService()를 호출하여 hwservicemanager에서 서비스를 조회합니다. Return<void>의 경우 Void()를 반환합니다. Sensors HAL 2.0에서는 initialize() 메서드를 호출하여 FMQ(Fast Message Queue)와 콜백을 설정합니다. FMQ를 통해 센서 이벤트를 Binder IPC 없이 효율적으로 전달할 수 있습니다.",
+    "blankDistractors": [
+      [
+        "methods",
+        "interface",
+        "aidl_interface"
+      ],
+      [
+        "dlopen",
+        "VNDK-SP",
+        "id"
+      ],
+      [
+        "optional",
+        "id",
+        "hw_module_t"
+      ]
+    ]
   },
   {
     "id": "hl-025",
@@ -376,10 +711,33 @@
     "codeTemplate": "<manifest version=\"1.0\" type=\"___\">\n    <hal format=\"hidl\">\n        <name>android.hardware.camera.provider</name>\n        <transport>___</transport>\n        <version>2.4</version>\n        <interface>\n            <name>___</name>\n            <instance>default</instance>\n        </interface>\n    </hal>\n</manifest>",
     "codeLanguage": "xml",
     "blankAnswers": [
-      ["device"],
-      ["hwbinder"],
-      ["ICameraProvider"]
+      [
+        "device"
+      ],
+      [
+        "hwbinder"
+      ],
+      [
+        "ICameraProvider"
+      ]
     ],
-    "explanation": "vendor manifest는 type=\"device\"로 디바이스 측 manifest임을 선언합니다. transport 태그에 \"hwbinder\"를 지정하면 Binderized HAL로 동작하며, \"passthrough\"를 지정하면 Passthrough HAL로 동작합니다. 카메라 HAL의 경우 패키지명은 android.hardware.camera.provider이고 인터페이스 이름은 ICameraProvider이며, 초기 버전은 2.4입니다. instance는 서비스 인스턴스 이름(보통 \"default\")을 지정합니다."
+    "explanation": "vendor manifest는 type=\"device\"로 디바이스 측 manifest임을 선언합니다. transport 태그에 \"hwbinder\"를 지정하면 Binderized HAL로 동작하며, \"passthrough\"를 지정하면 Passthrough HAL로 동작합니다. 카메라 HAL의 경우 패키지명은 android.hardware.camera.provider이고 인터페이스 이름은 ICameraProvider이며, 초기 버전은 2.4입니다. instance는 서비스 인스턴스 이름(보통 \"default\")을 지정합니다.",
+    "blankDistractors": [
+      [
+        "hw_get_module",
+        "Status",
+        "hw_module_t"
+      ],
+      [
+        "registerAsService",
+        "minor",
+        "id"
+      ],
+      [
+        "minor",
+        "id",
+        "aidl_interface"
+      ]
+    ]
   }
 ]

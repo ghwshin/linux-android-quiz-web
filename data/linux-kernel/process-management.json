@@ -54,8 +54,20 @@
     "difficulty": "초급",
     "type": "short-answer",
     "question": "Linux 커널에서 프로세스(또는 스레드)를 나타내며, PID, 상태, 스케줄링 정보, 메모리 관리 정보 등을 포함하는 핵심 자료구조의 이름은 ___이다.",
-    "blankAnswers": [["task_struct", "struct task_struct"]],
-    "explanation": "task_struct는 <linux/sched.h>에 정의되어 있으며, 커널이 프로세스를 관리하기 위해 필요한 모든 메타데이터를 담고 있는 구조체입니다. 각 프로세스마다 하나의 task_struct 인스턴스가 할당됩니다."
+    "blankAnswers": [
+      [
+        "task_struct",
+        "struct task_struct"
+      ]
+    ],
+    "explanation": "task_struct는 <linux/sched.h>에 정의되어 있으며, 커널이 프로세스를 관리하기 위해 필요한 모든 메타데이터를 담고 있는 구조체입니다. 각 프로세스마다 하나의 task_struct 인스턴스가 할당됩니다.",
+    "blankDistractors": [
+      [
+        "waitpid",
+        "fork",
+        "execl"
+      ]
+    ]
   },
   {
     "id": "pm-005",
@@ -64,8 +76,29 @@
     "difficulty": "초급",
     "type": "short-answer",
     "question": "현재 프로세스 자신의 PID를 반환하는 시스템 콜은 ___이고, 부모 프로세스의 PID를 반환하는 시스템 콜은 ___이다.",
-    "blankAnswers": [["getpid", "getpid()"], ["getppid", "getppid()"]],
-    "explanation": "getpid()는 호출한 프로세스 자신의 프로세스 ID를 반환하며, getppid()는 호출한 프로세스의 부모 프로세스 ID를 반환합니다. 이 두 함수는 항상 성공하며 에러를 반환하지 않습니다."
+    "blankAnswers": [
+      [
+        "getpid",
+        "getpid()"
+      ],
+      [
+        "getppid",
+        "getppid()"
+      ]
+    ],
+    "explanation": "getpid()는 호출한 프로세스 자신의 프로세스 ID를 반환하며, getppid()는 호출한 프로세스의 부모 프로세스 ID를 반환합니다. 이 두 함수는 항상 성공하며 에러를 반환하지 않습니다.",
+    "blankDistractors": [
+      [
+        "init",
+        "execl",
+        "fork"
+      ],
+      [
+        "task_struct",
+        "waitpid",
+        "vector"
+      ]
+    ]
   },
   {
     "id": "pm-006",
@@ -77,10 +110,26 @@
     "codeTemplate": "#include <stdio.h>\n#include <unistd.h>\n#include <sys/types.h>\n\nint main() {\n    pid_t pid = ___;\n\n    if (pid < 0) {\n        perror(\"fork failed\");\n        return 1;\n    } else if (pid == ___) {\n        printf(\"자식 프로세스: PID = %d\\n\", getpid());\n    } else {\n        printf(\"부모 프로세스: 자식 PID = %d\\n\", pid);\n    }\n    return 0;\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["fork()"],
-      ["0"]
+      [
+        "fork()"
+      ],
+      [
+        "0"
+      ]
     ],
-    "explanation": "fork()는 새로운 프로세스를 생성합니다. 자식 프로세스에서는 0을 반환하고, 부모 프로세스에서는 자식의 PID를 반환합니다. 이 반환값을 통해 부모와 자식 프로세스를 구분할 수 있습니다."
+    "explanation": "fork()는 새로운 프로세스를 생성합니다. 자식 프로세스에서는 0을 반환하고, 부모 프로세스에서는 자식의 PID를 반환합니다. 이 반환값을 통해 부모와 자식 프로세스를 구분할 수 있습니다.",
+    "blankDistractors": [
+      [
+        "getpid()",
+        "chdir(\"/\")",
+        "pci_ioremap_bar(pdev, 0)"
+      ],
+      [
+        "-1",
+        "1",
+        "268435456"
+      ]
+    ]
   },
   {
     "id": "pm-007",
@@ -92,10 +141,26 @@
     "codeTemplate": "#include <stdio.h>\n#include <unistd.h>\n#include <sys/wait.h>\n\nint main() {\n    pid_t pid = fork();\n\n    if (pid == 0) {\n        // 자식 프로세스에서 /bin/ls 실행\n        ___(\"/bin/ls\", \"ls\", \"-l\", NULL);\n        perror(\"execl failed\");\n    } else if (pid > 0) {\n        // 부모 프로세스가 자식 종료를 대기\n        ___(NULL);\n    }\n    return 0;\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["execl"],
-      ["wait"]
+      [
+        "execl"
+      ],
+      [
+        "wait"
+      ]
     ],
-    "explanation": "execl()은 exec 계열 함수 중 하나로, 현재 프로세스 이미지를 새로운 프로그램으로 교체합니다. wait()은 자식 프로세스가 종료될 때까지 부모 프로세스를 대기시킵니다. fork()와 exec()의 조합은 Unix에서 새로운 프로그램을 실행하는 기본 패턴입니다."
+    "explanation": "execl()은 exec 계열 함수 중 하나로, 현재 프로세스 이미지를 새로운 프로그램으로 교체합니다. wait()은 자식 프로세스가 종료될 때까지 부모 프로세스를 대기시킵니다. fork()와 exec()의 조합은 Unix에서 새로운 프로그램을 실행하는 기본 패턴입니다.",
+    "blankDistractors": [
+      [
+        "setsid",
+        "getpid",
+        "fork"
+      ],
+      [
+        "execve",
+        "init",
+        "task_struct"
+      ]
+    ]
   },
   {
     "id": "pm-008",
@@ -168,8 +233,38 @@
     "difficulty": "중급",
     "type": "short-answer",
     "question": "부모 프로세스가 먼저 종료되어 발생하는 프로세스를 ___라 하며, Linux 커널은 이 프로세스의 부모를 ___(PID ___)로 재지정(reparenting)하여 처리한다.",
-    "blankAnswers": [["고아 프로세스", "orphan process", "orphan"], ["init", "init 프로세스"], ["1"]],
-    "explanation": "부모 프로세스가 먼저 종료되면, 그 자식 프로세스들은 고아 프로세스가 됩니다. 커널의 forget_original_parent() 함수가 호출되어 고아 프로세스의 부모를 init 프로세스(PID 1)로 변경합니다. 단, prctl(PR_SET_CHILD_SUBREAPER)로 subreaper를 설정한 프로세스가 있으면 init 대신 해당 subreaper가 새 부모가 됩니다."
+    "blankAnswers": [
+      [
+        "고아 프로세스",
+        "orphan process",
+        "orphan"
+      ],
+      [
+        "init",
+        "init 프로세스"
+      ],
+      [
+        "1"
+      ]
+    ],
+    "explanation": "부모 프로세스가 먼저 종료되면, 그 자식 프로세스들은 고아 프로세스가 됩니다. 커널의 forget_original_parent() 함수가 호출되어 고아 프로세스의 부모를 init 프로세스(PID 1)로 변경합니다. 단, prctl(PR_SET_CHILD_SUBREAPER)로 subreaper를 설정한 프로세스가 있으면 init 대신 해당 subreaper가 새 부모가 됩니다.",
+    "blankDistractors": [
+      [
+        "인터럽트 폭주",
+        "디렉토리 엔트리",
+        "인터럽트"
+      ],
+      [
+        "fork",
+        "execl",
+        "task_struct"
+      ],
+      [
+        "-1",
+        "0",
+        "128"
+      ]
+    ]
   },
   {
     "id": "pm-013",
@@ -178,8 +273,38 @@
     "difficulty": "중급",
     "type": "short-answer",
     "question": "시그널을 그룹 단위로 전송하기 위한 프로세스의 집합을 프로세스 그룹이라 하며 ___로 식별된다. 하나 이상의 프로세스 그룹의 집합을 세션이라 하며 ___로 식별되고, ___를 호출하여 새 세션을 생성한다.",
-    "blankAnswers": [["PGID", "Process Group ID"], ["SID", "Session ID"], ["setsid", "setsid()"]],
-    "explanation": "프로세스 그룹은 파이프라인으로 연결된 명령어들을 하나의 단위로 관리하거나 job control에 사용됩니다. 세션은 setsid()로 생성하며, 데몬 프로세스를 만들 때 새 세션을 생성하여 제어 터미널로부터 분리합니다."
+    "blankAnswers": [
+      [
+        "PGID",
+        "Process Group ID"
+      ],
+      [
+        "SID",
+        "Session ID"
+      ],
+      [
+        "setsid",
+        "setsid()"
+      ]
+    ],
+    "explanation": "프로세스 그룹은 파이프라인으로 연결된 명령어들을 하나의 단위로 관리하거나 job control에 사용됩니다. 세션은 setsid()로 생성하며, 데몬 프로세스를 만들 때 새 세션을 생성하여 제어 터미널로부터 분리합니다.",
+    "blankDistractors": [
+      [
+        "TASK_INTERRUPTIBLE",
+        "PATH",
+        "CLONE_FILES"
+      ],
+      [
+        "EXIT_ZOMBIE",
+        "CLONE_VM",
+        "CLONE_FILES"
+      ],
+      [
+        "status",
+        "fork",
+        "wait"
+      ]
+    ]
   },
   {
     "id": "pm-014",
@@ -188,8 +313,38 @@
     "difficulty": "중급",
     "type": "short-answer",
     "question": "데몬 프로세스 생성 시, ___를 호출하여 자식을 생성한 뒤 부모를 종료하고, ___를 호출하여 새 세션을 생성해 제어 터미널로부터 분리하며, ___로 작업 디렉토리를 루트로 변경한다.",
-    "blankAnswers": [["fork", "fork()"], ["setsid", "setsid()"], ["chdir(\"/\")", "chdir"]],
-    "explanation": "데몬 프로세스는 터미널과 분리되어 백그라운드에서 실행되는 프로세스입니다. 세 단계로 생성됩니다: 1) fork()로 자식을 생성한 뒤 부모를 종료하고, 2) setsid()로 새 세션을 만들어 제어 터미널로부터 분리하며, 3) chdir(\"/\")로 작업 디렉토리를 루트로 변경하여 파일시스템 언마운트를 방해하지 않도록 합니다. 실제로는 제어 터미널 재획득 방지를 위해 두 번의 fork를 수행하기도 합니다."
+    "blankAnswers": [
+      [
+        "fork",
+        "fork()"
+      ],
+      [
+        "setsid",
+        "setsid()"
+      ],
+      [
+        "chdir(\"/\")",
+        "chdir"
+      ]
+    ],
+    "explanation": "데몬 프로세스는 터미널과 분리되어 백그라운드에서 실행되는 프로세스입니다. 세 단계로 생성됩니다: 1) fork()로 자식을 생성한 뒤 부모를 종료하고, 2) setsid()로 새 세션을 만들어 제어 터미널로부터 분리하며, 3) chdir(\"/\")로 작업 디렉토리를 루트로 변경하여 파일시스템 언마운트를 방해하지 않도록 합니다. 실제로는 제어 터미널 재획득 방지를 위해 두 번의 fork를 수행하기도 합니다.",
+    "blankDistractors": [
+      [
+        "execl",
+        "status",
+        "task_struct"
+      ],
+      [
+        "waitpid",
+        "wait",
+        "execve"
+      ],
+      [
+        "getpid()",
+        "pci_enable_device(pdev)",
+        "pci_ioremap_bar(pdev, 0)"
+      ]
+    ]
   },
   {
     "id": "pm-015",
@@ -201,10 +356,26 @@
     "codeTemplate": "#include <stdio.h>\n#include <stdlib.h>\n#include <unistd.h>\n#include <sys/wait.h>\n\nint main() {\n    pid_t pid = fork();\n\n    if (pid == 0) {\n        printf(\"자식 프로세스 실행 중\\n\");\n        exit(42);\n    } else if (pid > 0) {\n        int status;\n        ___(pid, &status, 0);\n\n        if (___) {\n            printf(\"자식 정상 종료, 종료 코드: %d\\n\",\n                   WEXITSTATUS(status));\n        }\n    }\n    return 0;\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["waitpid"],
-      ["WIFEXITED(status)"]
+      [
+        "waitpid"
+      ],
+      [
+        "WIFEXITED(status)"
+      ]
     ],
-    "explanation": "waitpid()는 특정 PID의 자식 프로세스를 기다릴 수 있으며, wait()보다 유연합니다. WIFEXITED(status) 매크로는 자식이 정상적으로 종료(exit() 호출)했는지 확인하고, WEXITSTATUS(status)는 실제 종료 코드를 추출합니다."
+    "explanation": "waitpid()는 특정 PID의 자식 프로세스를 기다릴 수 있으며, wait()보다 유연합니다. WIFEXITED(status) 매크로는 자식이 정상적으로 종료(exit() 호출)했는지 확인하고, WEXITSTATUS(status)는 실제 종료 코드를 추출합니다.",
+    "blankDistractors": [
+      [
+        "fork",
+        "vector",
+        "execl"
+      ],
+      [
+        "MODULE_DEVICE_TABLE(of, my_of_match)",
+        "CPU_SET(0, &mask)",
+        "MODULE_LICENSE(\"GPL\")"
+      ]
+    ]
   },
   {
     "id": "pm-016",
@@ -216,10 +387,26 @@
     "codeTemplate": "#include <stdio.h>\n#include <signal.h>\n#include <unistd.h>\n#include <sys/wait.h>\n\nvoid sigchld_handler(int signo) {\n    // 모든 종료된 자식 프로세스의 상태를 수거\n    while (___(___, NULL, WNOHANG) > 0);\n}\n\nint main() {\n    struct sigaction sa;\n    sa.sa_handler = sigchld_handler;\n    sigemptyset(&sa.sa_mask);\n    sa.sa_flags = SA_RESTART;\n    sigaction(SIGCHLD, &sa, NULL);\n\n    // 서버 로직...\n    while (1) {\n        pause();\n    }\n    return 0;\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["waitpid"],
-      ["-1"]
+      [
+        "waitpid"
+      ],
+      [
+        "-1"
+      ]
     ],
-    "explanation": "waitpid(-1, NULL, WNOHANG)는 종료된 모든 자식 프로세스(PID -1)의 상태를 비블로킹(WNOHANG)으로 수거합니다. while 루프를 사용하는 이유는 여러 자식이 동시에 종료될 수 있기 때문입니다. 이 패턴은 서버 프로그램에서 좀비 프로세스 축적을 방지하는 표준적인 방법입니다."
+    "explanation": "waitpid(-1, NULL, WNOHANG)는 종료된 모든 자식 프로세스(PID -1)의 상태를 비블로킹(WNOHANG)으로 수거합니다. while 루프를 사용하는 이유는 여러 자식이 동시에 종료될 수 있기 때문입니다. 이 패턴은 서버 프로그램에서 좀비 프로세스 축적을 방지하는 표준적인 방법입니다.",
+    "blankDistractors": [
+      [
+        "execl",
+        "fork",
+        "setsid"
+      ],
+      [
+        "1",
+        "0",
+        "4"
+      ]
+    ]
   },
   {
     "id": "pm-017",
@@ -231,10 +418,28 @@
     "codeTemplate": "#include <stdio.h>\n#include <stdlib.h>\n#include <unistd.h>\n\nint main() {\n    printf(\"부모 프로세스 시작\\n\");\n\n    pid_t pid = fork();\n    if (pid == 0) {\n        // 자식: stdio 버퍼를 플러시하지 않고 즉시 종료\n        // atexit 핸들러도 실행하지 않음\n        ___(___);\n    }\n\n    // 부모 프로세스 계속 실행\n    wait(NULL);\n    printf(\"자식 프로세스 종료 완료\\n\");\n    return 0;\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["_exit", "_Exit"],
-      ["0", "EXIT_SUCCESS"]
+      [
+        "_exit",
+        "_Exit"
+      ],
+      [
+        "0",
+        "EXIT_SUCCESS"
+      ]
     ],
-    "explanation": "exit()는 atexit()으로 등록된 핸들러를 실행하고 stdio 버퍼를 플러시한 후 프로세스를 종료합니다. 반면 _exit()는 이러한 정리 작업 없이 즉시 커널에 종료를 요청합니다. fork() 후 자식 프로세스에서 exec()를 호출하지 않고 종료할 때는 _exit()를 사용해야 부모의 stdio 버퍼가 중복 플러시되는 문제를 방지할 수 있습니다."
+    "explanation": "exit()는 atexit()으로 등록된 핸들러를 실행하고 stdio 버퍼를 플러시한 후 프로세스를 종료합니다. 반면 _exit()는 이러한 정리 작업 없이 즉시 커널에 종료를 요청합니다. fork() 후 자식 프로세스에서 exec()를 호출하지 않고 종료할 때는 _exit()를 사용해야 부모의 stdio 버퍼가 중복 플러시되는 문제를 방지할 수 있습니다.",
+    "blankDistractors": [
+      [
+        "page cache",
+        "--decode",
+        "--json"
+      ],
+      [
+        "1",
+        "-1",
+        "4"
+      ]
+    ]
   },
   {
     "id": "pm-018",
@@ -291,8 +496,35 @@
     "difficulty": "고급",
     "type": "short-answer",
     "question": "clone()에서 부모와 동일한 메모리 공간을 공유하려면 ___ 플래그를, 파일 디스크립터 테이블을 공유하려면 ___ 플래그를, 같은 스레드 그룹(동일 TGID)에 속하게 하려면 ___ 플래그를 사용한다.",
-    "blankAnswers": [["CLONE_VM"], ["CLONE_FILES"], ["CLONE_THREAD"]],
-    "explanation": "clone()의 플래그들은 새로 생성되는 프로세스(또는 스레드)가 부모와 어떤 자원을 공유할지 결정합니다. 모든 CLONE 플래그를 설정하면 스레드처럼 동작하고, 아무것도 설정하지 않으면 fork()와 유사하게 동작합니다."
+    "blankAnswers": [
+      [
+        "CLONE_VM"
+      ],
+      [
+        "CLONE_FILES"
+      ],
+      [
+        "CLONE_THREAD"
+      ]
+    ],
+    "explanation": "clone()의 플래그들은 새로 생성되는 프로세스(또는 스레드)가 부모와 어떤 자원을 공유할지 결정합니다. 모든 CLONE 플래그를 설정하면 스레드처럼 동작하고, 아무것도 설정하지 않으면 fork()와 유사하게 동작합니다.",
+    "blankDistractors": [
+      [
+        "TASK_INTERRUPTIBLE",
+        "EXIT_ZOMBIE",
+        "PGID"
+      ],
+      [
+        "EXIT_ZOMBIE",
+        "SID",
+        "TASK_INTERRUPTIBLE"
+      ],
+      [
+        "EXIT_ZOMBIE",
+        "SID",
+        "TASK_INTERRUPTIBLE"
+      ]
+    ]
   },
   {
     "id": "pm-022",
@@ -301,8 +533,35 @@
     "difficulty": "고급",
     "type": "short-answer",
     "question": "프로세스가 I/O 대기로 sleep하면 ___또는 TASK_UNINTERRUPTIBLE 상태로 전이된다. SIGSTOP을 받으면 ___ 상태가 되고, 프로세스가 종료하면 부모가 wait()으로 수거할 때까지 ___ 상태로 남는다.",
-    "blankAnswers": [["TASK_INTERRUPTIBLE"], ["TASK_STOPPED"], ["EXIT_ZOMBIE"]],
-    "explanation": "프로세스 상태 전이는 커널의 스케줄러, 시그널 처리, I/O 서브시스템 등에 의해 관리됩니다. set_current_state() 매크로를 통해 상태가 변경되며, 스케줄러는 TASK_RUNNING 상태의 프로세스만 CPU에 할당합니다."
+    "blankAnswers": [
+      [
+        "TASK_INTERRUPTIBLE"
+      ],
+      [
+        "TASK_STOPPED"
+      ],
+      [
+        "EXIT_ZOMBIE"
+      ]
+    ],
+    "explanation": "프로세스 상태 전이는 커널의 스케줄러, 시그널 처리, I/O 서브시스템 등에 의해 관리됩니다. set_current_state() 매크로를 통해 상태가 변경되며, 스케줄러는 TASK_RUNNING 상태의 프로세스만 CPU에 할당합니다.",
+    "blankDistractors": [
+      [
+        "CLONE_FILES",
+        "CLONE_THREAD",
+        "CLONE_VM"
+      ],
+      [
+        "CLONE_THREAD",
+        "SID",
+        "PGID"
+      ],
+      [
+        "CLONE_VM",
+        "SID",
+        "PATH"
+      ]
+    ]
   },
   {
     "id": "pm-023",
@@ -311,8 +570,37 @@
     "difficulty": "고급",
     "type": "short-answer",
     "question": "exec 계열 함수에서 접미사 'l'은 인자를 가변 인자 리스트로, 'v'는 ___(배열)로 전달하며, 'p'는 ___ 환경 변수에서 실행 파일을 검색한다. 이 중 실제 시스템 콜인 함수는 ___이다.",
-    "blankAnswers": [["vector", "문자열 배열"], ["PATH"], ["execve", "execve()"]],
-    "explanation": "exec 함수의 명명 규칙을 이해하면 상황에 맞는 적절한 함수를 선택할 수 있습니다. execve()는 리눅스의 실제 시스템 콜로, 프로세스의 텍스트, 데이터, BSS, 스택 세그먼트를 새 프로그램의 것으로 완전히 교체합니다."
+    "blankAnswers": [
+      [
+        "vector",
+        "문자열 배열"
+      ],
+      [
+        "PATH"
+      ],
+      [
+        "execve",
+        "execve()"
+      ]
+    ],
+    "explanation": "exec 함수의 명명 규칙을 이해하면 상황에 맞는 적절한 함수를 선택할 수 있습니다. execve()는 리눅스의 실제 시스템 콜로, 프로세스의 텍스트, 데이터, BSS, 스택 세그먼트를 새 프로그램의 것으로 완전히 교체합니다.",
+    "blankDistractors": [
+      [
+        "getppid",
+        "execl",
+        "setsid"
+      ],
+      [
+        "CLONE_FILES",
+        "SID",
+        "TASK_STOPPED"
+      ],
+      [
+        "wait",
+        "status",
+        "getppid"
+      ]
+    ]
   },
   {
     "id": "pm-024",
@@ -324,10 +612,26 @@
     "codeTemplate": "#define _GNU_SOURCE\n#include <stdio.h>\n#include <stdlib.h>\n#include <sched.h>\n#include <sys/wait.h>\n#include <unistd.h>\n\n#define STACK_SIZE (1024 * 1024)\n\nint shared_var = 0;\n\nint child_func(void *arg) {\n    shared_var = 42;\n    printf(\"자식 스레드: shared_var = %d\\n\", shared_var);\n    return 0;\n}\n\nint main() {\n    char *stack = malloc(STACK_SIZE);\n    if (!stack) { perror(\"malloc\"); exit(1); }\n\n    // 스택은 높은 주소에서 낮은 주소로 자라므로 top을 전달\n    char *stack_top = stack + STACK_SIZE;\n\n    int flags = ___ | CLONE_SIGHAND | CLONE_THREAD | ___;\n\n    clone(child_func, stack_top, flags, NULL);\n\n    sleep(1);\n    printf(\"부모 스레드: shared_var = %d\\n\", shared_var);\n    free(stack);\n    return 0;\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["CLONE_VM"],
-      ["CLONE_FILES"]
+      [
+        "CLONE_VM"
+      ],
+      [
+        "CLONE_FILES"
+      ]
     ],
-    "explanation": "clone()에 CLONE_VM 플래그를 전달하면 부모와 자식이 동일한 가상 메모리 공간을 공유하게 됩니다. CLONE_THREAD는 같은 스레드 그룹에 속하게 하고, CLONE_SIGHAND는 시그널 핸들러를 공유합니다. CLONE_FILES는 파일 디스크립터 테이블을 공유합니다. 이 조합은 POSIX 스레드(pthread)의 내부 구현과 유사합니다."
+    "explanation": "clone()에 CLONE_VM 플래그를 전달하면 부모와 자식이 동일한 가상 메모리 공간을 공유하게 됩니다. CLONE_THREAD는 같은 스레드 그룹에 속하게 하고, CLONE_SIGHAND는 시그널 핸들러를 공유합니다. CLONE_FILES는 파일 디스크립터 테이블을 공유합니다. 이 조합은 POSIX 스레드(pthread)의 내부 구현과 유사합니다.",
+    "blankDistractors": [
+      [
+        "SID",
+        "TASK_STOPPED",
+        "PGID"
+      ],
+      [
+        "TASK_STOPPED",
+        "SID",
+        "TASK_INTERRUPTIBLE"
+      ]
+    ]
   },
   {
     "id": "pm-025",
@@ -339,9 +643,25 @@
     "codeTemplate": "#include <stdio.h>\n#include <unistd.h>\n#include <string.h>\n\nint main() {\n    char path[256];\n    char line[256];\n\n    // 현재 프로세스의 status 파일 경로 구성\n    snprintf(path, sizeof(path), \"/proc/%d/___\", ___);\n\n    FILE *fp = fopen(path, \"r\");\n    if (!fp) {\n        perror(\"fopen\");\n        return 1;\n    }\n\n    while (fgets(line, sizeof(line), fp)) {\n        if (strncmp(line, \"Name:\", 5) == 0 ||\n            strncmp(line, \"State:\", 6) == 0 ||\n            strncmp(line, \"Pid:\", 4) == 0 ||\n            strncmp(line, \"PPid:\", 5) == 0) {\n            printf(\"%s\", line);\n        }\n    }\n\n    fclose(fp);\n    return 0;\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["status"],
-      ["getpid()"]
+      [
+        "status"
+      ],
+      [
+        "getpid()"
+      ]
     ],
-    "explanation": "/proc/[PID]/status 파일은 프로세스의 상태 정보를 \"키: 값\" 형식으로 제공합니다. getpid()로 현재 프로세스의 PID를 얻어 경로를 구성하고, 파일을 읽어 원하는 정보를 파싱합니다. Name은 프로세스 이름, State는 현재 상태, Pid는 프로세스 ID, PPid는 부모 프로세스 ID를 나타냅니다."
+    "explanation": "/proc/[PID]/status 파일은 프로세스의 상태 정보를 \"키: 값\" 형식으로 제공합니다. getpid()로 현재 프로세스의 PID를 얻어 경로를 구성하고, 파일을 읽어 원하는 정보를 파싱합니다. Name은 프로세스 이름, State는 현재 상태, Pid는 프로세스 ID, PPid는 부모 프로세스 ID를 나타냅니다.",
+    "blankDistractors": [
+      [
+        "getpid",
+        "wait",
+        "execve"
+      ],
+      [
+        "chdir(\"/\")",
+        "fork()",
+        "pci_enable_device(pdev)"
+      ]
+    ]
   }
 ]

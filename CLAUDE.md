@@ -36,13 +36,15 @@ src/
 │               └── page.tsx      # Quiz session
 ├── components/
 │   ├── MultipleChoiceQuiz.tsx    # Multiple choice quiz component
-│   ├── ShortAnswerQuiz.tsx       # Fill-in-the-blank quiz (inline inputs)
-│   ├── CodeFillQuiz.tsx          # Code fill-in-the-blank (code block with inputs)
-│   ├── QuizSession.tsx           # Quiz session container (navigation, progress)
+│   ├── ShortAnswerQuiz.tsx       # Fill-in-the-blank quiz (inline inputs or word bank)
+│   ├── CodeFillQuiz.tsx          # Code fill-in-the-blank (code block with inputs or word bank)
+│   ├── WordBank.tsx              # Word bank chip selection component (Duolingo-style)
+│   ├── QuizSession.tsx           # Quiz session container (navigation, progress, mode toggle)
 │   ├── DifficultyProgress.tsx    # Progress display per difficulty
 │   └── SubcategoryProgress.tsx   # Progress display per subcategory
 ├── hooks/
-│   └── useQuizProgress.ts       # localStorage-based progress (useSyncExternalStore)
+│   ├── useQuizProgress.ts       # localStorage-based progress (useSyncExternalStore)
+│   └── useQuizMode.ts           # Quiz mode (normal/hard) toggle (useSyncExternalStore)
 ├── lib/
 │   ├── quiz-loader.ts           # Quiz data loading, filtering, shuffle
 │   ├── quiz-utils.ts            # Shared utilities (checkBlank)
@@ -56,6 +58,13 @@ data/
 └── android-system/*.json        # 14 subcategory quiz files (25 questions each)
 e2e/
 └── quiz-flow.spec.ts            # Playwright E2E tests
+scripts/
+├── quiz-data.ts                 # Shared utility (data loading, keyword extraction)
+├── quiz-validate.ts             # Validate all quiz data against QUIZ.md rules
+├── quiz-manifest.ts             # Generate data/quiz-manifest.json index
+├── quiz-search.ts               # Search/lookup quiz questions
+├── quiz-stats.ts                # Coverage statistics report
+└── quiz-distractors.ts          # Generate blankDistractors for word bank mode
 ```
 
 ## Quiz Data
@@ -63,7 +72,24 @@ e2e/
 - 700 questions total: 28 files x 25 questions (10 multiple-choice + 8 fill-in-the-blank + 7 code-fill)
 - See `QUIZ.md` for quiz data format rules
 - Both `short-answer` and `code-fill` use `blankAnswers` field for blank grading (shared `checkBlank()`)
+- `blankDistractors` field: per-blank wrong choices for word bank mode (2-3 per blank)
 - Grading: case-insensitive, trim, internal whitespace normalization
+- Word bank (normal) mode: tap chips to fill blanks; Hard mode: type answers manually
+
+## Quiz Data Tooling
+
+```bash
+npm run quiz:validate   # Validate all questions against QUIZ.md rules
+npm run quiz:manifest   # Regenerate data/quiz-manifest.json
+npm run quiz:search     # Search questions (--id, --keyword, --similar, --subcategory, --type, --difficulty)
+npm run quiz:stats      # Coverage statistics report
+npm run quiz:distractors # Generate/regenerate blankDistractors for word bank
+```
+
+When working with quiz data:
+- Read `data/quiz-manifest.json` first for overview (instead of reading all 28 JSON files)
+- Run `npm run quiz:validate` after any quiz data changes
+- Use `npm run quiz:search -- --keyword "..."` to find existing questions before adding new ones
 
 ## Testing
 
@@ -86,7 +112,7 @@ Key points:
 Always run these after modifying code:
 
 ```bash
-npm run test:run     # All 80 unit/component tests
+npm run test:run     # All 102 unit/component tests
 npm run typecheck    # Type safety
 npm run lint         # Lint rules
 ```
@@ -103,7 +129,7 @@ npm run build && npx playwright test   # 6 E2E tests
 - **Update CLAUDE.md** after completing work if any of the following apply:
   - Project structure changes (files/directories added, removed, or moved)
   - New commands added or existing commands changed
-  - Test count changes (current: 80 unit/component, 6 E2E)
+  - Test count changes (current: 102 unit/component, 6 E2E)
   - Quiz data structure changes
   - New libraries or tools introduced
   - Development workflow or convention changes

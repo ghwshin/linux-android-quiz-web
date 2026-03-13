@@ -17,6 +17,12 @@ const mockQuiz: Quiz = {
   explanation: "fork() returns 0 to the child process.",
 };
 
+const wordBankQuiz: Quiz = {
+  ...mockQuiz,
+  id: "test-cf-wb-001",
+  blankDistractors: [["exec", "clone", "wait"], ["1", "-1", "pid"]],
+};
+
 describe("CodeFillQuiz", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -107,5 +113,55 @@ describe("CodeFillQuiz", () => {
     expect(screen.getByText("정답")).toBeInTheDocument();
     expect(screen.getByText("빈칸 1:")).toBeInTheDocument();
     expect(screen.getByText("빈칸 2:")).toBeInTheDocument();
+  });
+
+  describe("word bank mode", () => {
+    it("renders word bank in normal mode", () => {
+      render(
+        <CodeFillQuiz
+          quiz={wordBankQuiz}
+          questionNumber={1}
+          onNext={() => {}}
+          mode="normal"
+        />
+      );
+
+      expect(screen.getByTestId("word-bank")).toBeInTheDocument();
+      expect(screen.getByTestId("blank-slot-1")).toBeInTheDocument();
+      expect(screen.getByTestId("blank-slot-2")).toBeInTheDocument();
+    });
+
+    it("falls back to text input in hard mode", () => {
+      render(
+        <CodeFillQuiz
+          quiz={wordBankQuiz}
+          questionNumber={1}
+          onNext={() => {}}
+          mode="hard"
+        />
+      );
+
+      expect(screen.queryByTestId("word-bank")).not.toBeInTheDocument();
+      expect(screen.getByPlaceholderText("빈칸 1")).toBeInTheDocument();
+    });
+
+    it("grades correctly with word bank", async () => {
+      const user = userEvent.setup();
+      render(
+        <CodeFillQuiz
+          quiz={wordBankQuiz}
+          questionNumber={1}
+          onNext={() => {}}
+          mode="normal"
+        />
+      );
+
+      // Fill both blanks
+      await user.click(screen.getByRole("button", { name: "fork" }));
+      await user.click(screen.getByRole("button", { name: "0" }));
+      await user.click(screen.getByText("제출"));
+
+      expect(screen.getByText("✓ 정답입니다!")).toBeInTheDocument();
+    });
   });
 });

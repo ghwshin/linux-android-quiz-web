@@ -10,7 +10,12 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "quiz:validate": "npx tsx scripts/quiz-validate.ts",
+    "quiz:manifest": "npx tsx scripts/quiz-manifest.ts",
+    "quiz:search": "npx tsx scripts/quiz-search.ts",
+    "quiz:stats": "npx tsx scripts/quiz-stats.ts",
+    "quiz:distractors": "npx tsx scripts/quiz-distractors.ts"
   },
   "dependencies": {
     "next": "^15.3.0",

@@ -39,6 +39,20 @@ const mockQuizzes: Quiz[] = [
   },
 ];
 
+const quizzesWithDistractors: Quiz[] = [
+  {
+    id: "test-qs-wb-001",
+    category: "linux-kernel",
+    subcategory: "process-management",
+    difficulty: "초급",
+    type: "short-answer",
+    question: "The answer is ___.",
+    blankAnswers: [["fork"]],
+    blankDistractors: [["exec", "clone", "wait"]],
+    explanation: "Explanation WB",
+  },
+];
+
 describe("QuizSession", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -163,5 +177,58 @@ describe("QuizSession", () => {
     );
 
     expect(screen.getByText(/Linux Kernel/)).toBeInTheDocument();
+  });
+
+  it("shows mode toggle for short-answer with blankDistractors", () => {
+    render(
+      <QuizSession
+        quizzes={quizzesWithDistractors}
+        category="linux-kernel"
+        subcategory="process-management"
+        difficulty="beginner"
+        categoryName="Linux Kernel"
+      />
+    );
+
+    expect(screen.getByText("일반")).toBeInTheDocument();
+    expect(screen.getByText("하드")).toBeInTheDocument();
+  });
+
+  it("does not show mode toggle for multiple-choice", () => {
+    render(
+      <QuizSession
+        quizzes={mockQuizzes}
+        category="linux-kernel"
+        subcategory="process-management"
+        difficulty="beginner"
+        categoryName="Linux Kernel"
+      />
+    );
+
+    expect(screen.queryByText("일반")).not.toBeInTheDocument();
+    expect(screen.queryByText("하드")).not.toBeInTheDocument();
+  });
+
+  it("toggles mode when clicking toggle buttons", async () => {
+    const user = userEvent.setup();
+    render(
+      <QuizSession
+        quizzes={quizzesWithDistractors}
+        category="linux-kernel"
+        subcategory="process-management"
+        difficulty="beginner"
+        categoryName="Linux Kernel"
+      />
+    );
+
+    // Default: normal mode → word bank visible
+    expect(screen.getByTestId("word-bank")).toBeInTheDocument();
+
+    // Switch to hard mode
+    await user.click(screen.getByText("하드"));
+
+    // Word bank should disappear, text input should appear
+    expect(screen.queryByTestId("word-bank")).not.toBeInTheDocument();
+    expect(screen.getByPlaceholderText("빈칸 1")).toBeInTheDocument();
   });
 });

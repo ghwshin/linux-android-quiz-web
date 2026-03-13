@@ -13,6 +13,7 @@ export interface Quiz {
   codeTemplate?: string;
   codeLanguage?: string;
   blankAnswers?: string[][];
+  blankDistractors?: string[][];
   answer?: number;
   explanation: string;
 }

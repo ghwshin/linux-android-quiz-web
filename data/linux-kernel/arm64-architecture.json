@@ -167,10 +167,28 @@
     "type": "short-answer",
     "question": "ARM64에서 사용자 공간 가상 주소 변환에 사용되는 페이지 테이블 베이스 레지스터는 ___이고, 커널 공간에 사용되는 레지스터는 ___이다.",
     "blankAnswers": [
-      ["TTBR0_EL1", "TTBR0"],
-      ["TTBR1_EL1", "TTBR1"]
+      [
+        "TTBR0_EL1",
+        "TTBR0"
+      ],
+      [
+        "TTBR1_EL1",
+        "TTBR1"
+      ]
     ],
-    "explanation": "ARM64는 가상 주소 공간을 상위와 하위로 분리하여 TTBR0_EL1은 사용자 공간(하위 주소), TTBR1_EL1은 커널 공간(상위 주소)의 페이지 테이블을 가리킵니다. 컨텍스트 스위칭 시 TTBR0_EL1만 변경하면 됩니다."
+    "explanation": "ARM64는 가상 주소 공간을 상위와 하위로 분리하여 TTBR0_EL1은 사용자 공간(하위 주소), TTBR1_EL1은 커널 공간(상위 주소)의 페이지 테이블을 가리킵니다. 컨텍스트 스위칭 시 TTBR0_EL1만 변경하면 됩니다.",
+    "blankDistractors": [
+      [
+        "GICD_ISENABLER",
+        "EL1",
+        "ZCR_EL1"
+      ],
+      [
+        "EL1",
+        "BTI",
+        "GICR"
+      ]
+    ]
   },
   {
     "id": "aa-012",
@@ -180,10 +198,26 @@
     "type": "short-answer",
     "question": "ARM64에서 4KB granule 사용 시, 39비트 가상 주소 공간은 ___단계 페이지 테이블을 사용하고, 48비트 가상 주소 공간은 ___단계 페이지 테이블을 사용한다.",
     "blankAnswers": [
-      ["3"],
-      ["4"]
+      [
+        "3"
+      ],
+      [
+        "4"
+      ]
     ],
-    "explanation": "4KB granule에서 각 페이지 테이블 레벨은 9비트를 인덱싱합니다. 39비트 VA는 9×3+12=39로 3단계, 48비트 VA는 9×4+12=48로 4단계 페이지 테이블이 필요합니다. ARMv8.2-A LVA 확장에서는 특정 granule(예: 64KB)과 조합하여 52비트 VA도 지원할 수 있습니다."
+    "explanation": "4KB granule에서 각 페이지 테이블 레벨은 9비트를 인덱싱합니다. 39비트 VA는 9×3+12=39로 3단계, 48비트 VA는 9×4+12=48로 4단계 페이지 테이블이 필요합니다. ARMv8.2-A LVA 확장에서는 특정 granule(예: 64KB)과 조합하여 52비트 VA도 지원할 수 있습니다.",
+    "blankDistractors": [
+      [
+        "128",
+        "12",
+        "32"
+      ],
+      [
+        "2",
+        "12",
+        "1019"
+      ]
+    ]
   },
   {
     "id": "aa-013",
@@ -193,10 +227,26 @@
     "type": "short-answer",
     "question": "ARM64의 Exception Level에서 OS 커널은 ___에서 실행되고, 하이퍼바이저는 ___에서 실행된다.",
     "blankAnswers": [
-      ["EL1"],
-      ["EL2"]
+      [
+        "EL1"
+      ],
+      [
+        "EL2"
+      ]
     ],
-    "explanation": "ARM64는 4개의 Exception Level을 정의합니다. EL0는 사용자 애플리케이션, EL1은 OS 커널, EL2는 하이퍼바이저, EL3는 Secure Monitor(ARM TrustZone)가 실행됩니다. 숫자가 높을수록 더 높은 특권을 가집니다."
+    "explanation": "ARM64는 4개의 Exception Level을 정의합니다. EL0는 사용자 애플리케이션, EL1은 OS 커널, EL2는 하이퍼바이저, EL3는 Secure Monitor(ARM TrustZone)가 실행됩니다. 숫자가 높을수록 더 높은 특권을 가집니다.",
+    "blankDistractors": [
+      [
+        "TTBR0_EL1",
+        "GICD",
+        "ZCR_EL1"
+      ],
+      [
+        "STRTAB_STE_0_CFG_S1_TRANS",
+        "STE",
+        "GICR"
+      ]
+    ]
   },
   {
     "id": "aa-014",
@@ -206,10 +256,26 @@
     "type": "short-answer",
     "question": "GICv3에서 SPI(Shared Peripheral Interrupt)의 INTID 범위는 ___부터 ___까지이다.",
     "blankAnswers": [
-      ["32"],
-      ["1019"]
+      [
+        "32"
+      ],
+      [
+        "1019"
+      ]
     ],
-    "explanation": "GICv3에서 SPI는 INTID 32~1019 범위를 사용합니다. SGI는 0~15, PPI는 16~31 범위입니다. SPI는 여러 코어가 공유하는 주변장치 인터럽트로, GICD(Distributor)를 통해 특정 코어로 라우팅됩니다."
+    "explanation": "GICv3에서 SPI는 INTID 32~1019 범위를 사용합니다. SGI는 0~15, PPI는 16~31 범위입니다. SPI는 여러 코어가 공유하는 주변장치 인터럽트로, GICD(Distributor)를 통해 특정 코어로 라우팅됩니다.",
+    "blankDistractors": [
+      [
+        "2",
+        "4",
+        "3"
+      ],
+      [
+        "128",
+        "4",
+        "12"
+      ]
+    ]
   },
   {
     "id": "aa-015",
@@ -219,10 +285,28 @@
     "type": "short-answer",
     "question": "GICv3에서 각 CPU 코어별 인터럽트를 관리하는 컴포넌트는 ___이고, 시스템 전체 SPI의 분배를 담당하는 컴포넌트는 ___이다.",
     "blankAnswers": [
-      ["GICR", "Redistributor"],
-      ["GICD", "Distributor"]
+      [
+        "GICR",
+        "Redistributor"
+      ],
+      [
+        "GICD",
+        "Distributor"
+      ]
     ],
-    "explanation": "GICv3에서 GICD(Distributor)는 SPI의 우선순위, 활성화 상태 및 라우팅을 관리합니다. GICR(Redistributor)는 각 CPU 코어에 연결되어 SGI와 PPI를 관리하고, LPI의 설정도 담당합니다."
+    "explanation": "GICv3에서 GICD(Distributor)는 SPI의 우선순위, 활성화 상태 및 라우팅을 관리합니다. GICR(Redistributor)는 각 CPU 코어에 연결되어 SGI와 PPI를 관리하고, LPI의 설정도 담당합니다.",
+    "blankDistractors": [
+      [
+        "EL2",
+        "GICD_ISENABLER",
+        "STE"
+      ],
+      [
+        "EL2",
+        "EL1",
+        "GICD_ISENABLER"
+      ]
+    ]
   },
   {
     "id": "aa-016",
@@ -232,10 +316,27 @@
     "type": "short-answer",
     "question": "ARM SMMU에서 디바이스의 주소 변환 설정을 저장하는 테이블 엔트리를 ___라 하며, 가상머신 환경에서 GPA→PA 변환을 수행하는 것을 Stage ___변환이라 한다.",
     "blankAnswers": [
-      ["STE", "Stream Table Entry"],
-      ["2"]
+      [
+        "STE",
+        "Stream Table Entry"
+      ],
+      [
+        "2"
+      ]
     ],
-    "explanation": "STE(Stream Table Entry)는 Stream ID로 인덱싱되며, 해당 디바이스의 Stage 1/2 변환 설정을 포함합니다. Stage 1은 VA→IPA(또는 VA→PA) 변환, Stage 2는 IPA→PA 변환으로 하이퍼바이저가 가상머신의 물리 주소를 실제 물리 주소로 매핑합니다."
+    "explanation": "STE(Stream Table Entry)는 Stream ID로 인덱싱되며, 해당 디바이스의 Stage 1/2 변환 설정을 포함합니다. Stage 1은 VA→IPA(또는 VA→PA) 변환, Stage 2는 IPA→PA 변환으로 하이퍼바이저가 가상머신의 물리 주소를 실제 물리 주소로 매핑합니다.",
+    "blankDistractors": [
+      [
+        "BTI",
+        "GICD_ISENABLER",
+        "TTBR1_EL1"
+      ],
+      [
+        "4",
+        "12",
+        "1019"
+      ]
+    ]
   },
   {
     "id": "aa-017",
@@ -245,9 +346,19 @@
     "type": "short-answer",
     "question": "ARM64 Linux 커널 부팅 시 하드웨어 정보를 전달하는 데이터 구조로, DTB(Device Tree Blob)의 원본 소스 파일 확장자는 ___이다.",
     "blankAnswers": [
-      [".dts", "dts"]
+      [
+        ".dts",
+        "dts"
+      ]
     ],
-    "explanation": ".dts(Device Tree Source) 파일은 사람이 읽을 수 있는 텍스트 형식의 디바이스 트리 소스입니다. DTC(Device Tree Compiler)를 사용하여 .dtb(Device Tree Blob) 바이너리로 컴파일합니다. .dtsi는 여러 .dts에서 공유되는 인클루드 파일입니다."
+    "explanation": ".dts(Device Tree Source) 파일은 사람이 읽을 수 있는 텍스트 형식의 디바이스 트리 소스입니다. DTC(Device Tree Compiler)를 사용하여 .dtb(Device Tree Blob) 바이너리로 컴파일합니다. .dtsi는 여러 .dts에서 공유되는 인클루드 파일입니다.",
+    "blankDistractors": [
+      [
+        "/sbin/init",
+        "/etc/default/grub",
+        "/proc/kallsyms"
+      ]
+    ]
   },
   {
     "id": "aa-018",
@@ -257,9 +368,19 @@
     "type": "short-answer",
     "question": "ARM64에서 간접 분기 명령어의 대상이 BTI 명령어인지 검증하여 JOP 공격을 방어하는 보안 확장의 이름은 ___이다.",
     "blankAnswers": [
-      ["BTI", "Branch Target Identification"]
+      [
+        "BTI",
+        "Branch Target Identification"
+      ]
     ],
-    "explanation": "BTI(Branch Target Identification, ARMv8.5-A)는 간접 분기의 대상 주소에 BTI 명령어가 있는지 확인하여, 허가되지 않은 분기 대상으로의 점프를 방지합니다. JOP(Jump-Oriented Programming) 공격을 효과적으로 차단하며, PAC과 함께 사용하면 더욱 강력한 CFI(Control Flow Integrity)를 제공합니다."
+    "explanation": "BTI(Branch Target Identification, ARMv8.5-A)는 간접 분기의 대상 주소에 BTI 명령어가 있는지 확인하여, 허가되지 않은 분기 대상으로의 점프를 방지합니다. JOP(Jump-Oriented Programming) 공격을 효과적으로 차단하며, PAC과 함께 사용하면 더욱 강력한 CFI(Control Flow Integrity)를 제공합니다.",
+    "blankDistractors": [
+      [
+        "EL2",
+        "TTBR0_EL1",
+        "EL1"
+      ]
+    ]
   },
   {
     "id": "aa-019",
@@ -271,9 +392,18 @@
     "codeTemplate": "unsigned long el;\n\nasm volatile(\"mrs %0, ___\" : \"=r\" (el));\nel = (el >> 2) & 0x3;  /* EL 값 추출 */",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["CurrentEL"]
+      [
+        "CurrentEL"
+      ]
     ],
-    "explanation": "CurrentEL 시스템 레지스터는 현재 Exception Level을 비트 [3:2]에 저장합니다. mrs 명령어로 읽은 후 2비트 오른쪽 시프트하고 0x3으로 마스킹하면 0(EL0)~3(EL3) 값을 얻을 수 있습니다."
+    "explanation": "CurrentEL 시스템 레지스터는 현재 Exception Level을 비트 [3:2]에 저장합니다. mrs 명령어로 읽은 후 2비트 오른쪽 시프트하고 0x3으로 마스킹하면 0(EL0)~3(EL3) 값을 얻을 수 있습니다.",
+    "blankDistractors": [
+      [
+        "el1_error",
+        "el1_sync",
+        "arm_smccc_smc"
+      ]
+    ]
   },
   {
     "id": "aa-020",
@@ -285,10 +415,26 @@
     "codeTemplate": "#define PAGE_SHIFT    ___\n#define PAGE_SIZE     (1UL << PAGE_SHIFT)\n#define PTRS_PER_PTE  (1 << (PAGE_SHIFT - ___))",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["12"],
-      ["3"]
+      [
+        "12"
+      ],
+      [
+        "3"
+      ]
     ],
-    "explanation": "4KB 페이지에서 PAGE_SHIFT는 12 (2^12 = 4096)입니다. 페이지 테이블 엔트리 크기는 8바이트(2^3)이므로, 하나의 페이지 테이블 페이지에 들어가는 엔트리 수는 2^(12-3) = 512개입니다. 이 512개의 엔트리가 9비트 인덱싱에 해당합니다."
+    "explanation": "4KB 페이지에서 PAGE_SHIFT는 12 (2^12 = 4096)입니다. 페이지 테이블 엔트리 크기는 8바이트(2^3)이므로, 하나의 페이지 테이블 페이지에 들어가는 엔트리 수는 2^(12-3) = 512개입니다. 이 512개의 엔트리가 9비트 인덱싱에 해당합니다.",
+    "blankDistractors": [
+      [
+        "32",
+        "1019",
+        "4"
+      ],
+      [
+        "1019",
+        "128",
+        "32"
+      ]
+    ]
   },
   {
     "id": "aa-021",
@@ -300,10 +446,26 @@
     "codeTemplate": ".align 11\n.global vectors\nvectors:\n    /* Current EL with SP_EL1 */\n    .align 7\n    b    ___        /* Synchronous 예외 핸들러 */\n    .align 7\n    b    el1_irq         /* IRQ 핸들러 */\n    .align 7\n    b    el1_fiq         /* FIQ 핸들러 */\n    .align 7\n    b    ___       /* SError 핸들러 */",
     "codeLanguage": "asm",
     "blankAnswers": [
-      ["el1_sync"],
-      ["el1_error"]
+      [
+        "el1_sync"
+      ],
+      [
+        "el1_error"
+      ]
     ],
-    "explanation": "ARM64 예외 벡터 테이블의 각 엔트리는 128바이트(0x80) 간격(.align 7)으로 정렬됩니다. 네 가지 예외 유형이 순서대로 배치됩니다: Synchronous(시스템 콜, 페이지 폴트 등), IRQ(일반 인터럽트), FIQ(빠른 인터럽트), SError(시스템 에러). Linux 커널에서는 el1_sync, el1_irq, el1_fiq, el1_error 심볼로 각 핸들러를 구현합니다."
+    "explanation": "ARM64 예외 벡터 테이블의 각 엔트리는 128바이트(0x80) 간격(.align 7)으로 정렬됩니다. 네 가지 예외 유형이 순서대로 배치됩니다: Synchronous(시스템 콜, 페이지 폴트 등), IRQ(일반 인터럽트), FIQ(빠른 인터럽트), SError(시스템 에러). Linux 커널에서는 el1_sync, el1_irq, el1_fiq, el1_error 심볼로 각 핸들러를 구현합니다.",
+    "blankDistractors": [
+      [
+        "CurrentEL",
+        "arm_smccc_smc",
+        "spin_lock_irqsave"
+      ],
+      [
+        "arm_smccc_smc",
+        "CurrentEL",
+        "block"
+      ]
+    ]
   },
   {
     "id": "aa-022",
@@ -315,9 +477,19 @@
     "codeTemplate": "static void gicv3_enable_irq(unsigned int intid)\n{\n    /* SPI 인터럽트 활성화 (GICD 레지스터) */\n    unsigned int reg = intid / 32;\n    unsigned int bit = intid % 32;\n\n    writel_relaxed(1 << bit,\n        gicd_base + ___ + reg * 4);\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["GICD_ISENABLER", "GICD_ISENABLERn"]
+      [
+        "GICD_ISENABLER",
+        "GICD_ISENABLERn"
+      ]
     ],
-    "explanation": "GICD_ISENABLER(Interrupt Set-Enable Register)에 해당 비트를 1로 쓰면 인터럽트가 활성화됩니다. 각 레지스터는 32개의 인터럽트를 제어하므로 intid/32로 레지스터 인덱스를, intid%32로 비트 위치를 계산합니다. 비활성화 시에는 GICD_ICENABLER를 사용합니다."
+    "explanation": "GICD_ISENABLER(Interrupt Set-Enable Register)에 해당 비트를 1로 쓰면 인터럽트가 활성화됩니다. 각 레지스터는 32개의 인터럽트를 제어하므로 intid/32로 레지스터 인덱스를, intid%32로 비트 위치를 계산합니다. 비활성화 시에는 GICD_ICENABLER를 사용합니다.",
+    "blankDistractors": [
+      [
+        "GICD",
+        "TTBR1_EL1",
+        "EL2"
+      ]
+    ]
   },
   {
     "id": "aa-023",
@@ -329,9 +501,18 @@
     "codeTemplate": "/* STE descriptor word 0: Config 필드에 Stage 1 변환 활성화 */\n#define STRTAB_STE_0_CFG_BYPASS    0\n#define STRTAB_STE_0_CFG_S1_TRANS  1\n#define STRTAB_STE_0_CFG_S2_TRANS  2\n\nval = FIELD_PREP(STRTAB_STE_0_CFG, ___);",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["STRTAB_STE_0_CFG_S1_TRANS"]
+      [
+        "STRTAB_STE_0_CFG_S1_TRANS"
+      ]
     ],
-    "explanation": "ARM SMMU v3에서 STE(Stream Table Entry)의 Config 필드는 주소 변환 모드를 결정합니다. STRTAB_STE_0_CFG_S1_TRANS(값 1)은 Stage 1 변환을 활성화하며, Stage 1 Context Descriptor를 통해 VA→IPA 변환을 수행합니다. BYPASS는 변환 없이 통과, S2_TRANS는 Stage 2 변환만 수행합니다."
+    "explanation": "ARM SMMU v3에서 STE(Stream Table Entry)의 Config 필드는 주소 변환 모드를 결정합니다. STRTAB_STE_0_CFG_S1_TRANS(값 1)은 Stage 1 변환을 활성화하며, Stage 1 Context Descriptor를 통해 VA→IPA 변환을 수행합니다. BYPASS는 변환 없이 통과, S2_TRANS는 Stage 2 변환만 수행합니다.",
+    "blankDistractors": [
+      [
+        "BTI",
+        "TTBR0_EL1",
+        "TTBR1_EL1"
+      ]
+    ]
   },
   {
     "id": "aa-024",
@@ -343,9 +524,18 @@
     "codeTemplate": "/* PSCI CPU_ON 호출로 보조 코어 부팅 */\nstruct arm_smccc_res res;\n\n___(PSCI_0_2_FN64_CPU_ON,\n    cpuid, entry, 0, 0, 0, 0, 0,\n    &res);",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["arm_smccc_smc"]
+      [
+        "arm_smccc_smc"
+      ]
     ],
-    "explanation": "arm_smccc_smc()는 SMCCC(SMC Calling Convention)에 따라 SMC 명령어를 실행하는 커널 헬퍼 함수입니다. 8개의 인자 레지스터(a0~a7)와 결과 구조체 포인터를 받습니다. PSCI_0_2_FN64_CPU_ON 함수 ID로 대상 CPU를 지정하고 엔트리 포인트 주소를 전달하여 보조 코어를 부팅합니다. PSCI conduit가 HVC인 시스템에서는 arm_smccc_hvc()를 사용합니다."
+    "explanation": "arm_smccc_smc()는 SMCCC(SMC Calling Convention)에 따라 SMC 명령어를 실행하는 커널 헬퍼 함수입니다. 8개의 인자 레지스터(a0~a7)와 결과 구조체 포인터를 받습니다. PSCI_0_2_FN64_CPU_ON 함수 ID로 대상 CPU를 지정하고 엔트리 포인트 주소를 전달하여 보조 코어를 부팅합니다. PSCI conduit가 HVC인 시스템에서는 arm_smccc_hvc()를 사용합니다.",
+    "blankDistractors": [
+      [
+        "el1_error",
+        "el1_sync",
+        "CurrentEL"
+      ]
+    ]
   },
   {
     "id": "aa-025",
@@ -357,9 +547,25 @@
     "codeTemplate": "static unsigned int get_sve_vector_length(void)\n{\n    unsigned long zcr;\n\n    /* ZCR_EL1에서 벡터 길이 읽기 */\n    asm volatile(\"mrs %0, ___\" : \"=r\" (zcr));\n\n    /* 벡터 길이 = (LEN + 1) * 128 bits */\n    return ((zcr & 0xf) + 1) * ___;\n}",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["ZCR_EL1"],
-      ["128"]
+      [
+        "ZCR_EL1"
+      ],
+      [
+        "128"
+      ]
     ],
-    "explanation": "ZCR_EL1(SVE Control Register)의 LEN 필드(비트 [3:0])는 벡터 길이를 결정합니다. 실제 벡터 길이는 (LEN + 1) × 128비트입니다. SVE는 128~2048비트까지 가변 벡터 길이를 지원하며, NEON의 고정 128비트 제한을 극복합니다. 바이트 단위로는 (LEN + 1) × 16입니다."
+    "explanation": "ZCR_EL1(SVE Control Register)의 LEN 필드(비트 [3:0])는 벡터 길이를 결정합니다. 실제 벡터 길이는 (LEN + 1) × 128비트입니다. SVE는 128~2048비트까지 가변 벡터 길이를 지원하며, NEON의 고정 128비트 제한을 극복합니다. 바이트 단위로는 (LEN + 1) × 16입니다.",
+    "blankDistractors": [
+      [
+        "STE",
+        "TTBR0_EL1",
+        "EL1"
+      ],
+      [
+        "1019",
+        "32",
+        "12"
+      ]
+    ]
   }
 ]

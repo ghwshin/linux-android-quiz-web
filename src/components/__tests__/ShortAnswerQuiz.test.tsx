@@ -16,6 +16,19 @@ const blankQuiz: Quiz = {
   explanation: "TLB는 MMU 내부에 위치한 고속 연관 캐시입니다.",
 };
 
+const wordBankQuiz: Quiz = {
+  id: "test-sa-wb-001",
+  category: "linux-kernel",
+  subcategory: "memory-management",
+  difficulty: "초급",
+  type: "short-answer",
+  question:
+    "가상 주소를 물리 주소로 변환할 때 사용하는 장치를 ___라고 한다.",
+  blankAnswers: [["TLB"]],
+  blankDistractors: [["MMU", "cache", "register"]],
+  explanation: "TLB는 MMU 내부에 위치한 고속 연관 캐시입니다.",
+};
+
 const multiBlankQuiz: Quiz = {
   id: "test-sa-blank-002",
   category: "linux-kernel",
@@ -140,5 +153,90 @@ describe("ShortAnswerQuiz", () => {
     await user.click(screen.getByText("제출"));
 
     expect(screen.getByText(blankQuiz.explanation)).toBeInTheDocument();
+  });
+
+  describe("word bank mode", () => {
+    it("renders word bank with chips in normal mode", () => {
+      render(
+        <ShortAnswerQuiz
+          quiz={wordBankQuiz}
+          questionNumber={1}
+          onNext={() => {}}
+          mode="normal"
+        />
+      );
+
+      expect(screen.getByTestId("word-bank")).toBeInTheDocument();
+      expect(screen.getByTestId("blank-slot-1")).toBeInTheDocument();
+      // Should NOT have text inputs
+      expect(screen.queryByPlaceholderText("빈칸 1")).not.toBeInTheDocument();
+    });
+
+    it("falls back to text input in hard mode", () => {
+      render(
+        <ShortAnswerQuiz
+          quiz={wordBankQuiz}
+          questionNumber={1}
+          onNext={() => {}}
+          mode="hard"
+        />
+      );
+
+      expect(screen.queryByTestId("word-bank")).not.toBeInTheDocument();
+      expect(screen.getByPlaceholderText("빈칸 1")).toBeInTheDocument();
+    });
+
+    it("fills blank when chip is clicked", async () => {
+      const user = userEvent.setup();
+      render(
+        <ShortAnswerQuiz
+          quiz={wordBankQuiz}
+          questionNumber={1}
+          onNext={() => {}}
+          mode="normal"
+        />
+      );
+
+      // Click TLB chip
+      const tlbButton = screen.getByRole("button", { name: "TLB" });
+      await user.click(tlbButton);
+
+      // Blank slot should now show TLB
+      expect(screen.getByTestId("blank-slot-1")).toHaveTextContent("TLB");
+    });
+
+    it("grades correctly with word bank answers", async () => {
+      const user = userEvent.setup();
+      render(
+        <ShortAnswerQuiz
+          quiz={wordBankQuiz}
+          questionNumber={1}
+          onNext={() => {}}
+          mode="normal"
+        />
+      );
+
+      // Click TLB chip
+      await user.click(screen.getByRole("button", { name: "TLB" }));
+      // Submit
+      await user.click(screen.getByText("제출"));
+
+      expect(screen.getByText("✓ 정답입니다!")).toBeInTheDocument();
+    });
+
+    it("falls back to text input when blankDistractors missing", () => {
+      render(
+        <ShortAnswerQuiz
+          quiz={blankQuiz}
+          questionNumber={1}
+          onNext={() => {}}
+          mode="normal"
+        />
+      );
+
+      // No blankDistractors → should render text input even in normal mode
+      expect(screen.queryByTestId("word-bank")).not.toBeInTheDocument();
+      expect(screen.getByPlaceholderText("빈칸 1")).toBeInTheDocument();
+    });
   });
 });

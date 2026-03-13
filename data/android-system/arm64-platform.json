@@ -167,10 +167,28 @@
     "type": "short-answer",
     "question": "ARM64 AAPCS64 호출 규약에서 함수 인자를 전달하는 데 사용되는 범용 레지스터는 ___부터 ___까지이다.",
     "blankAnswers": [
-      ["X0", "x0"],
-      ["X7", "x7"]
+      [
+        "X0",
+        "x0"
+      ],
+      [
+        "X7",
+        "x7"
+      ]
     ],
-    "explanation": "AAPCS64에서 함수 인자는 X0~X7 레지스터를 통해 최대 8개까지 전달됩니다. 9번째 이후의 인자는 스택을 통해 전달됩니다. X0는 첫 번째 인자이자 반환값 레지스터로도 사용됩니다."
+    "explanation": "AAPCS64에서 함수 인자는 X0~X7 레지스터를 통해 최대 8개까지 전달됩니다. 9번째 이후의 인자는 스택을 통해 전달됩니다. X0는 첫 번째 인자이자 반환값 레지스터로도 사용됩니다.",
+    "blankDistractors": [
+      [
+        "PELT",
+        "SMC_TYPE_FAST",
+        "OAT"
+      ],
+      [
+        "SMC_TYPE_FAST",
+        "PELT",
+        "AIDL"
+      ]
+    ]
   },
   {
     "id": "ap-012",
@@ -180,9 +198,20 @@
     "type": "short-answer",
     "question": "ARM DynamIQ 기술에서는 서로 다른 성능의 CPU 코어를 하나의 ___에 혼합 배치할 수 있어 big.LITTLE 대비 코어 간 데이터 공유 지연이 줄어든다.",
     "blankAnswers": [
-      ["클러스터", "cluster", "Cluster"]
+      [
+        "클러스터",
+        "cluster",
+        "Cluster"
+      ]
     ],
-    "explanation": "DynamIQ는 big.LITTLE의 후속 기술로, 하나의 클러스터 내에 빅 코어와 리틀 코어를 혼합 배치할 수 있습니다. 기존 big.LITTLE에서는 빅/리틀이 별도 클러스터로 분리되어 클러스터 간 마이그레이션 비용이 컸으나, DynamIQ는 L3 캐시를 공유하는 단일 클러스터 구성으로 전환 지연을 크게 줄였습니다."
+    "explanation": "DynamIQ는 big.LITTLE의 후속 기술로, 하나의 클러스터 내에 빅 코어와 리틀 코어를 혼합 배치할 수 있습니다. 기존 big.LITTLE에서는 빅/리틀이 별도 클러스터로 분리되어 클러스터 간 마이그레이션 비용이 컸으나, DynamIQ는 L3 캐시를 공유하는 단일 클러스터 구성으로 전환 지연을 크게 줄였습니다.",
+    "blankDistractors": [
+      [
+        "하드웨어",
+        "공개 키",
+        "최소 권한"
+      ]
+    ]
   },
   {
     "id": "ap-013",
@@ -192,9 +221,21 @@
     "type": "short-answer",
     "question": "Linux 커널의 Energy Aware Scheduling에서 각 CPU의 주파수별 전력 소비를 기술하는 데이터 구조를 ___이라 하며, 이는 Device Tree 또는 드라이버에서 등록된다.",
     "blankAnswers": [
-      ["Energy Model", "energy model", "EM", "em"]
+      [
+        "Energy Model",
+        "energy model",
+        "EM",
+        "em"
+      ]
     ],
-    "explanation": "Energy Model(EM)은 각 performance domain(주로 CPU 클러스터)의 OPP별 전력 소비량을 기술하는 커널 내부 데이터 구조입니다. EAS는 이 Energy Model을 참조하여 태스크 배치 시 에너지 최적화 결정을 내립니다. em_dev_register_perf_domain() 함수로 등록됩니다."
+    "explanation": "Energy Model(EM)은 각 performance domain(주로 CPU 클러스터)의 OPP별 전력 소비량을 기술하는 커널 내부 데이터 구조입니다. EAS는 이 Energy Model을 참조하여 태스크 배치 시 에너지 최적화 결정을 내립니다. em_dev_register_perf_domain() 함수로 등록됩니다.",
+    "blankDistractors": [
+      [
+        "Secure Monitor",
+        "ANDROID_SOCKET_<name>",
+        "Abort message"
+      ]
+    ]
   },
   {
     "id": "ap-014",
@@ -204,9 +245,20 @@
     "type": "short-answer",
     "question": "Linux 커널에서 CFS 스케줄러가 태스크의 CPU 사용량을 추적하는 메커니즘을 ___이라 하며, 이 신호를 기반으로 schedutil governor가 CPU 주파수를 결정한다.",
     "blankAnswers": [
-      ["PELT", "Per-Entity Load Tracking", "per-entity load tracking"]
+      [
+        "PELT",
+        "Per-Entity Load Tracking",
+        "per-entity load tracking"
+      ]
     ],
-    "explanation": "PELT(Per-Entity Load Tracking)는 CFS 스케줄러에서 각 스케줄링 엔티티(태스크, cgroup 등)의 utilization과 load를 기하급수적 감쇠 평균으로 추적합니다. schedutil governor는 이 PELT utilization 값을 직접 참조하여 필요한 CPU 주파수를 계산하므로, 별도의 폴링 오버헤드 없이 정확한 주파수 결정이 가능합니다."
+    "explanation": "PELT(Per-Entity Load Tracking)는 CFS 스케줄러에서 각 스케줄링 엔티티(태스크, cgroup 등)의 utilization과 load를 기하급수적 감쇠 평균으로 추적합니다. schedutil governor는 이 PELT utilization 값을 직접 참조하여 필요한 CPU 주파수를 계산하므로, 별도의 폴링 오버헤드 없이 정확한 주파수 결정이 가능합니다.",
+    "blankDistractors": [
+      [
+        "X0",
+        "SMC_TYPE_FAST",
+        "X7"
+      ]
+    ]
   },
   {
     "id": "ap-015",
@@ -216,9 +268,19 @@
     "type": "short-answer",
     "question": "Android에서 Vulkan은 ___에 가까운 저수준 그래픽 API로, OpenGL ES 대비 CPU 오버헤드가 낮고 멀티스레드 렌더링을 효율적으로 지원한다.",
     "blankAnswers": [
-      ["하드웨어", "hardware"]
+      [
+        "하드웨어",
+        "hardware"
+      ]
     ],
-    "explanation": "Vulkan은 하드웨어에 가까운(close-to-metal) 저수준 그래픽 API로, 드라이버의 암시적 상태 관리를 최소화하고 애플리케이션이 GPU 리소스를 명시적으로 제어합니다. 이를 통해 CPU 오버헤드를 줄이고 여러 스레드에서 동시에 커맨드 버퍼를 생성할 수 있어 멀티코어 ARM64 프로세서에서 효율적입니다."
+    "explanation": "Vulkan은 하드웨어에 가까운(close-to-metal) 저수준 그래픽 API로, 드라이버의 암시적 상태 관리를 최소화하고 애플리케이션이 GPU 리소스를 명시적으로 제어합니다. 이를 통해 CPU 오버헤드를 줄이고 여러 스레드에서 동시에 커맨드 버퍼를 생성할 수 있어 멀티코어 ARM64 프로세서에서 효율적입니다.",
+    "blankDistractors": [
+      [
+        "클러스터",
+        "FCM 레벨",
+        "클래스 이름"
+      ]
+    ]
   },
   {
     "id": "ap-016",
@@ -228,9 +290,21 @@
     "type": "short-answer",
     "question": "ARM TrustZone에서 Secure World의 EL1에서 실행되는 TEE OS가 Normal World와 통신할 때, EL3의 ___가 월드 전환을 중재한다.",
     "blankAnswers": [
-      ["Secure Monitor", "secure monitor", "모니터", "Monitor"]
+      [
+        "Secure Monitor",
+        "secure monitor",
+        "모니터",
+        "Monitor"
+      ]
     ],
-    "explanation": "ARM TrustZone의 EL3(Exception Level 3)에는 Secure Monitor가 위치하여 Normal World(EL1N)와 Secure World(EL1S) 간의 전환을 관리합니다. Normal World에서 SMC 명령어를 실행하면 EL3의 Secure Monitor가 트랩하여 컨텍스트를 저장하고 Secure World로 전환합니다. ATF(ARM Trusted Firmware)가 대표적인 Secure Monitor 구현입니다."
+    "explanation": "ARM TrustZone의 EL3(Exception Level 3)에는 Secure Monitor가 위치하여 Normal World(EL1N)와 Secure World(EL1S) 간의 전환을 관리합니다. Normal World에서 SMC 명령어를 실행하면 EL3의 Secure Monitor가 트랩하여 컨텍스트를 저장하고 Secure World로 전환합니다. ATF(ARM Trusted Firmware)가 대표적인 Secure Monitor 구현입니다.",
+    "blankDistractors": [
+      [
+        "Energy Model",
+        "OpenGL ES",
+        "Back Stack"
+      ]
+    ]
   },
   {
     "id": "ap-017",
@@ -240,9 +314,20 @@
     "type": "short-answer",
     "question": "Android 디바이스의 부팅 과정에서 사용자가 부트로더 모드로 진입하여 파티션을 플래시할 수 있는 프로토콜을 ___라 한다.",
     "blankAnswers": [
-      ["fastboot", "Fastboot", "FASTBOOT"]
+      [
+        "fastboot",
+        "Fastboot",
+        "FASTBOOT"
+      ]
     ],
-    "explanation": "fastboot는 Android 부트로더에서 제공하는 프로토콜 및 도구로, USB를 통해 호스트 PC에서 디바이스의 파티션에 이미지를 직접 플래시하거나 부트로더 잠금/해제를 수행할 수 있습니다. ABL(Android Boot Loader) 단계에서 특정 키 조합이나 adb reboot bootloader 명령으로 fastboot 모드에 진입합니다."
+    "explanation": "fastboot는 Android 부트로더에서 제공하는 프로토콜 및 도구로, USB를 통해 호스트 PC에서 디바이스의 파티션에 이미지를 직접 플래시하거나 부트로더 잠금/해제를 수행할 수 있습니다. ABL(Android Boot Loader) 단계에서 특정 키 조합이나 adb reboot bootloader 명령으로 fastboot 모드에 진입합니다.",
+    "blankDistractors": [
+      [
+        "unpack_bootimg",
+        "capacity-dmips-mhz",
+        "stp"
+      ]
+    ]
   },
   {
     "id": "ap-018",
@@ -252,9 +337,20 @@
     "type": "short-answer",
     "question": "ARM64 Linux에서 DVFS를 위한 CPUFreq 프레임워크에서 현재 사용 중인 주파수 스케일링 정책을 확인하려면 sysfs의 ___를 읽으면 된다.",
     "blankAnswers": [
-      ["scaling_governor", "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor", "cpufreq/scaling_governor"]
+      [
+        "scaling_governor",
+        "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor",
+        "cpufreq/scaling_governor"
+      ]
     ],
-    "explanation": "CPUFreq 프레임워크는 /sys/devices/system/cpu/cpu*/cpufreq/ 디렉토리를 통해 sysfs 인터페이스를 제공합니다. scaling_governor 파일을 읽으면 현재 활성 governor(예: schedutil, performance, powersave 등)를 확인할 수 있고, 쓰기를 통해 governor를 변경할 수도 있습니다."
+    "explanation": "CPUFreq 프레임워크는 /sys/devices/system/cpu/cpu*/cpufreq/ 디렉토리를 통해 sysfs 인터페이스를 제공합니다. scaling_governor 파일을 읽으면 현재 활성 governor(예: schedutil, performance, powersave 등)를 확인할 수 있고, 쓰기를 통해 governor를 변경할 수도 있습니다.",
+    "blankDistractors": [
+      [
+        "em_dev_register_perf_domain",
+        "capacity-dmips-mhz",
+        "fastboot"
+      ]
+    ]
   },
   {
     "id": "ap-019",
@@ -266,9 +362,19 @@
     "codeTemplate": "___ x29, x30, [sp, #-16]!\nmov x29, sp\n// 함수 본문\nldp x29, x30, [sp], #16\nret",
     "codeLanguage": "asm",
     "blankAnswers": [
-      ["stp", "STP"]
+      [
+        "stp",
+        "STP"
+      ]
     ],
-    "explanation": "STP(Store Pair) 명령어는 두 개의 레지스터를 메모리에 동시에 저장합니다. 'stp x29, x30, [sp, #-16]!'은 스택 포인터를 16바이트 감소시키면서 Frame Pointer(X29)와 Link Register(X30)를 저장하는 pre-index 방식입니다. 이는 AAPCS64의 표준 함수 프롤로그 패턴입니다."
+    "explanation": "STP(Store Pair) 명령어는 두 개의 레지스터를 메모리에 동시에 저장합니다. 'stp x29, x30, [sp, #-16]!'은 스택 포인터를 16바이트 감소시키면서 Frame Pointer(X29)와 Link Register(X30)를 저장하는 pre-index 방식입니다. 이는 AAPCS64의 표준 함수 프롤로그 패턴입니다.",
+    "blankDistractors": [
+      [
+        "em_dev_register_perf_domain",
+        "getprop",
+        "scaling_governor"
+      ]
+    ]
   },
   {
     "id": "ap-020",
@@ -280,9 +386,18 @@
     "codeTemplate": "cpu@0 {\n    compatible = \"arm,cortex-a78\";\n    device_type = \"cpu\";\n    ___ = <1024>;\n};",
     "codeLanguage": "dts",
     "blankAnswers": [
-      ["capacity-dmips-mhz"]
+      [
+        "capacity-dmips-mhz"
+      ]
     ],
-    "explanation": "Device Tree에서 capacity-dmips-mhz 속성은 CPU 코어의 상대적 성능을 DMIPS/MHz 단위로 정의합니다. 가장 성능이 높은 빅 코어에 높은 값을 부여하고 리틀 코어에는 상대적으로 낮은 값(예: 485)을 설정합니다. EAS는 이 값을 참조하여 각 CPU의 capacity를 결정하고 태스크 배치를 최적화합니다."
+    "explanation": "Device Tree에서 capacity-dmips-mhz 속성은 CPU 코어의 상대적 성능을 DMIPS/MHz 단위로 정의합니다. 가장 성능이 높은 빅 코어에 높은 값을 부여하고 리틀 코어에는 상대적으로 낮은 값(예: 485)을 설정합니다. EAS는 이 값을 참조하여 각 CPU의 capacity를 결정하고 태스크 배치를 최적화합니다.",
+    "blankDistractors": [
+      [
+        "scaling_cur_freq",
+        "stp",
+        "unpack_bootimg"
+      ]
+    ]
   },
   {
     "id": "ap-021",
@@ -294,9 +409,19 @@
     "codeTemplate": "ret = ___(dev, nr_opp, &em_cb, cpus, milliwatts);",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["em_dev_register_perf_domain", "em_register_perf_domain"]
+      [
+        "em_dev_register_perf_domain",
+        "em_register_perf_domain"
+      ]
     ],
-    "explanation": "em_dev_register_perf_domain() 함수는 CPUFreq 드라이버에서 Energy Model의 performance domain을 커널에 등록합니다. 이 함수는 디바이스 포인터, OPP 수, 콜백 함수(각 OPP의 전력 소비량 제공), CPU 마스크, 전력 단위(milliwatts 여부)를 인자로 받습니다. 등록된 EM은 EAS가 에너지 최적화 스케줄링에 활용합니다."
+    "explanation": "em_dev_register_perf_domain() 함수는 CPUFreq 드라이버에서 Energy Model의 performance domain을 커널에 등록합니다. 이 함수는 디바이스 포인터, OPP 수, 콜백 함수(각 OPP의 전력 소비량 제공), CPU 마스크, 전력 단위(milliwatts 여부)를 인자로 받습니다. 등록된 EM은 EAS가 에너지 최적화 스케줄링에 활용합니다.",
+    "blankDistractors": [
+      [
+        "scaling_governor",
+        "getprop",
+        "stp"
+      ]
+    ]
   },
   {
     "id": "ap-022",
@@ -308,9 +433,19 @@
     "codeTemplate": "___ ro.hardware.vulkan",
     "codeLanguage": "shell",
     "blankAnswers": [
-      ["getprop", "adb shell getprop"]
+      [
+        "getprop",
+        "adb shell getprop"
+      ]
     ],
-    "explanation": "Android에서 getprop 명령으로 시스템 속성을 조회할 수 있습니다. ro.hardware.vulkan 속성은 Vulkan HAL 구현체의 이름을 지정하며, 시스템은 이 값을 기반으로 vulkan.<value>.so 라이브러리를 로드합니다. 실제 값은 벤더/플랫폼에 따라 다르며 보드 설정 파일에서 정의됩니다."
+    "explanation": "Android에서 getprop 명령으로 시스템 속성을 조회할 수 있습니다. ro.hardware.vulkan 속성은 Vulkan HAL 구현체의 이름을 지정하며, 시스템은 이 값을 기반으로 vulkan.<value>.so 라이브러리를 로드합니다. 실제 값은 벤더/플랫폼에 따라 다르며 보드 설정 파일에서 정의됩니다.",
+    "blankDistractors": [
+      [
+        "stp",
+        "em_dev_register_perf_domain",
+        "scaling_cur_freq"
+      ]
+    ]
   },
   {
     "id": "ap-023",
@@ -322,9 +457,19 @@
     "codeTemplate": "DECLARE_RT_SVC(\n    my_svc,\n    OEN_TOS_START,\n    OEN_TOS_END,\n    ___,\n    my_svc_setup,\n    my_svc_smc_handler\n);",
     "codeLanguage": "c",
     "blankAnswers": [
-      ["SMC_TYPE_FAST", "SMC_TYPE_YIELD"]
+      [
+        "SMC_TYPE_FAST",
+        "SMC_TYPE_YIELD"
+      ]
     ],
-    "explanation": "DECLARE_RT_SVC 매크로는 ATF에서 런타임 서비스를 등록합니다. SMC 타입으로 SMC_TYPE_FAST(빠른 호출, 선점 불가)와 SMC_TYPE_YIELD(양보 호출, 선점 가능)를 지정할 수 있습니다. TEE OS와의 통신에는 주로 SMC_TYPE_FAST가 사용되며, 긴 작업에는 SMC_TYPE_YIELD가 사용됩니다."
+    "explanation": "DECLARE_RT_SVC 매크로는 ATF에서 런타임 서비스를 등록합니다. SMC 타입으로 SMC_TYPE_FAST(빠른 호출, 선점 불가)와 SMC_TYPE_YIELD(양보 호출, 선점 가능)를 지정할 수 있습니다. TEE OS와의 통신에는 주로 SMC_TYPE_FAST가 사용되며, 긴 작업에는 SMC_TYPE_YIELD가 사용됩니다.",
+    "blankDistractors": [
+      [
+        "PELT",
+        "X0",
+        "X7"
+      ]
+    ]
   },
   {
     "id": "ap-024",
@@ -336,9 +481,19 @@
     "codeTemplate": "___ --boot_img boot.img --out out_dir",
     "codeLanguage": "shell",
     "blankAnswers": [
-      ["unpack_bootimg", "./unpack_bootimg"]
+      [
+        "unpack_bootimg",
+        "./unpack_bootimg"
+      ]
     ],
-    "explanation": "unpack_bootimg는 Android 소스 트리(system/tools/mkbootimg)에 포함된 도구로, boot.img를 파싱하여 헤더 정보, 커널(kernel), ramdisk 등을 분리 추출합니다. Android 빌드 환경에서 PATH에 포함되어 직접 실행할 수 있으며, boot image header v3/v4 형식을 지원합니다."
+    "explanation": "unpack_bootimg는 Android 소스 트리(system/tools/mkbootimg)에 포함된 도구로, boot.img를 파싱하여 헤더 정보, 커널(kernel), ramdisk 등을 분리 추출합니다. Android 빌드 환경에서 PATH에 포함되어 직접 실행할 수 있으며, boot image header v3/v4 형식을 지원합니다.",
+    "blankDistractors": [
+      [
+        "em_dev_register_perf_domain",
+        "stp",
+        "capacity-dmips-mhz"
+      ]
+    ]
   },
   {
     "id": "ap-025",
@@ -350,8 +505,17 @@
     "codeTemplate": "cat /sys/devices/system/cpu/cpu0/cpufreq/___",
     "codeLanguage": "shell",
     "blankAnswers": [
-      ["scaling_cur_freq"]
+      [
+        "scaling_cur_freq"
+      ]
     ],
-    "explanation": "CPUFreq sysfs 인터페이스에서 scaling_cur_freq는 CPUFreq 프레임워크가 마지막으로 설정한 주파수(kHz 단위)를 표시합니다. cpuinfo_cur_freq는 하드웨어에서 직접 읽은 실제 주파수이지만 root 권한이 필요할 수 있습니다. scaling_cur_freq는 권한 없이도 읽을 수 있어 더 널리 사용됩니다."
+    "explanation": "CPUFreq sysfs 인터페이스에서 scaling_cur_freq는 CPUFreq 프레임워크가 마지막으로 설정한 주파수(kHz 단위)를 표시합니다. cpuinfo_cur_freq는 하드웨어에서 직접 읽은 실제 주파수이지만 root 권한이 필요할 수 있습니다. scaling_cur_freq는 권한 없이도 읽을 수 있어 더 널리 사용됩니다.",
+    "blankDistractors": [
+      [
+        "em_dev_register_perf_domain",
+        "fastboot",
+        "getprop"
+      ]
+    ]
   }
 ]
