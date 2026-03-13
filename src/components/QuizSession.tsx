@@ -44,6 +44,32 @@ export function QuizSession({
     setTuxKey((k) => k + 1);
   }, []);
 
+  const canGoPrev = currentIndex > 0;
+  const canGoNext = currentIndex < total - 1;
+
+  function goNext() {
+    if (canGoNext) {
+      setCurrentIndex((i) => i + 1);
+      setTuxMood("idle");
+    }
+  }
+
+  function goPrev() {
+    if (canGoPrev) {
+      setCurrentIndex((i) => i - 1);
+    }
+  }
+
+  // Keyboard arrow navigation
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "ArrowLeft" && canGoPrev) goPrev();
+      if (e.key === "ArrowRight" && canGoNext) goNext();
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  });
+
   if (!quiz || total === 0) {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center px-4">
@@ -57,32 +83,6 @@ export function QuizSession({
       </main>
     );
   }
-
-  function goNext() {
-    if (currentIndex < total - 1) {
-      setCurrentIndex((i) => i + 1);
-      setTuxMood("idle");
-    }
-  }
-
-  function goPrev() {
-    if (currentIndex > 0) {
-      setCurrentIndex((i) => i - 1);
-    }
-  }
-
-  const canGoPrev = currentIndex > 0;
-  const canGoNext = currentIndex < total - 1;
-
-  // Keyboard arrow navigation
-  useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "ArrowLeft" && canGoPrev) goPrev();
-      if (e.key === "ArrowRight" && canGoNext) goNext();
-    }
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  });
 
   const progressPercent = ((currentIndex + 1) / total) * 100;
 
